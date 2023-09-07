@@ -9,11 +9,12 @@ namespace DataModels
     public class User
     {
         private string username;
-        private List<ChatRoom> chatRooms = new List<ChatRoom>();
+        private List<ChatRoom> chatRooms; 
 
         public User(string username)
         {
             this.username = username;
+            chatRooms = new List<ChatRoom>();
         }
 
         public string GetUsername()
