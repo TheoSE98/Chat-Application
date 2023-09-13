@@ -48,5 +48,56 @@ namespace DataModels
             return guestList;
         }
 
+        public bool AmIAllowedIn(User user)
+        {
+            if (isPublic)
+            {
+                return true;
+            }
+            else
+            {
+                if (guestList.Contains(user))
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        public void addUser(User user)
+        {
+            if (user != null)
+            {
+                if (isPublic)
+                {
+                    // public chatroom
+                    if (!participants.Contains(user))
+                    {
+                        participants.Add(user);
+                    }
+                    else
+                    {
+                        Console.WriteLine("User is already in the chatroom");
+                    }
+                }
+                else
+                {
+                    // private chatroom
+                    if (guestList.Contains(user))
+                    {
+                        participants.Add(user);
+                    }
+                    else
+                    {
+                        Console.WriteLine("User not allowed in chatroom");
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("User is null");
+            }
+        }
+
     }
 }
