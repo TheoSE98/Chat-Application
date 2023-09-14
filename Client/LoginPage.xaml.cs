@@ -16,19 +16,25 @@ using System.Windows.Shapes;
 namespace Client
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Page1.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class LoginPage : Page
     {
-        public MainWindow()
+        public LoginPage()
         {
             InitializeComponent();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        public void Button_LogIn(object sender, EventArgs e)
         {
-            _mainFrame.Navigate(new LoginPage());
+            String username;
+            username = usernameEntryBox.Text;
 
+            /*            NavigationContext navigationContext;
+                        string id = navigationContext.Parameters["ID"];
+            */
+
+            this.NavigationService.Navigate(new Uri("HomePage.xaml", UriKind.Relative));
         }
     }
 }
