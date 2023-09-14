@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyChatServer", "Sever\MyCha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModels", "DataModels\DataModels.csproj", "{DCDFDF0A-03A5-40BA-A5BF-CDA16E1A34C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{D535F138-A346-4D63-A33B-1C7568008A99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{DCDFDF0A-03A5-40BA-A5BF-CDA16E1A34C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCDFDF0A-03A5-40BA-A5BF-CDA16E1A34C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCDFDF0A-03A5-40BA-A5BF-CDA16E1A34C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D535F138-A346-4D63-A33B-1C7568008A99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D535F138-A346-4D63-A33B-1C7568008A99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D535F138-A346-4D63-A33B-1C7568008A99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D535F138-A346-4D63-A33B-1C7568008A99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
