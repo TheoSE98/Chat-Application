@@ -48,7 +48,7 @@ namespace Sever
             throw new NotImplementedException();
         }
 
-        public void loging(string username)
+        public void Login(string username)
         {
             throw new NotImplementedException();
         }

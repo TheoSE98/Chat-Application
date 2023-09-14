@@ -48,5 +48,12 @@ namespace DataModels
             return guestList;
         }
 
+        public void AddParticipants(List<User> users)
+        {
+            participants.AddRange(users);
+            //DEBUGGING 
+            Console.WriteLine($"Participants added to chat room '{name}': {string.Join(", ", users.Select(user => user.GetUsername()))}");
+        }
+
     }
 }

@@ -13,7 +13,7 @@ namespace Sever
     {
         //User Management 
         [OperationContract]
-        void loging(string username);
+        void Login(string username);
 
         //Chat Room Management
         [OperationContract]

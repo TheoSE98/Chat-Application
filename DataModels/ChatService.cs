@@ -19,13 +19,53 @@ namespace DataModels
 
         public bool Login(string username)
         {
-            throw new NotImplementedException();
+            //Check if the username is unique
+            bool isUnique = !users.Any(user => user.GetUsername() == username);
+
+            if (isUnique)
+            {
+                //Create a new user with the provided username
+                var newUser = new User(username);
+
+                //Add the new user to the list of users
+                users.Add(newUser);
+
+                //Display a success message
+                Console.WriteLine($"User '{username}' has logged in.");
+            }
+            else
+            {
+                //Display an error message for non-unique usernames
+                Console.WriteLine($"Login failed: Username '{username}' is not unique.");
+            }
+
+            return isUnique;
         }
 
         // Chat room management methods
         public bool CreateChatroom(string roomName, List<User> participants, bool isPublic)
         {
-            throw new NotImplementedException();
+            // Check if a chat room with the same name already exists
+            bool roomExists = chatRooms.Any(room => room.GetName() == roomName);
+
+            if (roomExists)
+            {
+                // Display an error message for existing chat rooms
+                Console.WriteLine($"Chat room creation failed: Room '{roomName}' already exists.");
+            }
+            else
+            {
+                // Create a new chat room and add participants
+                var newChatRoom = new ChatRoom(roomName, isPublic);
+                newChatRoom.AddParticipants(participants);
+                chatRooms.Add(newChatRoom);
+
+                // Display a success message for the created chat room
+                Console.WriteLine($"Chat room '{roomName}' created successfully.");
+            }
+
+            // Return whether the chat room was created successfully
+            return !roomExists;
         }
 
         public bool JoinChatRoom(string username, string roomName)

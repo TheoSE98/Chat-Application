@@ -8,5 +8,6 @@ namespace DataModels
 {
     public class Message
     {
+
     }
 }
