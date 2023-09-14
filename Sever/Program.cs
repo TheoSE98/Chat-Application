@@ -5,7 +5,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sever
+namespace MyChatServer
 {
     public class Program
     {
@@ -25,12 +25,12 @@ namespace Sever
                 NetTcpBinding tcp = new NetTcpBinding();
 
                 //Instance of DataServer that implements 
-                IChatSever service = new ChatServer();
+                IChatServer service = new ChatServer();
 
                 host = new ServiceHost(typeof(ChatServer));
 
 
-                host.AddServiceEndpoint(typeof(IChatSever), tcp, "net.tcp://0.0.0.0:8100/ChatService");
+                host.AddServiceEndpoint(typeof(IChatServer), tcp, "net.tcp://0.0.0.0:8100/ChatService");
 
                 host.Open();
 

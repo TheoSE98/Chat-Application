@@ -6,10 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using DataModels;
 
-namespace Sever
+namespace MyChatServer
 {
     [ServiceContract]
-    public interface IChatSever
+    public interface IChatServer
     {
         //User Management 
         [OperationContract]

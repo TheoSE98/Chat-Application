@@ -6,10 +6,10 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sever
+namespace MyChatServer
 {
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
-    public class ChatServer : IChatSever
+    public class ChatServer : IChatServer
     {
         private ChatService _chatService;
 
