@@ -13,17 +13,29 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Client
+namespace Client2
 {
     /// <summary>
     /// Interaction logic for Page1.xaml
     /// </summary>
-    public partial class HomePage : Page
+    public partial class LoginPage : Page
     {
-        public HomePage()
+        public LoginPage()
         {
             InitializeComponent();
         }
 
+        public void Button_LogIn(object sender, EventArgs e)
+        {
+            String username;
+            username = usernameEntryBox.Text;
+
+            /*            NavigationContext navigationContext;
+                        string id = navigationContext.Parameters["ID"];
+            */
+
+            this.NavigationService.Navigate(new Uri("HomePage.xaml", UriKind.Relative));
+        }
     }
+
 }

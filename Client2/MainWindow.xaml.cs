@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HomePage
+namespace Client2
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -23,6 +23,12 @@ namespace HomePage
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            _mainFrame.Navigate(new LoginPage());
+
         }
     }
 }
