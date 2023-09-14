@@ -28,6 +28,7 @@ namespace Client
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _mainFrame.Navigate(new LoginPage());
+
         }
     }
 }

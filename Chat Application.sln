@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{83E7F06D-8360-4123-AB1F-C9E16F73772D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyChatServer", "Sever\MyChatServer.csproj", "{AE2C0185-7DF9-4472-A87D-6ED66F475C6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModels", "DataModels\DataModels.csproj", "{DCDFDF0A-03A5-40BA-A5BF-CDA16E1A34C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{83E7F06D-8360-4123-AB1F-C9E16F73772D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{83E7F06D-8360-4123-AB1F-C9E16F73772D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{83E7F06D-8360-4123-AB1F-C9E16F73772D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{83E7F06D-8360-4123-AB1F-C9E16F73772D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE2C0185-7DF9-4472-A87D-6ED66F475C6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE2C0185-7DF9-4472-A87D-6ED66F475C6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE2C0185-7DF9-4472-A87D-6ED66F475C6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE2C0185-7DF9-4472-A87D-6ED66F475C6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCDFDF0A-03A5-40BA-A5BF-CDA16E1A34C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCDFDF0A-03A5-40BA-A5BF-CDA16E1A34C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCDFDF0A-03A5-40BA-A5BF-CDA16E1A34C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCDFDF0A-03A5-40BA-A5BF-CDA16E1A34C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

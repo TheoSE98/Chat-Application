@@ -9,4 +9,6 @@
     <DockPanel>
         <Frame x:Name="_mainFrame"></Frame>
     </DockPanel>
+
+
 </Window>
