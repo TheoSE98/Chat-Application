@@ -51,29 +51,24 @@ namespace DataModels
             return isUnique;
         }
 
-        // Chat room management methods
+        //Chat room management methods
         public bool CreateChatroom(string roomName, List<User> participants, bool isPublic)
         {
-            // Check if a chat room with the same name already exists
             bool roomExists = chatRooms.Any(room => room.GetName() == roomName);
 
             if (roomExists)
             {
-                // Display an error message for existing chat rooms
                 Console.WriteLine($"Chat room creation failed: Room '{roomName}' already exists.");
             }
             else
             {
-                // Create a new chat room and add participants
                 var newChatRoom = new ChatRoom(roomName, isPublic);
                 newChatRoom.AddParticipants(participants);
                 chatRooms.Add(newChatRoom);
 
-                // Display a success message for the created chat room
                 Console.WriteLine($"Chat room '{roomName}' created successfully.");
             }
 
-            // Return whether the chat room was created successfully
             return !roomExists;
         }
 
