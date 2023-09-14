@@ -8,15 +8,32 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="LoginPage">
 
+    <Page.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Margin" Value="0,10"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Page.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBox x:Name="usernameEntryBox" HorizontalAlignment="Center" Margin="0,129,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="loginButton" Click="Button_LogIn" Content="Log in" HorizontalAlignment="Center" Margin="0,185,0,0" VerticalAlignment="Top" Width="64"/>
+        <TextBox x:Name="usernameEntryBox" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Username" VerticalAlignment="Center" Width="120" Height="26">
+            <TextBox.Background>
+                <SolidColorBrush Color="#F2F2F2"/>
+            </TextBox.Background>
+            <TextBox.BorderBrush>
+                <SolidColorBrush Color="#CCCCCC"/>
+            </TextBox.BorderBrush>
+        </TextBox>
 
-
+        <Button x:Name="loginButton" Click="Button_LogIn" Content="Log in" Style="{StaticResource ButtonStyle}" Grid.Row="1"/>
     </Grid>
+
 </Page>

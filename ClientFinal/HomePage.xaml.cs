@@ -20,9 +20,11 @@ namespace ClientFinal
     /// </summary>
     public partial class HomePage : Page
     {
-        public HomePage()
+        public HomePage(string username)
         {
             InitializeComponent();
+
+            usernameTextBlock.Text = username;
         }
     }
 }

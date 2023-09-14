@@ -9,7 +9,9 @@
       Title="HomePage">
 
     <Grid>
-        <TextBlock HorizontalAlignment="Center" Margin="0,246,0,0" TextWrapping="Wrap" Text="Username is: " VerticalAlignment="Top"/>
-        <TextBlock x:Name="uName" HorizontalAlignment="Center" Margin="0,267,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Welcome, " FontSize="20" FontWeight="Bold" Margin="0,0,10,0" />
+            <TextBlock x:Name="usernameTextBlock" Text="" FontSize="20" FontWeight="Bold"/>
+        </StackPanel>
     </Grid>
 </Page>

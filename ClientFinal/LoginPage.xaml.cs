@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DataModels;
+using MyChatServer;
 
 namespace ClientFinal
 {
@@ -20,21 +22,40 @@ namespace ClientFinal
     /// </summary>
     public partial class LoginPage : Page
     {
-        public LoginPage()
+        private IChatServer _chatServer;
+        private MainWindow _mainWindow; 
+
+
+        public LoginPage(IChatServer chatServer, MainWindow mainWindow)
         {
             InitializeComponent();
+            //ChatService = new ChatService();
+            _chatServer = chatServer;
+            _mainWindow = mainWindow;
         }
 
         private void Button_LogIn(object sender, RoutedEventArgs e)
         {
-            String username;
-            username = usernameEntryBox.Text;
+            string username = usernameEntryBox.Text;
 
-            /*            NavigationContext navigationContext;
-                        string id = navigationContext.Parameters["ID"];
-            */
+            if (!string.IsNullOrEmpty(username))
+            {
+                bool isUnique = _chatServer.Login(username);
 
-            this.NavigationService.Navigate(new Uri("HomePage.xaml", UriKind.Relative));
+                if (isUnique)
+                {
+                    //Navigate to the home page and pass the username
+                    _mainWindow._mainFrame.NavigationService.Navigate(new HomePage(username));
+                }
+                else
+                {
+                    MessageBox.Show("Username is not unique. Please choose a different username.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Username cannot be empty. Please enter a valid username.");
+            }
         }
     }
 }

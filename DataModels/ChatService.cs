@@ -19,24 +19,35 @@ namespace DataModels
 
         public bool Login(string username)
         {
-            //Check if the username is unique
-            bool isUnique = !users.Any(user => user.GetUsername() == username);
+            DateTime loginTime = DateTime.Now;
 
-            if (isUnique)
+            bool isUnique = false;
+
+            if (string.IsNullOrEmpty(username))
             {
-                //Create a new user with the provided username
-                var newUser = new User(username);
-
-                //Add the new user to the list of users
-                users.Add(newUser);
-
-                //Display a success message
-                Console.WriteLine($"User '{username}' has logged in.");
+                Console.WriteLine("Login failed: Username cannot be null or empty.");
             }
             else
             {
-                //Display an error message for non-unique usernames
-                Console.WriteLine($"Login failed: Username '{username}' is not unique.");
+                // Check if the username is unique
+                isUnique = !users.Any(user => user.GetUsername() == username);
+
+                if (isUnique)
+                {
+                    // Create a new user with the provided username
+                    var newUser = new User(username);
+
+                    // Add the new user to the list of users
+                    users.Add(newUser);
+
+                    // Display a success message
+                    Console.WriteLine($"User '{username}' logged in at {loginTime}.");
+                }
+                else
+                {
+                    // Display an error message for non-unique usernames and the login timestamp
+                    Console.WriteLine($"Login failed: Username '{username}' is not unique. Login attempt at {loginTime}.");
+                }
             }
 
             return isUnique;

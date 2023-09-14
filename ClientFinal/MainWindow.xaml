@@ -6,7 +6,17 @@
         xmlns:local="clr-namespace:ClientFinal"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
-
+    
+    <Window.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Margin" Value="0,10"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    
     <DockPanel>
         <Frame x:Name="_mainFrame" Navigated="_mainFrame_Navigated"></Frame>
     </DockPanel>

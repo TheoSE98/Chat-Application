@@ -6,14 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using DataModels;
 
-namespace MyChatServer
+namespace ChatServer
 {
     [ServiceContract]
     public interface IChatServer
     {
         //User Management 
         [OperationContract]
-        bool Login(string username);
+        void Login(string username);
 
         //Chat Room Management
         [OperationContract]

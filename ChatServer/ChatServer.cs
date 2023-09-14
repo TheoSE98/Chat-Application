@@ -6,14 +6,14 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyChatServer
+namespace ChatServer
 {
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
     public class ChatServer : IChatServer
     {
         private ChatService _chatService;
 
-        public ChatServer() 
+        public ChatServer()
         {
             _chatService = new ChatService();
         }
@@ -48,9 +48,9 @@ namespace MyChatServer
             throw new NotImplementedException();
         }
 
-        public bool Login(string username)
+        public void Login(string username)
         {
-            return _chatService.Login(username);
+            throw new NotImplementedException();
         }
 
         public void SendMessage(Message message)

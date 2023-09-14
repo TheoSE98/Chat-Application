@@ -1,6 +1,8 @@
-﻿using System;
+﻿using MyChatServer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,6 +22,8 @@ namespace ClientFinal
     /// </summary>
     public partial class MainWindow : Window
     {
+        private IChatServer chatServer;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -31,7 +35,14 @@ namespace ClientFinal
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            _mainFrame.Navigate(new LoginPage());
+            ChannelFactory<IChatServer> channelFactory = new ChannelFactory<IChatServer>(new NetTcpBinding(), "net.tcp://localhost:8100/ChatService");
+
+            // Create a channel to communicate with the service.
+            chatServer = channelFactory.CreateChannel();
+
+            // Navigate to the login page.
+            _mainFrame.Navigate(new LoginPage(chatServer, this));
+
         }
     }
 }
