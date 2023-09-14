@@ -13,7 +13,7 @@ namespace MyChatServer
     {
         //User Management 
         [OperationContract]
-        bool Login(string username);
+        Task<bool> Login(string username);
 
         //Chat Room Management
         [OperationContract]

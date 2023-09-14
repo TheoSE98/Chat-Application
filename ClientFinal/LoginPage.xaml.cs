@@ -23,29 +23,37 @@ namespace ClientFinal
     public partial class LoginPage : Page
     {
         private IChatServer _chatServer;
-        private MainWindow _mainWindow; 
+        private MainWindow _mainWindow;
+        private List<ChatRoom> _availableChatRooms;
 
 
-        public LoginPage(IChatServer chatServer, MainWindow mainWindow)
+        public LoginPage(IChatServer chatServer, MainWindow mainWindow, List<ChatRoom> availableChatRooms)
         {
             InitializeComponent();
             //ChatService = new ChatService();
             _chatServer = chatServer;
             _mainWindow = mainWindow;
+            _availableChatRooms = availableChatRooms;
         }
 
-        private void Button_LogIn(object sender, RoutedEventArgs e)
+        private async void Button_LogIn(object sender, RoutedEventArgs e)
         {
             string username = usernameEntryBox.Text;
 
             if (!string.IsNullOrEmpty(username))
             {
-                bool isUnique = _chatServer.Login(username);
+
+                loginProgressBar.Visibility = Visibility.Visible;
+
+                bool isUnique = await _chatServer.Login(username);
+
+
+                loginProgressBar.Visibility = Visibility.Collapsed;
 
                 if (isUnique)
                 {
                     //Navigate to the home page and pass the username
-                    _mainWindow._mainFrame.NavigationService.Navigate(new HomePage(username));
+                    _mainWindow._mainFrame.NavigationService.Navigate(new HomePage(username, _availableChatRooms));
                 }
                 else
                 {

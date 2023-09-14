@@ -10,6 +10,7 @@ namespace DataModels
     {
         private List<User> users; 
         private List<ChatRoom> chatRooms;
+        private DateTime loginTime;
 
         public ChatService() 
         {
@@ -17,9 +18,11 @@ namespace DataModels
             chatRooms = new List<ChatRoom>();
         }
 
-        public bool Login(string username)
+        public async Task<bool> Login(string username)
         {
-            DateTime loginTime = DateTime.Now;
+            await Task.Delay(100);
+
+            loginTime = DateTime.Now;
 
             bool isUnique = false;
 
@@ -29,23 +32,18 @@ namespace DataModels
             }
             else
             {
-                // Check if the username is unique
                 isUnique = !users.Any(user => user.GetUsername() == username);
 
                 if (isUnique)
                 {
-                    // Create a new user with the provided username
                     var newUser = new User(username);
 
-                    // Add the new user to the list of users
                     users.Add(newUser);
 
-                    // Display a success message
                     Console.WriteLine($"User '{username}' logged in at {loginTime}.");
                 }
                 else
                 {
-                    // Display an error message for non-unique usernames and the login timestamp
                     Console.WriteLine($"Login failed: Username '{username}' is not unique. Login attempt at {loginTime}.");
                 }
             }

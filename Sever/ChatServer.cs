@@ -48,14 +48,15 @@ namespace MyChatServer
             throw new NotImplementedException();
         }
 
-        public bool Login(string username)
+        public async Task<bool> Login(string username)
         {
-            return _chatService.Login(username);
+            return await _chatService.Login(username);
         }
 
         public void SendMessage(Message message)
         {
             throw new NotImplementedException();
         }
+
     }
 }

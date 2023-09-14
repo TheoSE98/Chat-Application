@@ -33,7 +33,10 @@
             </TextBox.BorderBrush>
         </TextBox>
 
+        
+        <ProgressBar x:Name="loginProgressBar" Value="0" IsIndeterminate="False" Visibility="Collapsed" Grid.Row="2" Height="20" Width="120" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Button x:Name="loginButton" Click="Button_LogIn" Content="Log in" Style="{StaticResource ButtonStyle}" Grid.Row="1"/>
+        
     </Grid>
 
 </Page>

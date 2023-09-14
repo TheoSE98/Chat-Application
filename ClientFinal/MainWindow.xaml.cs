@@ -41,7 +41,7 @@ namespace ClientFinal
             chatServer = channelFactory.CreateChannel();
 
             // Navigate to the login page.
-            _mainFrame.Navigate(new LoginPage(chatServer, this));
+            _mainFrame.Navigate(new LoginPage(chatServer, this, null));
 
         }
     }
