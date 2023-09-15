@@ -18,10 +18,10 @@ namespace DataModels
         public bool IsPublic { get; set; }
         private List<User> guestList;
 
-        public ChatRoom(string name, bool isPublic)
+        public ChatRoom()
         {
-            this.Name = name;
-            this.IsPublic = isPublic;
+            //this.Name = name;
+            //this.IsPublic = isPublic;
             participants = new List<User>();
             messages = new List<Message>();
             guestList = new List<User>();
