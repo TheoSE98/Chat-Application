@@ -122,11 +122,11 @@ namespace DataModels
         }
 
         // Get updates methods
-        public IEnumerable<Message> GetMessageUpdates(string roomName, Message lastMessage)
+        public IEnumerable<Message> GetMessageUpdates(string chatRoomName, Message lastMessage)
         {
             foreach (ChatRoom room in chatRooms)
             {
-                if (room.GetName().Equals(roomName))
+                if (room.GetName().Equals(chatRoomName))
                 {
                     return room.getMessageUpdates(lastMessage);
                 }
@@ -135,14 +135,30 @@ namespace DataModels
             return null;
         }
 
-        public IEnumerable<ChatRoom> GetChatRoomUpdates(string username)
+        public IEnumerable<ChatRoom> GetChatRoomUpdates(User user)
         {
-            throw new NotImplementedException();
+            List<ChatRoom> allAllowedRooms = new List<ChatRoom>();
+            foreach (ChatRoom room in chatRooms)
+            {
+                if ((room.GetIsPublic()) || room.AmIAllowedIn(user))
+                {
+                    allAllowedRooms.Add(room);
+                }
+            }
+            return allAllowedRooms;
         }
 
         public IEnumerable<User> GetChatRoomUsers(string roomName)
         {
-            throw new NotImplementedException();
+            foreach (ChatRoom room in chatRooms)
+            {
+                if (room.GetName().Equals(roomName))
+                {
+                    return room.GetParticipants();
+                }
+            }
+            // TODO: throw exception
+            return null;
         }
     }
 }

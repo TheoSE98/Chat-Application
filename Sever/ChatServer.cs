@@ -29,19 +29,19 @@ namespace MyChatServer
             return _chatService.GenerateDefaultChatRooms(username);
         }
 
-        public IEnumerable<ChatRoom> GetChatRoomUpdates(string username)
+        public IEnumerable<ChatRoom> GetChatRoomUpdates(User user)
         {
-            throw new NotImplementedException();
+            return _chatService.GetChatRoomUpdates(user);
         }
 
         public IEnumerable<User> GetChatRoomUsers(string chatRoomName)
         {
-            throw new NotImplementedException();
+            return _chatService.GetChatRoomUsers(chatRoomName);
         }
 
-        public IEnumerable<Message> GetMessageUpdates(string username, int lastMessageId)
+        public IEnumerable<Message> GetMessageUpdates(string chatRoomName, Message lastMessage)
         {
-            throw new NotImplementedException();
+            return _chatService.GetMessageUpdates(chatRoomName, lastMessage);
         }
 
         public void JoinChatRoom(string username, string chatRoomName)
