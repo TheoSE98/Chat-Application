@@ -92,20 +92,28 @@ namespace DataModels
             return defaultChatRooms;
         }
 
-        public bool JoinChatRoom(string username, string roomName)
+        public void JoinChatRoom(User user, ChatRoom room)
         {
-            throw new NotImplementedException();
+            room.addUser(user);
         }
 
-        public bool LeaveChatRoom(string username, string roomName)
+        public void LeaveChatRoom(User user, ChatRoom room)
         {
-            throw new NotImplementedException();
+            room.removeUser(user);
         }
 
         // Message distribution methods
         public void SendMessage(Message message)
         {
-            throw new NotImplementedException();
+            string chatRoomName = message.getChatRoomName();
+            foreach (ChatRoom room in chatRooms)
+            {
+                if (room.GetName().Equals(chatRoomName))
+                {
+                    room.addMessage(message);
+                    break;
+                }
+            }
         }
 
         public List<ChatRoom> GetChatRooms()
@@ -114,9 +122,17 @@ namespace DataModels
         }
 
         // Get updates methods
-        public IEnumerable<Message> GetMessageUpdates(string roomName, int lastMessageId)
+        public IEnumerable<Message> GetMessageUpdates(string roomName, Message lastMessage)
         {
-            throw new NotImplementedException();
+            foreach (ChatRoom room in chatRooms)
+            {
+                if (room.GetName().Equals(roomName))
+                {
+                    return room.getMessageUpdates(lastMessage);
+                }
+            }
+            // TODO need a fault exeption or something here
+            return null;
         }
 
         public IEnumerable<ChatRoom> GetChatRoomUpdates(string username)

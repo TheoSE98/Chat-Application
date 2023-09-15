@@ -33,6 +33,33 @@ namespace DataModels
             return participants;
         }
 
+        public void addMessage(Message message)
+        {
+            // TODO: add some error handling ???
+            this.messages.Add(message);
+        }
+
+        // TODO this code is a bit weird, may have to rethink our approach, will have to test it out in practice
+        public IEnumerable<Message> getMessageUpdates(Message lastReceivedmessage)
+        {
+            List<Message> messages = new List<Message>();
+            bool foundMessage = false;
+
+            foreach (Message message in this.messages)
+            { 
+                if (lastReceivedmessage == message)
+                {
+                    foundMessage = true;
+                }
+                if (foundMessage)
+                {
+                    messages.Add(message);
+                }
+            }
+
+            return messages;
+        }
+
         public List<Message> GetMessages()
         {
             return messages;
@@ -63,7 +90,10 @@ namespace DataModels
                 return false;
             }
         }
-
+        
+        // TODO: should these functions move to ChatService?
+        // TODO: should this be writing to console? maybe in chat service probably maybe throws fault exception
+        // we might need a logger class
         public void addUser(User user)
         {
             if (user != null)
@@ -74,6 +104,7 @@ namespace DataModels
                     if (!participants.Contains(user))
                     {
                         participants.Add(user);
+                        Console.WriteLine("Added user sucessfully");
                     }
                     else
                     {
@@ -91,6 +122,26 @@ namespace DataModels
                     {
                         Console.WriteLine("User not allowed in chatroom");
                     }
+                }
+            }
+            else
+            {
+                Console.WriteLine("User is null");
+            }
+        }
+
+        public void removeUser(User user)
+        {
+            if (user != null)
+            {
+                if (participants.Contains(user))
+                {
+                    participants.Remove(user);
+                    Console.WriteLine("Removed user successfully");
+                }
+                else
+                {
+                    Console.WriteLine("User not in chatroom");
                 }
             }
             else

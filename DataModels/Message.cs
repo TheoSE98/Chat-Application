@@ -17,11 +17,14 @@ namespace DataModels
         private object content;
         [DataMember]
         private DateTime timestamp;
-        public Message(User sender, object content, DateTime time)
+        [DataMember]
+        private string chatRoomName;
+        public Message(User sender, object content, DateTime time, string chatRoomName)
         {
             this.sender = sender;
             this.content = content;
             this.timestamp = time;
+            this.chatRoomName = chatRoomName;
         }
 
         public User getSender()
@@ -37,6 +40,11 @@ namespace DataModels
         public DateTime getTimestamp()
         {
             return timestamp;
+        }
+
+        public string getChatRoomName()
+        {
+            return chatRoomName;
         }
     }
 }
