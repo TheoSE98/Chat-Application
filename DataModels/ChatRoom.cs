@@ -11,17 +11,17 @@ namespace DataModels
     public class ChatRoom
     {
         [DataMember]
-        private string name;
+        public string Name { get; set; }
         private List<User> participants;
         private List<Message> messages;
         [DataMember]
-        private bool isPublic;
+        public bool IsPublic { get; set; }
         private List<User> guestList;
 
         public ChatRoom(string name, bool isPublic)
         {
-            this.name = name;
-            this.isPublic = isPublic;
+            this.Name = name;
+            this.IsPublic = isPublic;
             participants = new List<User>();
             messages = new List<Message>();
             guestList = new List<User>();
@@ -29,7 +29,7 @@ namespace DataModels
 
         public string GetName()
         {
-            return name;
+            return Name;
         }
 
         public List<User> GetParticipants()
@@ -44,7 +44,7 @@ namespace DataModels
 
         public bool GetIsPublic()
         {
-            return isPublic;
+            return IsPublic;
         }
 
         public List<User> GetGuestList()
@@ -54,7 +54,7 @@ namespace DataModels
 
         public bool AmIAllowedIn(User user)
         {
-            if (isPublic)
+            if (IsPublic)
             {
                 return true;
             }
@@ -72,7 +72,7 @@ namespace DataModels
         {
             if (user != null)
             {
-                if (isPublic)
+                if (IsPublic)
                 {
                     // public chatroom
                     if (!participants.Contains(user))
@@ -107,10 +107,7 @@ namespace DataModels
         {
             participants.AddRange(users);
             //DEBUGGING 
-            Console.WriteLine($"Participants added to chat room '{name}': {string.Join(", ", users.Select(user => user.GetUsername()))}");
+            Console.WriteLine($"Participants added to chat room '{Name}': {string.Join(", ", users.Select(user => user.GetUsername()))}");
         }
-
-
-
     }
 }

@@ -33,6 +33,8 @@ namespace ClientFinal
 
             availableChatRooms = chatRooms;
 
+            //DataContext = this;
+
             //Bind the chat rooms to the ListView
             chatRoomListView.ItemsSource = availableChatRooms;
         }

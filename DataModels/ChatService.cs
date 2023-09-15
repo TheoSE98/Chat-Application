@@ -82,6 +82,12 @@ namespace DataModels
             ChatRoom defaultRoom1 = new ChatRoom("Default Room 1", isPublic: true);
             ChatRoom defaultRoom2 = new ChatRoom("Default Room 2", isPublic: true);
 
+            defaultRoom1.Name = "Default Room 1";
+            defaultRoom1.IsPublic = true;
+
+            defaultRoom2.Name = "Default Room 2";
+            defaultRoom2.IsPublic = true;
+
             User user = new User(username);
 
             // Add the user to these default chat rooms

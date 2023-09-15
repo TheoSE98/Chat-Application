@@ -23,7 +23,6 @@
                 </ListView.View>
             </ListView>
 
-            <!-- Add a button to join a selected chat room -->
             <Button Content="Join Chat Room" Click="JoinChatRoom_Click" Width="120" Height="36"/>
         </StackPanel>
     </Grid>
