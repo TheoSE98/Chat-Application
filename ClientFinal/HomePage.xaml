@@ -5,25 +5,51 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ClientFinal"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="520" d:DesignWidth="900"
+      Width="900" Height="520"
       Title="HomePage">
 
     <Grid>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="Welcome, " FontSize="20" FontWeight="Bold" Margin="0,0,10,0" />
-            <TextBlock x:Name="usernameTextBlock" Text="" FontSize="20" FontWeight="Bold"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-            <!-- Add a list of available chat rooms -->
-            <ListView x:Name="chatRoomListView" Width="300" Height="200" Margin="0,20,0,20">
+        <!-- Chat Rooms Column (Left Side) -->
+        <DockPanel Grid.Column="0">
+            <TextBox Height="25" DockPanel.Dock="Top"  />
+            <Button Height="25" DockPanel.Dock="Top" Content="Log Off" Click="LogOff_Click" />
+            <Button Height="25" DockPanel.Dock="Top" Content="Join Room" Click="JoinChatRoom_Click" />
+            <ListView Name="chatRoomListView" ItemsSource="{Binding ChatRooms}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Chat Room" Width="200" DisplayMemberBinding="{Binding Name}"/>
-                        <GridViewColumn Header="Is Public" Width="100" DisplayMemberBinding="{Binding IsPublic}"/>
+                        <GridViewColumn Header="Chat Room" Width="195" DisplayMemberBinding="{Binding Name}" />
                     </GridView>
                 </ListView.View>
             </ListView>
-
-            <Button Content="Join Chat Room" Click="JoinChatRoom_Click" Width="120" Height="36"/>
+        </DockPanel>
+        
+        <!-- Messages Column (Right Side) -->
+        <StackPanel Grid.Column="1">
+            <StackPanel>
+                <TextBox Name="newChatRoomTextBox" Height="25"  />
+                <Button Content="Create Chat Room" Click="CreateChatRoom_Click" />
+                <Button Content="Remove Chat Room" Click="CreateChatRoom_Click" />
+            </StackPanel>
+            <ListView Name="messageListView" Height="395" ItemsSource="{Binding SelectedChatRoom.Messages}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Sender" Width="80" DisplayMemberBinding="{Binding Sender}" />
+                        <GridViewColumn Header="Message" Width="520" DisplayMemberBinding="{Binding Content}" />
+                        <GridViewColumn Header="Time" Width="100" DisplayMemberBinding="{Binding Time}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <StackPanel Orientation="Horizontal">
+                <TextBox Name="messageTextBox" Height="60" Width="620" VerticalContentAlignment="Center"  />
+                <Button Width="80" Content="Send" Click="Send_Click" />
+            </StackPanel>
         </StackPanel>
     </Grid>
+
 </Page>

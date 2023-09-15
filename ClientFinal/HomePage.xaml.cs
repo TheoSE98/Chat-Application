@@ -29,7 +29,7 @@ namespace ClientFinal
             InitializeComponent();
 
             this.username = username;
-            usernameTextBlock.Text = username;
+            //usernameTextBlock.Text = username;
 
             availableChatRooms = chatRooms;
 
@@ -51,6 +51,21 @@ namespace ClientFinal
             {
                 MessageBox.Show("Please select a chat room to join.");
             }
+        }
+
+        private void LogOff_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Send_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CreateChatRoom_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
