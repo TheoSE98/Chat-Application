@@ -33,7 +33,7 @@ namespace ClientFinal
             //ChatService = new ChatService();
             _chatServer = chatServer;
             _mainWindow = mainWindow;
-            _availableChatRooms = new List<ChatRoom>();
+            //_availableChatRooms = new List<ChatRoom>();
         }
 
         private async void Button_LogIn(object sender, RoutedEventArgs e)
@@ -53,10 +53,21 @@ namespace ClientFinal
                 {
                     // If the user if authenticated then we must generate some default chat rooms that a user can join when they first login
                     //This way all users can choose a room out of say 5 room and start talking to other users
-                    //List<ChatRoom> defaultChatRooms = _chatServer.Gener;
+                    //This is fucked i need a break. 
+
+                    //try
+                    //{
+                        //_availableChatRooms = _chatServer.GenerateDefaultChatRooms(username); // -> This will call server 
+                    //Console.WriteLine($"Number of available chat rooms: {_availableChatRooms.Count}");
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //Console.WriteLine(ex.Message);
+                    //}
+
 
                     // Navigate to the home page and pass the username
-                    _mainWindow._mainFrame.NavigationService.Navigate(new HomePage(username, null));
+                    _mainWindow._mainFrame.NavigationService.Navigate(new HomePage(username, _availableChatRooms));
                 }
                 else
                 {

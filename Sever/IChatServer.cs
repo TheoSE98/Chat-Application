@@ -15,6 +15,9 @@ namespace MyChatServer
         [OperationContract]
         Task<bool> Login(string username);
 
+        [OperationContract]
+        List<ChatRoom> GenerateDefaultChatRooms(string username);
+
         //Chat Room Management
         [OperationContract]
         void CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic);

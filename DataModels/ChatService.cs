@@ -41,6 +41,8 @@ namespace DataModels
                     users.Add(newUser);
 
                     Console.WriteLine($"User '{username}' logged in at {loginTime}.");
+
+                    //List<ChatRoom> defaultChatRooms = GenerateDefaultChatRooms(username);
                 }
                 else
                 {
@@ -72,9 +74,10 @@ namespace DataModels
             return !roomExists;
         }
 
+        //LOGIC HERE MUST BE PRETTY COOKED 
         public List<ChatRoom> GenerateDefaultChatRooms(string username)
         {
-            List<ChatRoom> defaultChatRooms = new List<ChatRoom>();
+            //List<ChatRoom> defaultChatRooms = new List<ChatRoom>();
 
             ChatRoom defaultRoom1 = new ChatRoom("Default Room 1", isPublic: true);
             ChatRoom defaultRoom2 = new ChatRoom("Default Room 2", isPublic: true);
@@ -86,10 +89,16 @@ namespace DataModels
             defaultRoom2.AddParticipants(new List<User> { user });
             //defaultRoom2.AddParticipants(new User(username));
 
-            defaultChatRooms.Add(defaultRoom1);
-            defaultChatRooms.Add(defaultRoom2);
+            chatRooms.Add(defaultRoom1);
+            chatRooms.Add(defaultRoom2);
 
-            return defaultChatRooms;
+            return chatRooms;
+        }
+
+        //Like might need this not sure ?? 
+        public List<ChatRoom> GetChatRooms()
+        {
+            return chatRooms;
         }
 
         public bool JoinChatRoom(string username, string roomName)
@@ -108,10 +117,7 @@ namespace DataModels
             throw new NotImplementedException();
         }
 
-        public List<ChatRoom> GetChatRooms()
-        {
-            return chatRooms;
-        }
+    
 
         // Get updates methods
         public IEnumerable<Message> GetMessageUpdates(string roomName, int lastMessageId)

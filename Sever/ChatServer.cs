@@ -26,7 +26,7 @@ namespace MyChatServer
         public List<ChatRoom> GenerateDefaultChatRooms(string username)
         {
             // Call the corresponding method in the ChatServer
-            return _chatService.GenerateDefaultChatRooms(username);
+            return _chatService.GenerateDefaultChatRooms(username); //From here we call the ChatService 
         }
 
         public IEnumerable<ChatRoom> GetChatRoomUpdates(string username)
