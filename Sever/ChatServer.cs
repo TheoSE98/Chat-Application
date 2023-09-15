@@ -20,7 +20,7 @@ namespace MyChatServer
 
         public void CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic)
         {
-            throw new NotImplementedException();
+            _chatService.CreateChatroom(chatRoomName, guestList, isPublic);
         }
 
         public List<ChatRoom> GenerateDefaultChatRooms(string username)
@@ -61,7 +61,7 @@ namespace MyChatServer
 
         public void SendMessage(Message message)
         {
-            throw new NotImplementedException();
+            _chatService.SendMessage(message);
         }
 
     }
