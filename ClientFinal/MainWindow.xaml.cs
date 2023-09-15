@@ -33,6 +33,7 @@ namespace ClientFinal
         {
 
         }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             ChannelFactory<IChatServer> channelFactory = new ChannelFactory<IChatServer>(new NetTcpBinding(), "net.tcp://localhost:8100/ChatService");
@@ -41,7 +42,7 @@ namespace ClientFinal
             chatServer = channelFactory.CreateChannel();
 
             // Navigate to the login page.
-            _mainFrame.Navigate(new LoginPage(chatServer, this, null));
+            _mainFrame.Navigate(new LoginPage(chatServer, this));
 
         }
     }

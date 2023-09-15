@@ -23,6 +23,12 @@ namespace MyChatServer
             throw new NotImplementedException();
         }
 
+        public List<ChatRoom> GenerateDefaultChatRooms(string username)
+        {
+            // Call the corresponding method in the ChatServer
+            return _chatService.GenerateDefaultChatRooms(username);
+        }
+
         public IEnumerable<ChatRoom> GetChatRoomUpdates(string username)
         {
             throw new NotImplementedException();

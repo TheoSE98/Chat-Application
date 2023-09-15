@@ -27,13 +27,13 @@ namespace ClientFinal
         private List<ChatRoom> _availableChatRooms;
 
 
-        public LoginPage(IChatServer chatServer, MainWindow mainWindow, List<ChatRoom> availableChatRooms)
+        public LoginPage(IChatServer chatServer, MainWindow mainWindow)
         {
             InitializeComponent();
             //ChatService = new ChatService();
             _chatServer = chatServer;
             _mainWindow = mainWindow;
-            _availableChatRooms = availableChatRooms;
+            _availableChatRooms = new List<ChatRoom>();
         }
 
         private async void Button_LogIn(object sender, RoutedEventArgs e)
@@ -47,13 +47,16 @@ namespace ClientFinal
 
                 bool isUnique = await _chatServer.Login(username);
 
-
                 loginProgressBar.Visibility = Visibility.Collapsed;
 
                 if (isUnique)
                 {
-                    //Navigate to the home page and pass the username
-                    _mainWindow._mainFrame.NavigationService.Navigate(new HomePage(username, _availableChatRooms));
+                    // If the user if authenticated then we must generate some default chat rooms that a user can join when they first login
+                    //This way all users can choose a room out of say 5 room and start talking to other users
+                    //List<ChatRoom> defaultChatRooms = _chatServer.Gener;
+
+                    // Navigate to the home page and pass the username
+                    _mainWindow._mainFrame.NavigationService.Navigate(new HomePage(username, null));
                 }
                 else
                 {

@@ -72,6 +72,26 @@ namespace DataModels
             return !roomExists;
         }
 
+        public List<ChatRoom> GenerateDefaultChatRooms(string username)
+        {
+            List<ChatRoom> defaultChatRooms = new List<ChatRoom>();
+
+            ChatRoom defaultRoom1 = new ChatRoom("Default Room 1", isPublic: true);
+            ChatRoom defaultRoom2 = new ChatRoom("Default Room 2", isPublic: true);
+
+            User user = new User(username);
+
+            // Add the user to these default chat rooms
+            defaultRoom1.AddParticipants(new List<User> { user });
+            defaultRoom2.AddParticipants(new List<User> { user });
+            //defaultRoom2.AddParticipants(new User(username));
+
+            defaultChatRooms.Add(defaultRoom1);
+            defaultChatRooms.Add(defaultRoom2);
+
+            return defaultChatRooms;
+        }
+
         public bool JoinChatRoom(string username, string roomName)
         {
             throw new NotImplementedException();
@@ -86,6 +106,11 @@ namespace DataModels
         public void SendMessage(Message message)
         {
             throw new NotImplementedException();
+        }
+
+        public List<ChatRoom> GetChatRooms()
+        {
+            return chatRooms;
         }
 
         // Get updates methods
