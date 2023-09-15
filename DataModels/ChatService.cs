@@ -78,55 +78,25 @@ namespace DataModels
             return !roomExists;
         }
 
-        //LOGIC HERE MUST BE PRETTY COOKED 
         public List<ChatRoom> GenerateDefaultChatRooms(string username)
         {
 
-            ChatRoom defaultRoom1 = new ChatRoom
+            for (int i = 1; i <= 5; i++)
             {
-                Name = "Default Room 1",
-                IsPublic = true
-            };
+                ChatRoom defaultRoom = new ChatRoom
+                {
+                    Name = $"Default Room {i}",
+                    IsPublic = true
+                };
 
-            ChatRoom defaultRoom2 = new ChatRoom
-            {
-                Name = "Default Room 2",
-                IsPublic = true
-            };
+                User user = new User(username);
 
-            ChatRoom defaultRoom3 = new ChatRoom
-            {
-                Name = "Default Room 3",
-                IsPublic = true
-            };
+                // Add the user to the default chat room
+                defaultRoom.AddParticipants(new List<User> { user });
 
-            ChatRoom defaultRoom4 = new ChatRoom
-            {
-                Name = "Default Room 4",
-                IsPublic = true
-            };
-
-            ChatRoom defaultRoom5 = new ChatRoom
-            {
-                Name = "Default Room 5",
-                IsPublic = true
-            };
-
-            User user = new User(username);
-
-            // Add the user to these default chat rooms
-            defaultRoom1.AddParticipants(new List<User> { user });
-            defaultRoom2.AddParticipants(new List<User> { user });
-            defaultRoom3.AddParticipants(new List<User> { user });
-            defaultRoom4.AddParticipants(new List<User> { user });
-            defaultRoom5.AddParticipants(new List<User> { user });
-            //defaultRoom2.AddParticipants(new User(username));
-
-            chatRooms.Add(defaultRoom1);
-            chatRooms.Add(defaultRoom2);
-            chatRooms.Add(defaultRoom3);
-            chatRooms.Add(defaultRoom4);
-            chatRooms.Add(defaultRoom5);
+                // Add the default chat room to the chatRooms list
+                chatRooms.Add(defaultRoom);
+            }
 
             return chatRooms;
         }
