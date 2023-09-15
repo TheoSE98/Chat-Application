@@ -57,7 +57,7 @@ namespace ClientFinal
 
                     //try
                     //{
-                        //_availableChatRooms = _chatServer.GenerateDefaultChatRooms(username); // -> This will call server 
+                        _availableChatRooms = _chatServer.GenerateDefaultChatRooms(username); // -> This will call server 
                     //Console.WriteLine($"Number of available chat rooms: {_availableChatRooms.Count}");
                     //}
                     //catch (Exception ex)

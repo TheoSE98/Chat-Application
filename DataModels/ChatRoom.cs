@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DataModels
 {
+    [DataContract]
     public class ChatRoom
     {
+        [DataMember]
         private string name;
         private List<User> participants;
         private List<Message> messages;
+        [DataMember]
         private bool isPublic;
         private List<User> guestList;
 
