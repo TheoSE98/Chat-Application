@@ -49,9 +49,9 @@ namespace MyChatServer
             throw new NotImplementedException();
         }
 
-        public void LeaveChatRoom(string username, string chatRoomName)
+        public void LeaveChatRoom(User user, string chatRoomName)
         {
-            throw new NotImplementedException();
+            _chatService.LeaveChatRoom(user, chatRoomName);
         }
 
         public async Task<bool> Login(string username)

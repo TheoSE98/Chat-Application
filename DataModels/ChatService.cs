@@ -97,9 +97,16 @@ namespace DataModels
             room.addUser(user);
         }
 
-        public void LeaveChatRoom(User user, ChatRoom room)
+        public void LeaveChatRoom(User user, string chatRoomName)
         {
-            room.removeUser(user);
+            foreach (ChatRoom room in chatRooms)
+            {
+                if (room.GetName().Equals(chatRoomName))
+                {
+                    room.removeUser(user);
+                    break;
+                }
+            }
         }
 
         // Message distribution methods
