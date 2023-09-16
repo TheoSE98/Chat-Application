@@ -24,8 +24,6 @@ namespace MyChatServer
         [OperationContract]
         void JoinChatRoom(string username, string chatRoomName);
         [OperationContract]
-
-        [OperationContract]
         void LeaveChatRoom(User user, string chatRoomName);
 
         //Message Distributed

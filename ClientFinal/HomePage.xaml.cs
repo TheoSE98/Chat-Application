@@ -96,7 +96,7 @@ namespace ClientFinal
             }
         }
 
-        private void RemoveChatRoom_Click(object sender, RoutedEventArgs e)
+        /*private void RemoveChatRoom_Click(object sender, RoutedEventArgs e)
         {
             if (chatRoomListView.SelectedItem != null)
             {
@@ -118,7 +118,7 @@ namespace ClientFinal
             {
                 MessageBox.Show("Please select a chat room to remove.");
             }
-        }
+        }*/
 
         // This method will update the GUI and Reflect the changes in the server. 
         // Desinged that a user selects the ChatRoom to remove and selects the buttons to remove 

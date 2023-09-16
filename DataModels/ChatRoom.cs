@@ -81,7 +81,7 @@ namespace DataModels
 
         public bool AmIAllowedIn(User user)
         {
-            if (isPublic)
+            if (IsPublic)
             {
                 return true;
             }
@@ -102,7 +102,7 @@ namespace DataModels
         {
             if (user != null)
             {
-                if (isPublic)
+                if (IsPublic)
                 {
                     // public chatroom
                     if (!participants.Contains(user))
