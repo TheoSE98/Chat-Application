@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyChatServer", "Sever\MyCha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModels", "DataModels\DataModels.csproj", "{DCDFDF0A-03A5-40BA-A5BF-CDA16E1A34C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client2", "Client2\Client2.csproj", "{DCC0AB90-234C-4FCB-B8FC-17C7866D64B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientFinal", "ClientFinal\ClientFinal.csproj", "{FF386BC7-1EF2-4D7A-9B1B-3EAE1F3AFF25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{DCDFDF0A-03A5-40BA-A5BF-CDA16E1A34C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCDFDF0A-03A5-40BA-A5BF-CDA16E1A34C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCDFDF0A-03A5-40BA-A5BF-CDA16E1A34C5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DCC0AB90-234C-4FCB-B8FC-17C7866D64B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DCC0AB90-234C-4FCB-B8FC-17C7866D64B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DCC0AB90-234C-4FCB-B8FC-17C7866D64B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DCC0AB90-234C-4FCB-B8FC-17C7866D64B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF386BC7-1EF2-4D7A-9B1B-3EAE1F3AFF25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF386BC7-1EF2-4D7A-9B1B-3EAE1F3AFF25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF386BC7-1EF2-4D7A-9B1B-3EAE1F3AFF25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF386BC7-1EF2-4D7A-9B1B-3EAE1F3AFF25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

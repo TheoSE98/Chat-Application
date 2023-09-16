@@ -1,0 +1,56 @@
+﻿<Page x:Class="ClientFinal.HomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ClientFinal"
+      mc:Ignorable="d" 
+      d:DesignHeight="520" d:DesignWidth="900"
+      Width="900" Height="520"
+      Title="HomePage">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Chat Rooms Column (Left Side) -->
+        <DockPanel Grid.Column="0">
+
+            <TextBox x:Name="usernameTextBox" FontWeight="Bold" Height="25" DockPanel.Dock="Top" BorderBrush="Black" />
+            <Button FontWeight="Bold" Height="30" DockPanel.Dock="Top" Content="Log Off" Click="LogOff_Click" />
+            <Button FontWeight="Bold" Height="30" DockPanel.Dock="Top" Content="Join Room" Click="JoinChatRoom_Click" />
+            <ListView Name="chatRoomListView" ItemsSource="{Binding ChatRooms}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Chat Room" Width="195" DisplayMemberBinding="{Binding Name}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
+
+        <!-- Messages Column (Right Side) -->
+        <StackPanel Grid.Column="1">
+            <StackPanel>
+                <TextBox Name="newChatRoomTextBox" Height="25" TextAlignment="Center" Text="Enter Room Name" BorderBrush="Black"  />
+                <Button Content="Create Chat Room" Click="CreateChatRoom_Click" />
+            </StackPanel>
+            <ListView Name="messageListView" Height="395" ItemsSource="{Binding SelectedChatRoom.Messages}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Sender" Width="80" DisplayMemberBinding="{Binding Sender}" />
+                        <GridViewColumn Header="Message" Width="520" DisplayMemberBinding="{Binding Content}" />
+                        <GridViewColumn Header="Time" Width="100" DisplayMemberBinding="{Binding Time}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <StackPanel Orientation="Horizontal">
+                <TextBox Name="messageTextBox" Height="79" Width="540" VerticalContentAlignment="Center"  />
+                <Button FontWeight="Bold" Width="80" Content="Send" Click="Send_Click" Foreground="#FFE81313"/>
+                <Button FontWeight="Bold" Width="80" Content="Receive" Click="Send_Click" Foreground="#FF3DA228" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+
+</Page>

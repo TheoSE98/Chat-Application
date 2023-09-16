@@ -18,24 +18,30 @@ namespace MyChatServer
             _chatService = new ChatService();
         }
 
-        public void CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic)
+        public bool CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic)
         {
-            throw new NotImplementedException();
+             return _chatService.CreateChatroom(chatRoomName, guestList, isPublic);
         }
 
-        public IEnumerable<ChatRoom> GetChatRoomUpdates(string username)
+        public List<ChatRoom> GenerateDefaultChatRooms(string username)
         {
-            throw new NotImplementedException();
+            // Call the corresponding method in the ChatServer
+            return _chatService.GenerateDefaultChatRooms(username); //From here we call the ChatService 
+        }
+
+        public IEnumerable<ChatRoom> GetChatRoomUpdates(User user)
+        {
+            return _chatService.GetChatRoomUpdates(user);
         }
 
         public IEnumerable<User> GetChatRoomUsers(string chatRoomName)
         {
-            throw new NotImplementedException();
+            return _chatService.GetChatRoomUsers(chatRoomName);
         }
 
-        public IEnumerable<Message> GetMessageUpdates(string username, int lastMessageId)
+        public IEnumerable<Message> GetMessageUpdates(string chatRoomName, Message lastMessage)
         {
-            throw new NotImplementedException();
+            return _chatService.GetMessageUpdates(chatRoomName, lastMessage);
         }
 
         public void JoinChatRoom(string username, string chatRoomName)
@@ -43,19 +49,25 @@ namespace MyChatServer
             throw new NotImplementedException();
         }
 
-        public void LeaveChatRoom(string username, string chatRoomName)
+        public void LeaveChatRoom(User user, string chatRoomName)
         {
-            throw new NotImplementedException();
+            _chatService.LeaveChatRoom(user, chatRoomName);
         }
 
-        public void Login(string username)
+        public async Task<bool> Login(string username)
         {
-            throw new NotImplementedException();
+            return await _chatService.Login(username);
+        }
+
+        public void RemoveChatRoom(string chatRoomName)
+        {
+            _chatService.RemoveChatRoom(chatRoomName);
         }
 
         public void SendMessage(Message message)
         {
-            throw new NotImplementedException();
+            _chatService.SendMessage(message);
         }
+
     }
 }
