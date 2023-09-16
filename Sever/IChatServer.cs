@@ -25,6 +25,8 @@ namespace MyChatServer
         void JoinChatRoom(string username, string chatRoomName);
         [OperationContract]
         void LeaveChatRoom(string username, string chatRoomName);
+        [OperationContract]
+        void RemoveChatRoom(string chatRoomName);
 
         //Message Distributed
         [OperationContract]

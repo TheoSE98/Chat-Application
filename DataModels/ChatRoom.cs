@@ -52,62 +52,17 @@ namespace DataModels
             return guestList;
         }
 
-        public bool AmIAllowedIn(User user)
-        {
-            if (IsPublic)
-            {
-                return true;
-            }
-            else
-            {
-                if (guestList.Contains(user))
-                {
-                    return true;
-                }
-                return false;
-            }
-        }
-
-        public void addUser(User user)
-        {
-            if (user != null)
-            {
-                if (IsPublic)
-                {
-                    // public chatroom
-                    if (!participants.Contains(user))
-                    {
-                        participants.Add(user);
-                    }
-                    else
-                    {
-                        Console.WriteLine("User is already in the chatroom");
-                    }
-                }
-                else
-                {
-                    // private chatroom
-                    if (guestList.Contains(user))
-                    {
-                        participants.Add(user);
-                    }
-                    else
-                    {
-                        Console.WriteLine("User not allowed in chatroom");
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine("User is null");
-            }
-        }
-
         public void AddParticipants(List<User> users)
         {
             participants.AddRange(users);
             //DEBUGGING 
             Console.WriteLine($"Participants added to chat room '{Name}': {string.Join(", ", users.Select(user => user.GetUsername()))}");
+        }
+        public void RemoveAllParticipants()
+        {
+            participants.Clear();
+            //DEBUGGING 
+            Console.WriteLine($"All participants removed from chat room '{Name}'.");
         }
     }
 }

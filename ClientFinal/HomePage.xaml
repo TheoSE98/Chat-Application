@@ -35,7 +35,7 @@
             <StackPanel>
                 <TextBox Name="newChatRoomTextBox" Height="25" TextAlignment="Center" Text="Enter Room Name" BorderBrush="Black"  />
                 <Button Content="Create Chat Room" Click="CreateChatRoom_Click" />
-                <Button Content="Remove Chat Room" Click="CreateChatRoom_Click" />
+                <Button Content="Remove Chat Room" Click="RemoveChatRoom_Click" />
             </StackPanel>
             <ListView Name="messageListView" Height="395" ItemsSource="{Binding SelectedChatRoom.Messages}">
                 <ListView.View>

@@ -113,6 +113,30 @@ namespace DataModels
             return defaultChatRooms; 
         }
 
+        // It doesnt say we need it but kinda makes sense to have it (Drops all users aswell from the room)
+        // I might be missing some logic so feel free to refactor it....
+        public bool RemoveChatRoom(string roomName)
+        {
+            var chatRoomToRemove = chatRooms.FirstOrDefault(room => room.GetName() == roomName);
+
+            if (chatRoomToRemove != null)
+            {
+            
+                chatRooms.Remove(chatRoomToRemove);
+
+                // Remove all participants from the chat room -> Hopefully my thinking is ok here 
+                chatRoomToRemove.RemoveAllParticipants();
+
+                Console.WriteLine($"Chat room '{roomName}' removed successfully.");
+            }
+            else
+            {
+                Console.WriteLine($"Chat room '{roomName}' not found. Removal failed.");
+            }
+
+            return chatRoomToRemove != null;
+        }
+
         //Like might need this not sure ?? 
         public List<ChatRoom> GetChatRooms()
         {

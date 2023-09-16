@@ -59,6 +59,11 @@ namespace MyChatServer
             return await _chatService.Login(username);
         }
 
+        public void RemoveChatRoom(string chatRoomName)
+        {
+            _chatService.RemoveChatRoom(chatRoomName);
+        }
+
         public void SendMessage(Message message)
         {
             throw new NotImplementedException();
