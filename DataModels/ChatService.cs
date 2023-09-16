@@ -143,36 +143,75 @@ namespace DataModels
             return chatRooms;
         }
 
-        public bool JoinChatRoom(string username, string roomName)
+        public void JoinChatRoom(User user, ChatRoom room)
         {
-            throw new NotImplementedException();
+            room.addUser(user);
         }
 
-        public bool LeaveChatRoom(string username, string roomName)
+        public void LeaveChatRoom(User user, string chatRoomName)
         {
-            throw new NotImplementedException();
+            foreach (ChatRoom room in chatRooms)
+            {
+                if (room.GetName().Equals(chatRoomName))
+                {
+                    room.removeUser(user);
+                    break;
+                }
+            }
         }
 
         // Message distribution methods
         public void SendMessage(Message message)
         {
-            throw new NotImplementedException();
+            string chatRoomName = message.getChatRoomName();
+            foreach (ChatRoom room in chatRooms)
+            {
+                if (room.GetName().Equals(chatRoomName))
+                {
+                    room.addMessage(message);
+                    break;
+                }
+            }
         }
 
         // Get updates methods
-        public IEnumerable<Message> GetMessageUpdates(string roomName, int lastMessageId)
+        public IEnumerable<Message> GetMessageUpdates(string chatRoomName, Message lastMessage)
         {
-            throw new NotImplementedException();
+            foreach (ChatRoom room in chatRooms)
+            {
+                if (room.GetName().Equals(chatRoomName))
+                {
+                    return room.getMessageUpdates(lastMessage);
+                }
+            }
+            // TODO need a fault exeption or something here
+            return null;
         }
 
-        public IEnumerable<ChatRoom> GetChatRoomUpdates(string username)
+        public IEnumerable<ChatRoom> GetChatRoomUpdates(User user)
         {
-            throw new NotImplementedException();
+            List<ChatRoom> allAllowedRooms = new List<ChatRoom>();
+            foreach (ChatRoom room in chatRooms)
+            {
+                if ((room.GetIsPublic()) || room.AmIAllowedIn(user))
+                {
+                    allAllowedRooms.Add(room);
+                }
+            }
+            return allAllowedRooms;
         }
 
         public IEnumerable<User> GetChatRoomUsers(string roomName)
         {
-            throw new NotImplementedException();
+            foreach (ChatRoom room in chatRooms)
+            {
+                if (room.GetName().Equals(roomName))
+                {
+                    return room.GetParticipants();
+                }
+            }
+            // TODO: throw exception
+            return null;
         }
     }
 }

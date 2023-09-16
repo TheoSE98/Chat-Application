@@ -18,9 +18,9 @@ namespace MyChatServer
             _chatService = new ChatService();
         }
 
-        public bool CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic)
+        public void CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic)
         {
-            return _chatService.CreateChatroom(chatRoomName, guestList, isPublic);
+            _chatService.CreateChatroom(chatRoomName, guestList, isPublic);
         }
 
         public List<ChatRoom> GenerateDefaultChatRooms(string username)
@@ -29,19 +29,19 @@ namespace MyChatServer
             return _chatService.GenerateDefaultChatRooms(username); //From here we call the ChatService 
         }
 
-        public IEnumerable<ChatRoom> GetChatRoomUpdates(string username)
+        public IEnumerable<ChatRoom> GetChatRoomUpdates(User user)
         {
-            throw new NotImplementedException();
+            return _chatService.GetChatRoomUpdates(user);
         }
 
         public IEnumerable<User> GetChatRoomUsers(string chatRoomName)
         {
-            throw new NotImplementedException();
+            return _chatService.GetChatRoomUsers(chatRoomName);
         }
 
-        public IEnumerable<Message> GetMessageUpdates(string username, int lastMessageId)
+        public IEnumerable<Message> GetMessageUpdates(string chatRoomName, Message lastMessage)
         {
-            throw new NotImplementedException();
+            return _chatService.GetMessageUpdates(chatRoomName, lastMessage);
         }
 
         public void JoinChatRoom(string username, string chatRoomName)
@@ -49,9 +49,9 @@ namespace MyChatServer
             throw new NotImplementedException();
         }
 
-        public void LeaveChatRoom(string username, string chatRoomName)
+        public void LeaveChatRoom(User user, string chatRoomName)
         {
-            throw new NotImplementedException();
+            _chatService.LeaveChatRoom(user, chatRoomName);
         }
 
         public async Task<bool> Login(string username)
@@ -66,7 +66,7 @@ namespace MyChatServer
 
         public void SendMessage(Message message)
         {
-            throw new NotImplementedException();
+            _chatService.SendMessage(message);
         }
 
     }
