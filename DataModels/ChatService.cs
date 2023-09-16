@@ -104,13 +104,14 @@ namespace DataModels
                 // Add the user to the default chat room
                 defaultRoom.AddParticipants(new List<User> { user });
 
+                // Add the default chat room to the main list of chat rooms
+                chatRooms.Add(defaultRoom);
+
                 // Add the default chat room to the list of default chat rooms
                 defaultChatRooms.Add(defaultRoom);
             }
 
-            chatRooms.AddRange(defaultChatRooms);
-
-            return defaultChatRooms; 
+            return defaultChatRooms;
         }
 
         // It doesnt say we need it but kinda makes sense to have it (Drops all users aswell from the room)

@@ -23,7 +23,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
+        
+        <TextBlock Text="COMP3008 Chat Application" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Foreground="#FFCC3800"/>
         <TextBox x:Name="usernameEntryBox" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Username" VerticalAlignment="Center" Width="120" Height="26">
             <TextBox.Background>
                 <SolidColorBrush Color="#F2F2F2"/>
