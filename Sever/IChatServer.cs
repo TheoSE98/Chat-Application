@@ -24,9 +24,9 @@ namespace MyChatServer
         [OperationContract]
         void JoinChatRoom(string username, string chatRoomName);
         [OperationContract]
-        void LeaveChatRoom(string username, string chatRoomName);
+
         [OperationContract]
-        void RemoveChatRoom(string chatRoomName);
+        void LeaveChatRoom(User user, string chatRoomName);
 
         //Message Distributed
         [OperationContract]
@@ -34,9 +34,9 @@ namespace MyChatServer
 
         //Get updates
         [OperationContract]
-        IEnumerable<Message> GetMessageUpdates(string username, int lastMessageId);
+        IEnumerable<Message> GetMessageUpdates(string chatroomName, Message lastMessage);
         [OperationContract]
-        IEnumerable<ChatRoom> GetChatRoomUpdates(string username);
+        IEnumerable<ChatRoom> GetChatRoomUpdates(User user);
         [OperationContract]
         IEnumerable<User> GetChatRoomUsers(string chatRoomName);
     }
