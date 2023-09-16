@@ -20,7 +20,7 @@ namespace MyChatServer
 
         //Chat Room Management
         [OperationContract]
-        void CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic);
+        bool CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic);
         [OperationContract]
         void JoinChatRoom(string username, string chatRoomName);
         [OperationContract]

@@ -1,6 +1,8 @@
 ﻿using DataModels;
+using MyChatServer;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,19 +24,22 @@ namespace ClientFinal
     public partial class HomePage : Page
     {
         private string username;
-        private List<ChatRoom> availableChatRooms;
+        private ObservableCollection<ChatRoom> ChatRooms { get; set; }
+        private IChatServer _chatServer;
 
-        public HomePage(string username, List<ChatRoom> chatRooms)
+        public HomePage(string username, List<ChatRoom> chatRooms, IChatServer chatServer)
         {
             InitializeComponent();
 
             this.username = username;
-            //usernameTextBlock.Text = username;
+            usernameTextBox.Text = username;
 
-            availableChatRooms = chatRooms;
+
+            ChatRooms = new ObservableCollection<ChatRoom>(chatRooms);
+            _chatServer = chatServer;
 
             //Bind the chat rooms to the ListView
-            chatRoomListView.ItemsSource = availableChatRooms;
+            chatRoomListView.ItemsSource = ChatRooms;
         }
 
         private void JoinChatRoom_Click(object sender, RoutedEventArgs e)
@@ -65,7 +70,30 @@ namespace ClientFinal
 
         private void CreateChatRoom_Click(object sender, RoutedEventArgs e)
         {
+            string roomName = newChatRoomTextBox.Text;
 
+            // Check if the room name is not empty
+            if (!string.IsNullOrEmpty(roomName))
+            {
+                // Call the server method to create the chat room
+                bool roomCreated =  _chatServer.CreateChatroom(roomName, new List<User>(), isPublic: true);
+
+                if (roomCreated)
+                {
+                    MessageBox.Show($"Chat room '{roomName}' created successfully.");
+
+                    var newChatRoom = new ChatRoom { Name = roomName, IsPublic = true };
+                    ChatRooms.Add(newChatRoom);
+                }
+                else
+                {
+                    MessageBox.Show($"Chat room '{roomName}' already exists.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please enter a chat room name.");
+            }
         }
     }
 }

@@ -55,7 +55,16 @@ namespace DataModels
         //Chat room management methods
         public bool CreateChatroom(string roomName, List<User> participants, bool isPublic)
         {
-            bool roomExists = chatRooms.Any(room => room.GetName() == roomName);
+            List<string> defaultRoomNames = new List<string>
+            {
+                "Default Room 1",
+                "Default Room 2",
+                "Default Room 3",
+                "Default Room 4",
+                "Default Room 5"
+            };
+
+            bool roomExists = chatRooms.Any(room => room.GetName() == roomName || defaultRoomNames.Contains(roomName));
 
             if (roomExists)
             {
@@ -63,12 +72,11 @@ namespace DataModels
             }
             else
             {
-                var newChatRoom = new ChatRoom 
-                { 
+                var newChatRoom = new ChatRoom
+                {
                     Name = roomName,
-                    IsPublic = isPublic 
+                    IsPublic = isPublic
                 };
-                    //(roomName, isPublic);
                 newChatRoom.AddParticipants(participants);
                 chatRooms.Add(newChatRoom);
 
@@ -80,6 +88,8 @@ namespace DataModels
 
         public List<ChatRoom> GenerateDefaultChatRooms(string username)
         {
+
+            List<ChatRoom> defaultChatRooms = new List<ChatRoom>();
 
             for (int i = 1; i <= 5; i++)
             {
@@ -94,11 +104,13 @@ namespace DataModels
                 // Add the user to the default chat room
                 defaultRoom.AddParticipants(new List<User> { user });
 
-                // Add the default chat room to the chatRooms list
-                chatRooms.Add(defaultRoom);
+                // Add the default chat room to the list of default chat rooms
+                defaultChatRooms.Add(defaultRoom);
             }
 
-            return chatRooms;
+            chatRooms.AddRange(defaultChatRooms);
+
+            return defaultChatRooms; 
         }
 
         //Like might need this not sure ?? 

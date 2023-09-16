@@ -18,9 +18,9 @@ namespace MyChatServer
             _chatService = new ChatService();
         }
 
-        public void CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic)
+        public bool CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic)
         {
-            throw new NotImplementedException();
+            return _chatService.CreateChatroom(chatRoomName, guestList, isPublic);
         }
 
         public List<ChatRoom> GenerateDefaultChatRooms(string username)

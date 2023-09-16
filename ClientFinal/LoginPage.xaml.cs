@@ -67,7 +67,7 @@ namespace ClientFinal
 
 
                     // Navigate to the home page and pass the username
-                    _mainWindow._mainFrame.NavigationService.Navigate(new HomePage(username, _availableChatRooms));
+                    _mainWindow._mainFrame.NavigationService.Navigate(new HomePage(username, _availableChatRooms, _chatServer));
                 }
                 else
                 {

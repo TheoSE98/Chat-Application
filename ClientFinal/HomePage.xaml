@@ -17,9 +17,10 @@
 
         <!-- Chat Rooms Column (Left Side) -->
         <DockPanel Grid.Column="0">
-            <TextBox Height="25" DockPanel.Dock="Top"  />
-            <Button Height="25" DockPanel.Dock="Top" Content="Log Off" Click="LogOff_Click" />
-            <Button Height="25" DockPanel.Dock="Top" Content="Join Room" Click="JoinChatRoom_Click" />
+
+            <TextBox x:Name="usernameTextBox" FontWeight="Bold" Height="25" DockPanel.Dock="Top" BorderBrush="Black" />
+            <Button FontWeight="Bold" Height="30" DockPanel.Dock="Top" Content="Log Off" Click="LogOff_Click" />
+            <Button FontWeight="Bold" Height="30" DockPanel.Dock="Top" Content="Join Room" Click="JoinChatRoom_Click" />
             <ListView Name="chatRoomListView" ItemsSource="{Binding ChatRooms}">
                 <ListView.View>
                     <GridView>
@@ -28,11 +29,11 @@
                 </ListView.View>
             </ListView>
         </DockPanel>
-        
+
         <!-- Messages Column (Right Side) -->
         <StackPanel Grid.Column="1">
             <StackPanel>
-                <TextBox Name="newChatRoomTextBox" Height="25"  />
+                <TextBox Name="newChatRoomTextBox" Height="25" TextAlignment="Center" Text="Enter Room Name" BorderBrush="Black"  />
                 <Button Content="Create Chat Room" Click="CreateChatRoom_Click" />
                 <Button Content="Remove Chat Room" Click="CreateChatRoom_Click" />
             </StackPanel>
@@ -46,8 +47,9 @@
                 </ListView.View>
             </ListView>
             <StackPanel Orientation="Horizontal">
-                <TextBox Name="messageTextBox" Height="60" Width="620" VerticalContentAlignment="Center"  />
-                <Button Width="80" Content="Send" Click="Send_Click" />
+                <TextBox Name="messageTextBox" Height="60" Width="540" VerticalContentAlignment="Center"  />
+                <Button FontWeight="Bold" Width="80" Content="Send" Click="Send_Click" Foreground="#FFE81313"/>
+                <Button FontWeight="Bold" Width="80" Content="Receive" Click="Send_Click" Foreground="#FF3DA228" />
             </StackPanel>
         </StackPanel>
     </Grid>
