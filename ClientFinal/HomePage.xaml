@@ -39,7 +39,7 @@
             <ListView Name="messageListView" Height="395" ItemsSource="{Binding CurrentMessages}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Sender" Width="80" DisplayMemberBinding="{Binding Sender.Username}" />
+                        <GridViewColumn Header="Sender" Width="80" DisplayMemberBinding="{Binding Sender}" />
                         <GridViewColumn Header="Message" Width="500" DisplayMemberBinding="{Binding Content}" />
                         <GridViewColumn Header="Time" Width="120" DisplayMemberBinding="{Binding Timestamp}" />
                     </GridView>

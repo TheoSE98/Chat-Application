@@ -30,5 +30,11 @@ namespace DataModels
         {
             return chatRooms;
         }
+
+        public override string ToString()
+        {
+            return username;
+        }
+
     }
 }
