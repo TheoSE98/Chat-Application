@@ -39,9 +39,9 @@ namespace MyChatServer
             return _chatService.GetChatRoomUsers(chatRoomName);
         }
 
-        public IEnumerable<Message> GetMessageUpdates(string chatRoomName, Message lastMessage)
+        public List<Message> GetMessageUpdates(string chatRoomName)
         {
-            return _chatService.GetMessageUpdates(chatRoomName, lastMessage);
+            return _chatService.GetMessageUpdates(chatRoomName);
         }
 
         public void JoinChatRoom(string username, string chatRoomName)

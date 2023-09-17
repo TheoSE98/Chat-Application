@@ -46,24 +46,10 @@ namespace DataModels
             this.messages.Add(message);
         }
 
-        // TODO this code is a bit weird, may have to rethink our approach, will have to test it out in practice
-        public IEnumerable<Message> getMessageUpdates(Message lastReceivedmessage)
+        // TODO update the interface or figure out a better method
+        public List<Message> getMessageUpdates()
         {
-            List<Message> messages = new List<Message>();
-            bool foundMessage = false;
-
-            foreach (Message message in this.messages)
-            { 
-                if (lastReceivedmessage == message)
-                {
-                    foundMessage = true;
-                }
-                if (foundMessage)
-                {
-                    messages.Add(message);
-                }
-            }
-
+            Console.WriteLine(messages);
             return messages;
         }
 

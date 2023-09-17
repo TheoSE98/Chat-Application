@@ -27,6 +27,9 @@ namespace ClientFinal
         private ObservableCollection<ChatRoom> ChatRooms { get; set; }
         private IChatServer _chatServer;
 
+        private List<Message> CurrentMessages { get; set; }
+        private ChatRoom CurrentChatRoom { get; set; }
+
         public HomePage(string username, List<ChatRoom> chatRooms, IChatServer chatServer)
         {
             InitializeComponent();
@@ -40,6 +43,7 @@ namespace ClientFinal
 
             //Bind the chat rooms to the ListView
             chatRoomListView.ItemsSource = ChatRooms;
+
         }
 
         private void JoinChatRoom_Click(object sender, RoutedEventArgs e)
@@ -48,9 +52,10 @@ namespace ClientFinal
             if (chatRoomListView.SelectedItem != null)
             {
                 //Get the selected chat room
-                ChatRoom selectedChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
+                //ChatRoom selectedChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
+                CurrentChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
 
-                MessageBox.Show($"Joined chat room: {selectedChatRoom.GetName()}");
+                MessageBox.Show($"Joined chat room: {CurrentChatRoom.GetName()}");
             }
             else
             {
@@ -139,6 +144,11 @@ namespace ClientFinal
             }
         }
 
+        private void Receive_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentMessages = _chatServer.GetMessageUpdates(CurrentChatRoom.Name);
+        }
+
         /*private void RemoveChatRoom_Click(object sender, RoutedEventArgs e)
         {
             if (chatRoomListView.SelectedItem != null)
@@ -163,6 +173,6 @@ namespace ClientFinal
             }
         }*/
 
- 
+
     }
 }
