@@ -26,8 +26,11 @@ namespace ClientFinal
         private string username;
         private ObservableCollection<ChatRoom> ChatRooms { get; set; }
         private IChatServer _chatServer;
+        private User user { get; set; }
 
-        private List<Message> CurrentMessages { get; set; }
+        //Working here 
+        private ObservableCollection<Message> CurrentMessages { get; set; }
+
         private ChatRoom CurrentChatRoom { get; set; }
 
         public HomePage(string username, List<ChatRoom> chatRooms, IChatServer chatServer)
@@ -37,8 +40,10 @@ namespace ClientFinal
             this.username = username;
             usernameTextBox.Text = username;
 
+            user = new User(usernameTextBox.Text);
 
             ChatRooms = new ObservableCollection<ChatRoom>(chatRooms);
+
             _chatServer = chatServer;
 
             //Bind the chat rooms to the ListView
@@ -85,7 +90,7 @@ namespace ClientFinal
                         // Create a message object
                         Message message = new Message
                         {
-                            Sender = new User(username), // Assuming Sender is of type User
+                            Sender = user,
                             Content = messageContent,
                             Timestamp = DateTime.Now,
                             ChatRoomName = selectedChatRoom.Name
@@ -146,33 +151,13 @@ namespace ClientFinal
 
         private void Receive_Click(object sender, RoutedEventArgs e)
         {
-            CurrentMessages = _chatServer.GetMessageUpdates(CurrentChatRoom.Name);
+            CurrentMessages = new ObservableCollection<Message>(_chatServer.GetMessageUpdates(CurrentChatRoom.Name));
+
+            messageListView.ItemsSource = CurrentMessages;
+
+            messageListView.Items.Refresh();
+
         }
-
-        /*private void RemoveChatRoom_Click(object sender, RoutedEventArgs e)
-        {
-            if (chatRoomListView.SelectedItem != null)
-            {
-                // Get the selected chat room
-                ChatRoom selectedChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
-
-                // Call the server to remove the chat room
-                _chatServer.RemoveChatRoom(selectedChatRoom.Name);
-
-                // Remove the selected chat room from the list of available chat rooms on the client side
-                ChatRooms.Remove(selectedChatRoom);
-
-                // Refresh the chat room list view to reflect the changes
-                chatRoomListView.Items.Refresh();
-
-                MessageBox.Show($"Chat room '{selectedChatRoom.Name}' removed.");
-            }
-            else
-            {
-                MessageBox.Show("Please select a chat room to remove.");
-            }
-        }*/
-
 
     }
 }
