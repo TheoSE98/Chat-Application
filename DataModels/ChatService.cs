@@ -114,29 +114,6 @@ namespace DataModels
             return defaultChatRooms;
         }
 
-        // It doesnt say we need it but kinda makes sense to have it (Drops all users aswell from the room)
-        // I might be missing some logic so feel free to refactor it....
-        public bool RemoveChatRoom(string roomName)
-        {
-            var chatRoomToRemove = chatRooms.FirstOrDefault(room => room.GetName() == roomName);
-
-            if (chatRoomToRemove != null)
-            {
-            
-                chatRooms.Remove(chatRoomToRemove);
-
-                // Remove all participants from the chat room -> Hopefully my thinking is ok here 
-                chatRoomToRemove.RemoveAllParticipants();
-
-                Console.WriteLine($"Chat room '{roomName}' removed successfully.");
-            }
-            else
-            {
-                Console.WriteLine($"Chat room '{roomName}' not found. Removal failed.");
-            }
-
-            return chatRoomToRemove != null;
-        }
 
         //Like might need this not sure ?? 
         public List<ChatRoom> GetChatRooms()
@@ -164,7 +141,9 @@ namespace DataModels
         // Message distribution methods
         public void SendMessage(Message message)
         {
-            string chatRoomName = message.getChatRoomName();
+            //This works really well but we can you LINQ for faster look up 
+
+            /*string chatRoomName = message.getChatRoomName();
             foreach (ChatRoom room in chatRooms)
             {
                 if (room.GetName().Equals(chatRoomName))
@@ -172,6 +151,20 @@ namespace DataModels
                     room.addMessage(message);
                     break;
                 }
+            }*/
+            string chatRoomName = message.getChatRoomName();
+
+            // Use a dictionary for faster lookup if you have many chat rooms
+            ChatRoom targetChatRoom = chatRooms.FirstOrDefault(room => room.GetName().Equals(chatRoomName));
+
+            if (targetChatRoom != null)
+            {
+                targetChatRoom.addMessage(message);
+            }
+            else
+            {
+                // Ideally throw some form of FaultException 
+                Console.WriteLine($"Chat room '{chatRoomName}' not found. Message not sent.");
             }
         }
 

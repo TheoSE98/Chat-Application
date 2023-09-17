@@ -50,22 +50,9 @@ namespace ClientFinal
                 loginProgressBar.Visibility = Visibility.Collapsed;
 
                 if (isUnique)
-                {
-                    // If the user if authenticated then we must generate some default chat rooms that a user can join when they first login
-                    //This way all users can choose a room out of say 5 room and start talking to other users
-                    //This is fucked i need a break. 
-
-                    //try
-                    //{
-                        _availableChatRooms = _chatServer.GenerateDefaultChatRooms(username); // -> This will call server 
-                    //Console.WriteLine($"Number of available chat rooms: {_availableChatRooms.Count}");
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //Console.WriteLine(ex.Message);
-                    //}
-
-
+                {             
+                    _availableChatRooms = _chatServer.GenerateDefaultChatRooms(username); // -> This will call server 
+        
                     // Navigate to the home page and pass the username
                     _mainWindow._mainFrame.NavigationService.Navigate(new HomePage(username, _availableChatRooms, _chatServer));
                 }

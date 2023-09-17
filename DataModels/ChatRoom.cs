@@ -12,10 +12,13 @@ namespace DataModels
     {
         [DataMember]
         public string Name { get; set; }
+        [DataMember]
         private List<User> participants;
+        [DataMember]
         private List<Message> messages;
         [DataMember]
         public bool IsPublic { get; set; }
+        [DataMember]
         private List<User> guestList;
 
         public ChatRoom()
