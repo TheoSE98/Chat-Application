@@ -65,7 +65,50 @@ namespace ClientFinal
 
         private void Send_Click(object sender, RoutedEventArgs e)
         {
+            if (chatRoomListView.SelectedItem != null)
+            {
+                // Get the selected chat room
+                ChatRoom selectedChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
 
+                // Check if the user has selected a chat room
+                if (selectedChatRoom != null)
+                {
+                    string messageContent = messageTextBox.Text;
+
+                    if (!string.IsNullOrEmpty(messageContent))
+                    {
+                        // Create a message object
+                        Message message = new Message
+                        {
+                            Sender = new User(username), // Assuming Sender is of type User
+                            Content = messageContent,
+                            Timestamp = DateTime.Now,
+                            ChatRoomName = selectedChatRoom.Name
+                        };
+
+                        selectedChatRoom.GetMessages().Add(message);
+                        // Send the message to the server
+                        
+
+                        // Clear the message text box
+                        messageTextBox.Clear();
+
+                        _chatServer.SendMessage(message);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Please enter a message.");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please select a chat room to send a message.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a chat room to send a message.");
+            }
         }
 
         private void CreateChatRoom_Click(object sender, RoutedEventArgs e)

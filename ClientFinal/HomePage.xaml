@@ -5,8 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ClientFinal"
       mc:Ignorable="d" 
-      d:DesignHeight="520" d:DesignWidth="900"
-      Width="900" Height="520"
+      d:DesignHeight="574" d:DesignWidth="900"
+     
       Title="HomePage">
 
     <Grid>
@@ -39,14 +39,14 @@
             <ListView Name="messageListView" Height="395" ItemsSource="{Binding SelectedChatRoom.Messages}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Sender" Width="80" DisplayMemberBinding="{Binding Sender}" />
-                        <GridViewColumn Header="Message" Width="520" DisplayMemberBinding="{Binding Content}" />
-                        <GridViewColumn Header="Time" Width="100" DisplayMemberBinding="{Binding Time}" />
+                        <GridViewColumn Header="Sender" Width="80" DisplayMemberBinding="{Binding Sender.Username}" />
+                        <GridViewColumn Header="Message" Width="500" DisplayMemberBinding="{Binding Content}" />
+                        <GridViewColumn Header="Time" Width="120" DisplayMemberBinding="{Binding Timestamp}" />
                     </GridView>
                 </ListView.View>
             </ListView>
             <StackPanel Orientation="Horizontal">
-                <TextBox Name="messageTextBox" Height="79" Width="540" VerticalContentAlignment="Center"  />
+                <TextBox Name="messageTextBox" Height="79" Width="535" VerticalContentAlignment="Center"  />
                 <Button FontWeight="Bold" Width="80" Content="Send" Click="Send_Click" Foreground="#FFE81313"/>
                 <Button FontWeight="Bold" Width="80" Content="Receive" Click="Send_Click" Foreground="#FF3DA228" />
             </StackPanel>
