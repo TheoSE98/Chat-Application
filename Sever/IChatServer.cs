@@ -32,7 +32,7 @@ namespace MyChatServer
 
         //Get updates
         [OperationContract]
-        IEnumerable<Message> GetMessageUpdates(string chatroomName, Message lastMessage);
+        List<Message> GetMessageUpdates(string chatroomName);
         [OperationContract]
         IEnumerable<ChatRoom> GetChatRoomUpdates(User user);
         [OperationContract]

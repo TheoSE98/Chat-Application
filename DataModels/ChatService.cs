@@ -160,6 +160,7 @@ namespace DataModels
             if (targetChatRoom != null)
             {
                 targetChatRoom.addMessage(message);
+                Console.WriteLine("Added message: " + message.getContent().ToString());
             }
             else
             {
@@ -169,15 +170,16 @@ namespace DataModels
         }
 
         // Get updates methods
-        public IEnumerable<Message> GetMessageUpdates(string chatRoomName, Message lastMessage)
+        public List<Message> GetMessageUpdates(string chatRoomName)
         {
             foreach (ChatRoom room in chatRooms)
             {
                 if (room.GetName().Equals(chatRoomName))
                 {
-                    return room.getMessageUpdates(lastMessage);
+                    return room.getMessageUpdates();
                 }
             }
+            Console.WriteLine("ERROR: Couldn't find the chatroom");
             // TODO need a fault exeption or something here
             return null;
         }

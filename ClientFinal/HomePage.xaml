@@ -36,7 +36,7 @@
                 <TextBox Name="newChatRoomTextBox" Height="25" TextAlignment="Center" Text="Enter Room Name" BorderBrush="Black"  />
                 <Button Content="Create Chat Room" Click="CreateChatRoom_Click" />
             </StackPanel>
-            <ListView Name="messageListView" Height="395" ItemsSource="{Binding SelectedChatRoom.Messages}">
+            <ListView Name="messageListView" Height="395" ItemsSource="{Binding CurrentMessages}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Sender" Width="80" DisplayMemberBinding="{Binding Sender.Username}" />
@@ -48,7 +48,7 @@
             <StackPanel Orientation="Horizontal">
                 <TextBox Name="messageTextBox" Height="79" Width="535" VerticalContentAlignment="Center"  />
                 <Button FontWeight="Bold" Width="80" Content="Send" Click="Send_Click" Foreground="#FFE81313"/>
-                <Button FontWeight="Bold" Width="80" Content="Receive" Click="Send_Click" Foreground="#FF3DA228" />
+                <Button FontWeight="Bold" Width="80" Content="Receive" Foreground="#FF3DA228" Click="Receive_Click" />
             </StackPanel>
         </StackPanel>
     </Grid>

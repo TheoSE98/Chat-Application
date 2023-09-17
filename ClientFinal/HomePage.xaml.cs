@@ -26,6 +26,12 @@ namespace ClientFinal
         private string username;
         private ObservableCollection<ChatRoom> ChatRooms { get; set; }
         private IChatServer _chatServer;
+        private User user { get; set; }
+
+        //Working here 
+        private ObservableCollection<Message> CurrentMessages { get; set; }
+
+        private ChatRoom CurrentChatRoom { get; set; }
 
         public HomePage(string username, List<ChatRoom> chatRooms, IChatServer chatServer)
         {
@@ -34,12 +40,15 @@ namespace ClientFinal
             this.username = username;
             usernameTextBox.Text = username;
 
+            user = new User(usernameTextBox.Text);
 
             ChatRooms = new ObservableCollection<ChatRoom>(chatRooms);
+
             _chatServer = chatServer;
 
             //Bind the chat rooms to the ListView
             chatRoomListView.ItemsSource = ChatRooms;
+
         }
 
         private void JoinChatRoom_Click(object sender, RoutedEventArgs e)
@@ -48,9 +57,10 @@ namespace ClientFinal
             if (chatRoomListView.SelectedItem != null)
             {
                 //Get the selected chat room
-                ChatRoom selectedChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
+                //ChatRoom selectedChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
+                CurrentChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
 
-                MessageBox.Show($"Joined chat room: {selectedChatRoom.GetName()}");
+                MessageBox.Show($"Joined chat room: {CurrentChatRoom.GetName()}");
             }
             else
             {
@@ -80,7 +90,7 @@ namespace ClientFinal
                         // Create a message object
                         Message message = new Message
                         {
-                            Sender = new User(username), // Assuming Sender is of type User
+                            Sender = user,
                             Content = messageContent,
                             Timestamp = DateTime.Now,
                             ChatRoomName = selectedChatRoom.Name
@@ -139,30 +149,15 @@ namespace ClientFinal
             }
         }
 
-        /*private void RemoveChatRoom_Click(object sender, RoutedEventArgs e)
+        private void Receive_Click(object sender, RoutedEventArgs e)
         {
-            if (chatRoomListView.SelectedItem != null)
-            {
-                // Get the selected chat room
-                ChatRoom selectedChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
+            CurrentMessages = new ObservableCollection<Message>(_chatServer.GetMessageUpdates(CurrentChatRoom.Name));
 
-                // Call the server to remove the chat room
-                _chatServer.RemoveChatRoom(selectedChatRoom.Name);
+            messageListView.ItemsSource = CurrentMessages;
 
-                // Remove the selected chat room from the list of available chat rooms on the client side
-                ChatRooms.Remove(selectedChatRoom);
+            messageListView.Items.Refresh();
 
-                // Refresh the chat room list view to reflect the changes
-                chatRoomListView.Items.Refresh();
+        }
 
-                MessageBox.Show($"Chat room '{selectedChatRoom.Name}' removed.");
-            }
-            else
-            {
-                MessageBox.Show("Please select a chat room to remove.");
-            }
-        }*/
-
- 
     }
 }
