@@ -60,6 +60,8 @@ namespace ClientFinal
                 //ChatRoom selectedChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
                 CurrentChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
 
+                _chatServer.JoinChatRoom(user, CurrentChatRoom.GetName());
+
                 MessageBox.Show($"Joined chat room: {CurrentChatRoom.GetName()}");
             }
             else

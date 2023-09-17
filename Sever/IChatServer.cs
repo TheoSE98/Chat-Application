@@ -22,7 +22,7 @@ namespace MyChatServer
         [OperationContract]
         bool CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic);
         [OperationContract]
-        void JoinChatRoom(string username, string chatRoomName);
+        void JoinChatRoom(User user, string chatRoomName);
         [OperationContract]
         void LeaveChatRoom(User user, string chatRoomName);
 

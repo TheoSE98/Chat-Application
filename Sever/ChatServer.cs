@@ -44,9 +44,9 @@ namespace MyChatServer
             return _chatService.GetMessageUpdates(chatRoomName);
         }
 
-        public void JoinChatRoom(string username, string chatRoomName)
+        public void JoinChatRoom(User user, string chatRoomName)
         {
-            throw new NotImplementedException();
+            _chatService.JoinChatRoom(user, chatRoomName);
         }
 
         public void LeaveChatRoom(User user, string chatRoomName)

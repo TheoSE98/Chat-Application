@@ -49,7 +49,18 @@ namespace DataModels
         // TODO update the interface or figure out a better method
         public List<Message> getMessageUpdates()
         {
-            Console.WriteLine(messages);
+
+            Console.WriteLine("Users in the chatroom are: ");
+            foreach (User user in participants)
+            {
+                Console.WriteLine(user);
+            }
+
+            Console.WriteLine("Messages in the chatroom are:");
+            foreach (Message message in messages)
+            {
+                Console.WriteLine(message.Content.ToString());
+            }
             return messages;
         }
 

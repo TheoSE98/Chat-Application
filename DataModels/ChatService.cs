@@ -121,9 +121,16 @@ namespace DataModels
             return chatRooms;
         }
 
-        public void JoinChatRoom(User user, ChatRoom room)
+        public void JoinChatRoom(User user, string chatRoomName)
         {
-            room.addUser(user);
+            foreach (ChatRoom room in chatRooms)
+            {
+                if (room.GetName().Equals(chatRoomName))
+                {
+                    room.addUser(user);
+                    break;
+                }
+            }
         }
 
         public void LeaveChatRoom(User user, string chatRoomName)
@@ -176,6 +183,7 @@ namespace DataModels
             {
                 if (room.GetName().Equals(chatRoomName))
                 {
+                    Console.WriteLine("Getting updates for charoom " + chatRoomName);
                     return room.getMessageUpdates();
                 }
             }
