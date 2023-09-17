@@ -16,6 +16,8 @@ namespace DataModels
         {
             users = new List<User>();
             chatRooms = new List<ChatRoom>();
+            GenerateDefaultChatRooms();
+
         }
 
         public async Task<bool> Login(string username)
@@ -86,7 +88,7 @@ namespace DataModels
             return !roomExists;
         }
 
-        public List<ChatRoom> GenerateDefaultChatRooms(string username)
+        public List<ChatRoom> GenerateDefaultChatRooms()
         {
 
             List<ChatRoom> defaultChatRooms = new List<ChatRoom>();
@@ -99,10 +101,10 @@ namespace DataModels
                     IsPublic = true
                 };
 
-                User user = new User(username);
+                //User user = new User(username);
 
                 // Add the user to the default chat room
-                defaultRoom.AddParticipants(new List<User> { user });
+                //defaultRoom.AddParticipants(new List<User> { user });
 
                 // Add the default chat room to the main list of chat rooms
                 chatRooms.Add(defaultRoom);

@@ -33,7 +33,7 @@ namespace ClientFinal
 
         private ChatRoom CurrentChatRoom { get; set; }
 
-        public HomePage(string username, List<ChatRoom> chatRooms, IChatServer chatServer)
+        public HomePage(string username, IChatServer chatServer)
         {
             InitializeComponent();
 
@@ -42,7 +42,7 @@ namespace ClientFinal
 
             user = new User(usernameTextBox.Text);
 
-            ChatRooms = new ObservableCollection<ChatRoom>(chatRooms);
+            ChatRooms = new ObservableCollection<ChatRoom>(chatServer.GetChatRooms());
 
             _chatServer = chatServer;
 

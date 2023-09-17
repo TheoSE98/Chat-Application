@@ -26,7 +26,8 @@ namespace MyChatServer
         public List<ChatRoom> GenerateDefaultChatRooms(string username)
         {
             // Call the corresponding method in the ChatServer
-            return _chatService.GenerateDefaultChatRooms(username); //From here we call the ChatService 
+            //return _chatService.GenerateDefaultChatRooms(username); //From here we call the ChatService 
+            return _chatService.GenerateDefaultChatRooms(); //From here we call the ChatService
         }
 
         public IEnumerable<ChatRoom> GetChatRoomUpdates(User user)
@@ -68,6 +69,11 @@ namespace MyChatServer
         public void SendMessage(Message message)
         {
             _chatService.SendMessage(message);
+        }
+
+        public List<ChatRoom> GetChatRooms()
+        {
+            return _chatService.GetChatRooms();
         }
 
     }

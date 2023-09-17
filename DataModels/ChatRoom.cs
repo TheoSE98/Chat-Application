@@ -157,7 +157,7 @@ namespace DataModels
         public void AddParticipants(List<User> users)
         {
             participants.AddRange(users);
-            //DEBUGGING 
+            //DEBUGGING
             Console.WriteLine($"Participants added to chat room '{Name}': {string.Join(", ", users.Select(user => user.GetUsername()))}");
         }
         public void RemoveAllParticipants()
