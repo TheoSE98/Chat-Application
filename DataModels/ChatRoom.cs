@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,8 @@ namespace DataModels
         public bool IsPublic { get; set; }
         [DataMember]
         private List<User> guestList;
+        [DataMember]
+        public int RandomInt { get; set; }
 
         public ChatRoom()
         {
@@ -28,6 +31,8 @@ namespace DataModels
             participants = new List<User>();
             messages = new List<Message>();
             guestList = new List<User>();
+            Random rnd = new Random();
+            RandomInt = rnd.Next(10000);
         }
 
         public string GetName()

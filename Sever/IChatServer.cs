@@ -39,5 +39,7 @@ namespace MyChatServer
         IEnumerable<User> GetChatRoomUsers(string chatRoomName);
         [OperationContract]
         List<ChatRoom> GetChatRooms(); // TODO: should we pass in the username to verify identity?
+        [OperationContract]
+        int GetRandomInt();
     }
 }

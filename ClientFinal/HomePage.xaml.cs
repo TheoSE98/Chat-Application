@@ -49,6 +49,8 @@ namespace ClientFinal
             //Bind the chat rooms to the ListView
             chatRoomListView.ItemsSource = ChatRooms;
 
+            Console.WriteLine("In constructor, chatserver " + _chatServer.GetRandomInt());
+
         }
 
         private void JoinChatRoom_Click(object sender, RoutedEventArgs e)
@@ -60,7 +62,8 @@ namespace ClientFinal
                 //ChatRoom selectedChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
                 CurrentChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
 
-                Console.WriteLine(CurrentChatRoom.GetHashCode());
+                Console.WriteLine(CurrentChatRoom.RandomInt);
+                Console.WriteLine("Joining using chatserver " + _chatServer.GetRandomInt());
 
                 _chatServer.JoinChatRoom(user, CurrentChatRoom.GetName());
 

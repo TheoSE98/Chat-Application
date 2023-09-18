@@ -11,11 +11,15 @@ namespace MyChatServer
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
     public class ChatServer : IChatServer
     {
+        public int randomInt { get; set; }
+
         private ChatService _chatService;
 
         public ChatServer() 
         {
             _chatService = new ChatService();
+            Random random = new Random();
+            randomInt = random.Next(10000);
         }
 
         public bool CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic)
@@ -74,6 +78,11 @@ namespace MyChatServer
         public List<ChatRoom> GetChatRooms()
         {
             return _chatService.GetChatRooms();
+        }
+
+        public int GetRandomInt()
+        {
+            return randomInt;
         }
 
     }
