@@ -8,14 +8,18 @@ using System.Threading.Tasks;
 
 namespace MyChatServer
 {
-    [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
     public class ChatServer : IChatServer
     {
+        public int randomInt { get; set; }
+
         private ChatService _chatService;
 
         public ChatServer() 
         {
             _chatService = new ChatService();
+            Random random = new Random();
+            randomInt = random.Next(10000);
         }
 
         public bool CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic)
@@ -26,7 +30,8 @@ namespace MyChatServer
         public List<ChatRoom> GenerateDefaultChatRooms(string username)
         {
             // Call the corresponding method in the ChatServer
-            return _chatService.GenerateDefaultChatRooms(username); //From here we call the ChatService 
+            //return _chatService.GenerateDefaultChatRooms(username); //From here we call the ChatService 
+            return _chatService.GenerateDefaultChatRooms(); //From here we call the ChatService
         }
 
         public IEnumerable<ChatRoom> GetChatRoomUpdates(User user)
@@ -44,9 +49,9 @@ namespace MyChatServer
             return _chatService.GetMessageUpdates(chatRoomName);
         }
 
-        public void JoinChatRoom(string username, string chatRoomName)
+        public void JoinChatRoom(User user, string chatRoomName)
         {
-            throw new NotImplementedException();
+            _chatService.JoinChatRoom(user, chatRoomName);
         }
 
         public void LeaveChatRoom(User user, string chatRoomName)
@@ -68,6 +73,16 @@ namespace MyChatServer
         public void SendMessage(Message message)
         {
             _chatService.SendMessage(message);
+        }
+
+        public List<ChatRoom> GetChatRooms()
+        {
+            return _chatService.GetChatRooms();
+        }
+
+        public int GetRandomInt()
+        {
+            return randomInt;
         }
 
     }

@@ -16,6 +16,8 @@ namespace DataModels
         {
             users = new List<User>();
             chatRooms = new List<ChatRoom>();
+            GenerateDefaultChatRooms();
+
         }
 
         public async Task<bool> Login(string username)
@@ -86,7 +88,7 @@ namespace DataModels
             return !roomExists;
         }
 
-        public List<ChatRoom> GenerateDefaultChatRooms(string username)
+        public List<ChatRoom> GenerateDefaultChatRooms()
         {
 
             List<ChatRoom> defaultChatRooms = new List<ChatRoom>();
@@ -99,10 +101,10 @@ namespace DataModels
                     IsPublic = true
                 };
 
-                User user = new User(username);
+                //User user = new User(username);
 
                 // Add the user to the default chat room
-                defaultRoom.AddParticipants(new List<User> { user });
+                //defaultRoom.AddParticipants(new List<User> { user });
 
                 // Add the default chat room to the main list of chat rooms
                 chatRooms.Add(defaultRoom);
@@ -121,9 +123,16 @@ namespace DataModels
             return chatRooms;
         }
 
-        public void JoinChatRoom(User user, ChatRoom room)
+        public void JoinChatRoom(User user, string chatRoomName)
         {
-            room.addUser(user);
+            foreach (ChatRoom room in chatRooms)
+            {
+                if (room.GetName().Equals(chatRoomName))
+                {
+                    room.addUser(user);
+                    break;
+                }
+            }
         }
 
         public void LeaveChatRoom(User user, string chatRoomName)
@@ -152,7 +161,9 @@ namespace DataModels
                     break;
                 }
             }*/
+            
             string chatRoomName = message.getChatRoomName();
+            Console.WriteLine("we are looking up " + chatRoomName);
 
             // Use a dictionary for faster lookup if you have many chat rooms
             ChatRoom targetChatRoom = chatRooms.FirstOrDefault(room => room.GetName().Equals(chatRoomName));
@@ -176,6 +187,7 @@ namespace DataModels
             {
                 if (room.GetName().Equals(chatRoomName))
                 {
+                    Console.WriteLine("Getting updates for charoom " + chatRoomName);
                     return room.getMessageUpdates();
                 }
             }

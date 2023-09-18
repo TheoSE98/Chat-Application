@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,8 @@ namespace DataModels
         public bool IsPublic { get; set; }
         [DataMember]
         private List<User> guestList;
+        [DataMember]
+        public int RandomInt { get; set; }
 
         public ChatRoom()
         {
@@ -28,6 +31,8 @@ namespace DataModels
             participants = new List<User>();
             messages = new List<Message>();
             guestList = new List<User>();
+            Random rnd = new Random();
+            RandomInt = rnd.Next(10000);
         }
 
         public string GetName()
@@ -49,7 +54,18 @@ namespace DataModels
         // TODO update the interface or figure out a better method
         public List<Message> getMessageUpdates()
         {
-            Console.WriteLine(messages);
+
+            Console.WriteLine("Users in the chatroom are: ");
+            foreach (User user in participants)
+            {
+                Console.WriteLine(user);
+            }
+
+            Console.WriteLine("Messages in the chatroom are:");
+            foreach (Message message in messages)
+            {
+                Console.WriteLine(message.Content.ToString());
+            }
             return messages;
         }
 
@@ -146,7 +162,7 @@ namespace DataModels
         public void AddParticipants(List<User> users)
         {
             participants.AddRange(users);
-            //DEBUGGING 
+            //DEBUGGING
             Console.WriteLine($"Participants added to chat room '{Name}': {string.Join(", ", users.Select(user => user.GetUsername()))}");
         }
         public void RemoveAllParticipants()

@@ -50,11 +50,12 @@ namespace ClientFinal
                 loginProgressBar.Visibility = Visibility.Collapsed;
 
                 if (isUnique)
-                {             
-                    _availableChatRooms = _chatServer.GenerateDefaultChatRooms(username); // -> This will call server 
+                {
+                    // removed this line to make it create it on startup
+                    //_availableChatRooms = _chatServer.GenerateDefaultChatRooms(username); // -> This will call server 
         
                     // Navigate to the home page and pass the username
-                    _mainWindow._mainFrame.NavigationService.Navigate(new HomePage(username, _availableChatRooms, _chatServer));
+                    _mainWindow._mainFrame.NavigationService.Navigate(new HomePage(username, _chatServer));
                 }
                 else
                 {

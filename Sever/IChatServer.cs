@@ -22,7 +22,7 @@ namespace MyChatServer
         [OperationContract]
         bool CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic);
         [OperationContract]
-        void JoinChatRoom(string username, string chatRoomName);
+        void JoinChatRoom(User user, string chatRoomName);
         [OperationContract]
         void LeaveChatRoom(User user, string chatRoomName);
 
@@ -37,5 +37,9 @@ namespace MyChatServer
         IEnumerable<ChatRoom> GetChatRoomUpdates(User user);
         [OperationContract]
         IEnumerable<User> GetChatRoomUsers(string chatRoomName);
+        [OperationContract]
+        List<ChatRoom> GetChatRooms(); // TODO: should we pass in the username to verify identity?
+        [OperationContract]
+        int GetRandomInt();
     }
 }

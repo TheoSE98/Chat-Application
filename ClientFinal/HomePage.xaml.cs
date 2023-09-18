@@ -33,7 +33,7 @@ namespace ClientFinal
 
         private ChatRoom CurrentChatRoom { get; set; }
 
-        public HomePage(string username, List<ChatRoom> chatRooms, IChatServer chatServer)
+        public HomePage(string username, IChatServer chatServer)
         {
             InitializeComponent();
 
@@ -42,12 +42,14 @@ namespace ClientFinal
 
             user = new User(usernameTextBox.Text);
 
-            ChatRooms = new ObservableCollection<ChatRoom>(chatRooms);
+            ChatRooms = new ObservableCollection<ChatRoom>(chatServer.GetChatRooms());
 
             _chatServer = chatServer;
 
             //Bind the chat rooms to the ListView
             chatRoomListView.ItemsSource = ChatRooms;
+
+            Console.WriteLine("In constructor, chatserver " + _chatServer.GetRandomInt());
 
         }
 
@@ -59,6 +61,11 @@ namespace ClientFinal
                 //Get the selected chat room
                 //ChatRoom selectedChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
                 CurrentChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
+
+                Console.WriteLine(CurrentChatRoom.RandomInt);
+                Console.WriteLine("Joining using chatserver " + _chatServer.GetRandomInt());
+
+                _chatServer.JoinChatRoom(user, CurrentChatRoom.GetName());
 
                 MessageBox.Show($"Joined chat room: {CurrentChatRoom.GetName()}");
             }
@@ -78,10 +85,10 @@ namespace ClientFinal
             if (chatRoomListView.SelectedItem != null)
             {
                 // Get the selected chat room
-                ChatRoom selectedChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
+                //ChatRoom selectedChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
 
                 // Check if the user has selected a chat room
-                if (selectedChatRoom != null)
+                if (CurrentChatRoom != null)
                 {
                     string messageContent = messageTextBox.Text;
 
@@ -93,10 +100,10 @@ namespace ClientFinal
                             Sender = user,
                             Content = messageContent,
                             Timestamp = DateTime.Now,
-                            ChatRoomName = selectedChatRoom.Name
+                            ChatRoomName = CurrentChatRoom.Name
                         };
 
-                        selectedChatRoom.GetMessages().Add(message);
+                        //selectedChatRoom.GetMessages().Add(message);
                         // Send the message to the server
                         
 
@@ -151,7 +158,9 @@ namespace ClientFinal
 
         private void Receive_Click(object sender, RoutedEventArgs e)
         {
+            // is the chatroom needing to be updated itself? or something
             CurrentMessages = new ObservableCollection<Message>(_chatServer.GetMessageUpdates(CurrentChatRoom.Name));
+            Console.WriteLine("WE have received " + CurrentMessages.Count + " new messages from the server");
 
             messageListView.ItemsSource = CurrentMessages;
 
