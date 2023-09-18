@@ -161,7 +161,9 @@ namespace DataModels
                     break;
                 }
             }*/
+            
             string chatRoomName = message.getChatRoomName();
+            Console.WriteLine("we are looking up " + chatRoomName);
 
             // Use a dictionary for faster lookup if you have many chat rooms
             ChatRoom targetChatRoom = chatRooms.FirstOrDefault(room => room.GetName().Equals(chatRoomName));

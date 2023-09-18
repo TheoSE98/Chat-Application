@@ -60,6 +60,8 @@ namespace ClientFinal
                 //ChatRoom selectedChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
                 CurrentChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
 
+                Console.WriteLine(CurrentChatRoom.GetHashCode());
+
                 _chatServer.JoinChatRoom(user, CurrentChatRoom.GetName());
 
                 MessageBox.Show($"Joined chat room: {CurrentChatRoom.GetName()}");
@@ -80,10 +82,10 @@ namespace ClientFinal
             if (chatRoomListView.SelectedItem != null)
             {
                 // Get the selected chat room
-                ChatRoom selectedChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
+                //ChatRoom selectedChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
 
                 // Check if the user has selected a chat room
-                if (selectedChatRoom != null)
+                if (CurrentChatRoom != null)
                 {
                     string messageContent = messageTextBox.Text;
 
@@ -95,10 +97,10 @@ namespace ClientFinal
                             Sender = user,
                             Content = messageContent,
                             Timestamp = DateTime.Now,
-                            ChatRoomName = selectedChatRoom.Name
+                            ChatRoomName = CurrentChatRoom.Name
                         };
 
-                        selectedChatRoom.GetMessages().Add(message);
+                        //selectedChatRoom.GetMessages().Add(message);
                         // Send the message to the server
                         
 
@@ -153,7 +155,9 @@ namespace ClientFinal
 
         private void Receive_Click(object sender, RoutedEventArgs e)
         {
+            // is the chatroom needing to be updated itself? or something
             CurrentMessages = new ObservableCollection<Message>(_chatServer.GetMessageUpdates(CurrentChatRoom.Name));
+            Console.WriteLine("WE have received " + CurrentMessages.Count + " new messages from the server");
 
             messageListView.ItemsSource = CurrentMessages;
 
