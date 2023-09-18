@@ -108,9 +108,13 @@ namespace ClientFinal
                         
 
                         // Clear the message text box
-                        messageTextBox.Clear();
+                        
 
                         _chatServer.SendMessage(message);
+
+                        messageTextBox.Clear();
+
+                        RefreshMessages(CurrentChatRoom.Name);
                     }
                     else
                     {
@@ -158,6 +162,19 @@ namespace ClientFinal
 
         private void Receive_Click(object sender, RoutedEventArgs e)
         {
+            if(CurrentChatRoom != null)
+            {
+                RefreshMessages(CurrentChatRoom.Name);
+            }
+            else 
+            {
+                MessageBox.Show("Please select a chat room to receive messages");
+            }
+
+        }
+
+        private void RefreshMessages(string chatRoomName)
+        {
             // is the chatroom needing to be updated itself? or something
             CurrentMessages = new ObservableCollection<Message>(_chatServer.GetMessageUpdates(CurrentChatRoom.Name));
             Console.WriteLine("WE have received " + CurrentMessages.Count + " new messages from the server");
@@ -165,7 +182,6 @@ namespace ClientFinal
             messageListView.ItemsSource = CurrentMessages;
 
             messageListView.Items.Refresh();
-
         }
 
     }
