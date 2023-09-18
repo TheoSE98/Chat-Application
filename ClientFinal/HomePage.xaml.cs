@@ -18,19 +18,13 @@ using System.Windows.Shapes;
 
 namespace ClientFinal
 {
-    /// <summary>
-    /// Interaction logic for HomePage.xaml
-    /// </summary>
     public partial class HomePage : Page
     {
         private string username;
-        private ObservableCollection<ChatRoom> ChatRooms { get; set; }
         private IChatServer _chatServer;
         private User user { get; set; }
-
-        //Working here 
+        private ObservableCollection<ChatRoom> ChatRooms { get; set; }
         private ObservableCollection<Message> CurrentMessages { get; set; }
-
         private ChatRoom CurrentChatRoom { get; set; }
 
         public HomePage(string username, IChatServer chatServer)
@@ -46,7 +40,7 @@ namespace ClientFinal
 
             _chatServer = chatServer;
 
-            //Bind the chat rooms to the ListView
+            //Bind the chat rooms to the ListView -> this is how it updates THEO 
             chatRoomListView.ItemsSource = ChatRooms;
 
             Console.WriteLine("In constructor, chatserver " + _chatServer.GetRandomInt());
@@ -66,6 +60,8 @@ namespace ClientFinal
                 Console.WriteLine("Joining using chatserver " + _chatServer.GetRandomInt());
 
                 _chatServer.JoinChatRoom(user, CurrentChatRoom.GetName());
+
+                RefreshMessages(CurrentChatRoom.Name);
 
                 MessageBox.Show($"Joined chat room: {CurrentChatRoom.GetName()}");
             }

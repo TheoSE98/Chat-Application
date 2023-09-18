@@ -12,7 +12,6 @@ namespace MyChatServer
     public class ChatServer : IChatServer
     {
         public int randomInt { get; set; }
-
         private ChatService _chatService;
 
         public ChatServer() 
