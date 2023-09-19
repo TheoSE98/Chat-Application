@@ -42,7 +42,7 @@
                         <GridViewColumn Width="80" Header="Sender">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock FontWeight="Bold" Text="{Binding Sender}" />
+                                    <TextBlock FontWeight="Bold" Text="{Binding Sender}" MouseLeftButtonUp="CreatePrivateChatRoom"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

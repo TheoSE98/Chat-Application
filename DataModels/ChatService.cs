@@ -88,6 +88,23 @@ namespace DataModels
             return !roomExists;
         }
 
+        public void UserCreatedChatroom(string roomName, List<String> guestList, bool isPublic)
+        {
+            List<User> actualGuests = new List<User>();
+            // look up the user objects
+            foreach (string userString in guestList)
+            {
+                foreach (User user in users)
+                {
+                    if (user.GetUsername().Equals(userString))
+                    {
+                        actualGuests.Add(user);
+                    }
+                }
+            }
+            CreateChatroom(roomName, actualGuests, isPublic);
+        }
+
         public List<ChatRoom> GenerateDefaultChatRooms()
         {
 

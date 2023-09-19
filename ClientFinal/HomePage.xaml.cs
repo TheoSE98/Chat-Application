@@ -180,5 +180,19 @@ namespace ClientFinal
             messageListView.Items.Refresh();
         }
 
+        private void CreatePrivateChatRoom(object sender, MouseButtonEventArgs e)
+        {
+            //TODO: make it so you can't start a private chat with yourself
+            // TODO send a string user through to the server
+            string participant = (sender as TextBlock).Text;
+            if (participant.Equals(user.GetUsername()))
+            {
+                MessageBox.Show("You can't make a private chatroom with yourself.");
+            }
+            else
+            {
+                _chatServer.UserCreatedChatroom("Private Chat with " + participant, new List<string>() { participant }, false);
+            }
+        }
     }
 }
