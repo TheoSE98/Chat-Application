@@ -22,6 +22,8 @@ namespace MyChatServer
         [OperationContract]
         bool CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic);
         [OperationContract]
+        void UserCreatedChatroom(string chatRoomName, List<String> guestList, bool isPublic);
+        [OperationContract]
         void JoinChatRoom(User user, string chatRoomName);
         [OperationContract]
         void LeaveChatRoom(User user, string chatRoomName);
