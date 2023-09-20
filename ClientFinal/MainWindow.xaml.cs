@@ -29,11 +29,6 @@ namespace ClientFinal
             InitializeComponent();
         }
 
-        private void _mainFrame_Navigated(object sender, NavigationEventArgs e)
-        {
-
-        }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             ChannelFactory<IChatServer> channelFactory = new ChannelFactory<IChatServer>(new NetTcpBinding(), "net.tcp://localhost:8100/ChatService");
