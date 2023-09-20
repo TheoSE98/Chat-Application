@@ -36,7 +36,7 @@
                 <TextBox Name="newChatRoomTextBox" Height="25" TextAlignment="Center" Text="Enter Room Name" BorderBrush="Black"  />
                 <Button Content="Create Chat Room" Click="CreateChatRoom_Click" />
             </StackPanel>
-            <ListView Name="messageListView" Height="395" ItemsSource="{Binding CurrentMessages}">
+            <ListView Name="messageListView" Height="415" ItemsSource="{Binding CurrentMessages}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="80" Header="Sender">
