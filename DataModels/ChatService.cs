@@ -141,7 +141,7 @@ namespace DataModels
             // look up the user objects
             foreach (string userString in guestList)
             {
-                foreach (User user in users)
+                foreach (User user in allUsers)
                 {
                     if (user.GetUsername().Equals(userString))
                     {
