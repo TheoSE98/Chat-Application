@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace DataModels
 {
     public class ChatService
     {
-        private List<User> users; 
+        private List<User> allUsers;
+        private List<User> loggedInUsers;
         private List<ChatRoom> chatRooms;
         private DateTime loginTime;
 
         public ChatService() 
         {
-            users = new List<User>();
+            allUsers = new List<User>();
+            loggedInUsers = new List<User>();
             chatRooms = new List<ChatRoom>();
             GenerateDefaultChatRooms();
 
@@ -27,6 +30,7 @@ namespace DataModels
             loginTime = DateTime.Now;
 
             bool isUnique = false;
+            bool currentlyActive = false;
 
             if (string.IsNullOrEmpty(username))
             {
@@ -34,24 +38,67 @@ namespace DataModels
             }
             else
             {
-                isUnique = !users.Any(user => user.GetUsername() == username);
+                isUnique = !allUsers.Any(user => user.GetUsername() == username);
 
                 if (isUnique)
                 {
                     var newUser = new User(username);
 
-                    users.Add(newUser);
+                    allUsers.Add(newUser);
+                    loggedInUsers.Add(newUser);
 
-                    Console.WriteLine($"User '{username}' logged in at {loginTime}.");
-
+                    Console.WriteLine($"User '{username}' has been created and logged in at {loginTime}.");
                 }
                 else
                 {
-                    Console.WriteLine($"Login failed: Username '{username}' is not unique. Login attempt at {loginTime}.");
+                        Console.WriteLine("Inside Login count check:");
+
+                        currentlyActive = loggedInUsers.Any(user => user.GetUsername() == username);
+
+                    //error line 54
+                    if (!currentlyActive)
+                    {
+                        //add user to currently active
+                        User newUser = allUsers.Find(user => user.GetUsername() == username);
+
+                        loggedInUsers.Add(newUser);
+
+                        Console.WriteLine($"User '{username}' logged into their existing account at {loginTime}.");
+
+                        isUnique = !isUnique;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Login failed: Username '{username}' is not unique. Login attempt at {loginTime}.");
+                    }
                 }
             }
 
             return isUnique;
+        }
+
+        public async Task<bool> Logout(User pUser)
+        {
+            await Task.Delay(100);
+
+            bool userExit = false;
+
+            var currUser = allUsers.Find(user => user.GetUsername() == pUser.GetUsername());
+
+            if (currUser != null)
+            {
+                loggedInUsers.Remove(currUser);
+
+                Console.WriteLine($"User '{pUser.GetUsername()}' has been removed from the active user list.");
+
+                userExit = true;
+            }
+            else
+            {
+                Console.WriteLine($"User '{pUser.GetUsername()}' cannot be removed from the active user list.");
+            }
+
+            return userExit;
         }
 
         //Chat room management methods

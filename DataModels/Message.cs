@@ -22,6 +22,7 @@ namespace DataModels
 
         [DataMember]
         public string ChatRoomName { get; set; }
+
         public Message()
         {
             //this.sender = sender;

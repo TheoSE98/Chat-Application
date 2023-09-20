@@ -26,10 +26,13 @@ namespace ClientFinal
         private ObservableCollection<ChatRoom> ChatRooms { get; set; }
         private ObservableCollection<Message> CurrentMessages { get; set; }
         private ChatRoom CurrentChatRoom { get; set; }
+        private MainWindow _mainWindow { get; set; }
 
-        public HomePage(string username, IChatServer chatServer)
+        public HomePage(string username, IChatServer chatServer, MainWindow mainWindow)
         {
             InitializeComponent();
+
+            _mainWindow = mainWindow;
 
             this.username = username;
             usernameTextBox.Text = username;
@@ -44,7 +47,6 @@ namespace ClientFinal
             chatRoomListView.ItemsSource = ChatRooms;
 
             Console.WriteLine("In constructor, chatserver " + _chatServer.GetRandomInt());
-
         }
 
         private void JoinChatRoom_Click(object sender, RoutedEventArgs e)
@@ -71,9 +73,30 @@ namespace ClientFinal
             }
         }
 
-        private void LogOff_Click(object sender, RoutedEventArgs e)
+        //logging user off
+        private async void LogOff_Click(object sender, RoutedEventArgs e)
         {
+            //other way of doing this
+            /*_mainWindow._mainFrame.NavigationService.Navigate(new LoginPage(___, ___));*/
 
+            bool deactivateUser = await _chatServer.Logout(user);
+
+            if(deactivateUser)
+            {
+                if (_mainWindow._mainFrame.NavigationService.CanGoBack)
+                {
+                    //remove user from server
+                    _mainWindow._mainFrame.NavigationService.GoBack();
+                }
+                else
+                {
+                    MessageBox.Show("Cant go back");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Cant deactivate user");
+            }
         }
 
         private void Send_Click(object sender, RoutedEventArgs e)

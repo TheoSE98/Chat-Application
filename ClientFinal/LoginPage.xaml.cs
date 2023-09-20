@@ -36,6 +36,7 @@ namespace ClientFinal
             //_availableChatRooms = new List<ChatRoom>();
         }
 
+
         private async void Button_LogIn(object sender, RoutedEventArgs e)
         {
             string username = usernameEntryBox.Text;
@@ -55,10 +56,11 @@ namespace ClientFinal
                     //_availableChatRooms = _chatServer.GenerateDefaultChatRooms(username); // -> This will call server 
         
                     // Navigate to the home page and pass the username
-                    _mainWindow._mainFrame.NavigationService.Navigate(new HomePage(username, _chatServer));
+                    _mainWindow._mainFrame.NavigationService.Navigate(new HomePage(username, _chatServer, _mainWindow));
                 }
                 else
                 {
+                    //
                     MessageBox.Show("Username is not unique. Please choose a different username.");
                 }
             }

@@ -63,6 +63,12 @@ namespace MyChatServer
             return await _chatService.Login(username);
         }
 
+        //why this need to be async?
+        public async Task<bool> Logout(User user)
+        {
+            return await _chatService.Logout(user);
+        }
+
         public void RemoveChatRoom(string chatRoomName)
         {
             //_chatService.RemoveChatRoom(chatRoomName);
