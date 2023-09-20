@@ -14,6 +14,8 @@ namespace MyChatServer
         //User Management 
         [OperationContract]
         Task<bool> Login(string username);
+        [OperationContract]
+        Task<bool> Logout(User pUser);
 
         [OperationContract]
         List<ChatRoom> GenerateDefaultChatRooms(string username);

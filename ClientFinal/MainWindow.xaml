@@ -19,7 +19,7 @@
     </Window.Resources>
     
     <DockPanel>
-        <Frame x:Name="_mainFrame" Navigated="_mainFrame_Navigated"></Frame>
+        <Frame x:Name="_mainFrame" Navigated="_mainFrame_Navigated" NavigationUIVisibility="Hidden"></Frame>
     </DockPanel>
 
 </Window>
