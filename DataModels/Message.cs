@@ -18,6 +18,9 @@ namespace DataModels
         public object Content { get; set; }
 
         [DataMember]
+        public string Type { get; set; }
+
+        [DataMember]
         public DateTime Timestamp { get; set; }
 
         [DataMember]
@@ -39,6 +42,11 @@ namespace DataModels
         public object getContent()
         {
             return Content;
+        }
+
+        public string getType()
+        {
+            return Type;
         }
 
         public DateTime getTimestamp()

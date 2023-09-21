@@ -46,14 +46,21 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Message" Width="500" DisplayMemberBinding="{Binding Content}" />
+                        <GridViewColumn Header="Message" Width="500">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Content}" MouseLeftButtonUp="OpenContentLink"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn Header="Time" Width="140" DisplayMemberBinding="{Binding Timestamp}" />
                     </GridView>
                 </ListView.View>
             </ListView>
             <StackPanel Orientation="Horizontal">
-                <TextBox Name="messageTextBox" Height="79" Width="565" VerticalContentAlignment="Center"  />
-                <Button FontWeight="Bold" Width="80" Content="Send" Click="Send_Click" Foreground="#FFE81313"/>
+                <TextBox Name="messageTextBox" Height="79" Width="485" VerticalContentAlignment="Center"  />
+                <Button FontWeight="Bold" Width="80" Content="Send &#xa;Message" Click="SendMessage_Click" Foreground="#FFE81313"/>
+                <Button FontWeight="Bold" Width="80" Content="Send File" Click="SendFile_Click" Foreground="#FFE81313"/>
                 <Button FontWeight="Bold" Width="80" Content="Receive" Foreground="#FF3DA228" Click="Receive_Click" />
             </StackPanel>
         </StackPanel>
