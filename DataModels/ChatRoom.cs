@@ -92,6 +92,11 @@ namespace DataModels
             }
             else
             {
+                foreach (User guest in guestList)
+                {
+                    Console.WriteLine("guests: " + guest.GetUsername());
+                }
+                Console.Write("user: " + user.GetUsername());
                 if (guestList.Contains(user))
                 {
                     return true;

@@ -38,7 +38,7 @@ namespace MyChatServer
             return _chatService.GenerateDefaultChatRooms(); //From here we call the ChatService
         }
 
-        public IEnumerable<ChatRoom> GetChatRoomUpdates(User user)
+        public List<ChatRoom> GetChatRoomUpdates(User user)
         {
             return _chatService.GetChatRoomUpdates(user);
         }
