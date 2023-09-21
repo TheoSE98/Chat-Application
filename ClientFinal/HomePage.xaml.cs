@@ -39,7 +39,7 @@ namespace ClientFinal
 
             user = new User(usernameTextBox.Text);
 
-            ChatRooms = new ObservableCollection<ChatRoom>(chatServer.GetChatRooms());
+            ChatRooms = new ObservableCollection<ChatRoom>(chatServer.GetChatRoomUpdates(user));
 
             _chatServer = chatServer;
 
@@ -202,6 +202,31 @@ namespace ClientFinal
 
             messageListView.Items.Refresh();
 
+            RefreshChatrooms();
+
+/*            // also refresh the chatroom list
+            List<ChatRoom> newChatrooms = _chatServer.GetChatRoomUpdates(user);
+
+            foreach (ChatRoom newRoom in newChatrooms)
+            {
+                Console.WriteLine(newRoom.Name);
+                *//*if (!ChatRooms.Contains(newRoom))
+                {
+                    Console.WriteLine("Found a new chatroom");
+                    ChatRooms.Add(newRoom);
+                }*//*
+                if (!ChatRooms.Any(room => room.Name.Equals(newRoom.Name)))
+                {
+                    Console.WriteLine("Found a new chatroom");
+                    ChatRooms.Add(newRoom);
+                }
+            }
+
+            chatRoomListView.Items.Refresh();
+*/        }
+
+        private void RefreshChatrooms()
+        {
             // also refresh the chatroom list
             List<ChatRoom> newChatrooms = _chatServer.GetChatRoomUpdates(user);
 
@@ -221,6 +246,7 @@ namespace ClientFinal
             }
 
             chatRoomListView.Items.Refresh();
+
         }
 
 
@@ -235,9 +261,12 @@ namespace ClientFinal
             }
             else
             {
-                _chatServer.UserCreatedChatroom("Private Chat with " + participant, new List<string>() { participant, user.GetUsername() }, false);
-                Console.WriteLine("we are trying to create a private chatroom with " + participant);
+                _chatServer.UserCreatedChatroom("Private Chat with " + participant + " and " +  user.GetUsername(), new List<string>() { participant, user.GetUsername() }, false);
+                Console.WriteLine("we are trying to create a private chatroom with " + participant + " and " + user.GetUsername());
+                MessageBox.Show("Created Private Chat Room with " + participant + " and " + user.GetUsername() + ".");
             }
+
+            RefreshChatrooms();
         }
     }
 }
