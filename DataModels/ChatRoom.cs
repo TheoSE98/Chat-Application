@@ -92,10 +92,18 @@ namespace DataModels
             }
             else
             {
-                if (guestList.Contains(user))
+                foreach (User guest in guestList)
                 {
+                    Console.WriteLine("guests: " + guest.GetUsername());
+                }
+                Console.WriteLine("user: " + user.GetUsername());
+                // THIS LINE IS PROBLEMATIC
+                if (guestList.Any(guest => guest.GetUsername().Equals(user.GetUsername())))
+                {
+                    Console.WriteLine("You're allowed in!");
                     return true;
                 }
+                Console.WriteLine("You're not allowed in");
                 return false;
             }
         }
@@ -113,7 +121,7 @@ namespace DataModels
                     if (!participants.Contains(user))
                     {
                         participants.Add(user);
-                        Console.WriteLine("Added user sucessfully");
+                        Console.WriteLine("Added user " + user.GetUsername());
                     }
                     else
                     {
@@ -164,6 +172,11 @@ namespace DataModels
             participants.AddRange(users);
             //DEBUGGING
             Console.WriteLine($"Participants added to chat room '{Name}': {string.Join(", ", users.Select(user => user.GetUsername()))}");
+        }
+        public void AddGuestList(List<User> users)
+        {
+            guestList.AddRange(users);
+            Console.WriteLine($"Guests added to chat room guest list'{Name}': {string.Join(", ", users.Select(user => user.GetUsername()))}");
         }
         public void RemoveAllParticipants()
         {

@@ -126,7 +126,7 @@ namespace DataModels
                     Name = roomName,
                     IsPublic = isPublic
                 };
-                newChatRoom.AddParticipants(participants);
+                newChatRoom.AddGuestList(participants);
                 chatRooms.Add(newChatRoom);
 
                 Console.WriteLine($"Chat room '{roomName}' created successfully.");
@@ -135,16 +135,20 @@ namespace DataModels
             return !roomExists;
         }
 
-        public void UserCreatedChatroom(string roomName, List<String> guestList, bool isPublic)
+        public void UserCreatedChatroom(string roomName, List<string> guestList, bool isPublic)
         {
+            Console.WriteLine("Inside user created chatroom method");
             List<User> actualGuests = new List<User>();
             // look up the user objects
             foreach (string userString in guestList)
             {
+                Console.WriteLine("userString: " + userString);
                 foreach (User user in allUsers)
                 {
+                    Console.WriteLine(user.GetUsername() + " | " + userString);
                     if (user.GetUsername().Equals(userString))
                     {
+                        Console.WriteLine("Added a new user");
                         actualGuests.Add(user);
                     }
                 }
@@ -260,14 +264,19 @@ namespace DataModels
             return null;
         }
 
-        public IEnumerable<ChatRoom> GetChatRoomUpdates(User user)
+        public List<ChatRoom> GetChatRoomUpdates(User user)
         {
             List<ChatRoom> allAllowedRooms = new List<ChatRoom>();
             foreach (ChatRoom room in chatRooms)
             {
-                if ((room.GetIsPublic()) || room.AmIAllowedIn(user))
+                if (room.AmIAllowedIn(user))
                 {
                     allAllowedRooms.Add(room);
+                    Console.WriteLine("adding room " + room.GetName());
+                }
+                else
+                {
+                    Console.WriteLine("user " + user + " is not allowed in room " + room.GetName());
                 }
             }
             return allAllowedRooms;
