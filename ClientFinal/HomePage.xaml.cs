@@ -1,8 +1,11 @@
 ﻿using DataModels;
+using Microsoft.Win32;
 using MyChatServer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -99,7 +102,7 @@ namespace ClientFinal
             }
         }
 
-        private void Send_Click(object sender, RoutedEventArgs e)
+        private void SendMessage_Click(object sender, RoutedEventArgs e)
         {
             if (chatRoomListView.SelectedItem != null)
             {
@@ -118,16 +121,10 @@ namespace ClientFinal
                         {
                             Sender = user,
                             Content = messageContent,
+                            Type = "msg",
                             Timestamp = DateTime.Now,
                             ChatRoomName = CurrentChatRoom.Name
-                        };
-
-                        //selectedChatRoom.GetMessages().Add(message);
-                        // Send the message to the server
-                        
-
-                        // Clear the message text box
-                        
+                        };                       
 
                         _chatServer.SendMessage(message);
 
@@ -149,6 +146,63 @@ namespace ClientFinal
             {
                 MessageBox.Show("Please select a chat room to send a message.");
             }
+        }
+
+        private void SendFile_Click(object sender, RoutedEventArgs e)
+        {
+            var fileContent = string.Empty;
+            var filePath = string.Empty;
+
+            if (chatRoomListView.SelectedItem != null)
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+
+                try
+                {
+                    openFileDialog.Filter = "txt files|*.txt|JPeg Image|*.jpg";
+                    openFileDialog.Title = "Choose text or image file to save";
+                    openFileDialog.FilterIndex = 2;
+                    openFileDialog.RestoreDirectory = true;
+
+                    if (openFileDialog.ShowDialog() == true)
+                    {
+                        byte[] msgData = null;
+                        //Get the path of specified file
+                        filePath = openFileDialog.FileName;
+                        MessageBox.Show(filePath);
+
+                        Message message = new Message
+                        {
+                            Sender = user,
+                            Content = filePath,
+                            Type = System.IO.Path.GetExtension(filePath).ToString(),
+                            Timestamp = DateTime.Now,
+                            ChatRoomName = CurrentChatRoom.Name
+                        };
+
+                        _chatServer.SendMessage(message);
+
+                        RefreshMessages(CurrentChatRoom.Name);
+
+                        /*byte[] messageContent = File.ReadAllBytes(openFileDialog.FileName);*/
+
+                        /*Process fileopener = new Process();
+
+                        fileopener.StartInfo.FileName = "explorer";
+                        fileopener.StartInfo.Arguments = "\"" + message.getContent() + "\"";
+                        fileopener.Start();*/
+
+                    }
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show("Error: " + exception.Message);
+                }
+
+            }
+
+            /*MessageBox.Show(fileContent, "File Content at path: " + filePath);*/
+
         }
 
         private void CreateChatRoom_Click(object sender, RoutedEventArgs e)
@@ -198,8 +252,9 @@ namespace ClientFinal
             CurrentMessages = new ObservableCollection<Message>(_chatServer.GetMessageUpdates(CurrentChatRoom.Name));
             Console.WriteLine("WE have received " + CurrentMessages.Count + " new messages from the server");
 
-            messageListView.ItemsSource = CurrentMessages;
+            //does this write all the messages
 
+            messageListView.ItemsSource = CurrentMessages;
             messageListView.Items.Refresh();
         }
 
@@ -215,6 +270,31 @@ namespace ClientFinal
             else
             {
                 _chatServer.UserCreatedChatroom("Private Chat with " + participant, new List<string>() { participant }, false);
+            }
+        }
+
+        private void OpenContentLink(object sender, RoutedEventArgs e)
+        {
+            String messageContent = (sender as TextBlock).Text;
+            MessageBox.Show(messageContent);
+
+            List<Message> ChatRoomMessages = new List<Message>(_chatServer.GetMessageUpdates(CurrentChatRoom.Name));
+
+            foreach (Message message in ChatRoomMessages)
+            {
+                if (!message.Type.Equals("msg"))
+                {
+                    if (message.Content.Equals(messageContent))
+                    {
+                        Process fileopener = new Process();
+
+                        fileopener.StartInfo.FileName = "explorer";
+                        fileopener.StartInfo.Arguments = "\"" + message.getContent() + "\"";
+                        fileopener.Start();
+
+                        break;
+                    }
+                }
             }
         }
     }
