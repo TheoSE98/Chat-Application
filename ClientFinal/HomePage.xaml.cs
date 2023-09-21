@@ -184,26 +184,6 @@ namespace ClientFinal
             if(CurrentChatRoom != null)
             {
                 RefreshMessages(CurrentChatRoom.Name);
-
-                // also refresh the chatroom list
-                List<ChatRoom> newChatrooms = _chatServer.GetChatRoomUpdates(user);
-
-                foreach (ChatRoom newRoom in newChatrooms)
-                {
-                    Console.WriteLine(newRoom.Name);
-                    /*if (!ChatRooms.Contains(newRoom))
-                    {
-                        Console.WriteLine("Found a new chatroom");
-                        ChatRooms.Add(newRoom);
-                    }*/
-                    if (!ChatRooms.Any(room => room.Name.Equals(newRoom.Name)))
-                    {
-                        Console.WriteLine("Found a new chatroom");
-                        ChatRooms.Add(newRoom);
-                    }
-                }
-
-                chatRoomListView.Items.Refresh();
             }
             else 
             {
@@ -221,6 +201,26 @@ namespace ClientFinal
             messageListView.ItemsSource = CurrentMessages;
 
             messageListView.Items.Refresh();
+
+            // also refresh the chatroom list
+            List<ChatRoom> newChatrooms = _chatServer.GetChatRoomUpdates(user);
+
+            foreach (ChatRoom newRoom in newChatrooms)
+            {
+                Console.WriteLine(newRoom.Name);
+                /*if (!ChatRooms.Contains(newRoom))
+                {
+                    Console.WriteLine("Found a new chatroom");
+                    ChatRooms.Add(newRoom);
+                }*/
+                if (!ChatRooms.Any(room => room.Name.Equals(newRoom.Name)))
+                {
+                    Console.WriteLine("Found a new chatroom");
+                    ChatRooms.Add(newRoom);
+                }
+            }
+
+            chatRoomListView.Items.Refresh();
         }
 
 
