@@ -26,7 +26,7 @@ namespace MyChatServer
              return _chatService.CreateChatroom(chatRoomName, guestList, isPublic);
         }
 
-        public void UserCreatedChatroom(string chatRoomName, List<String> guestList, bool isPublic)
+        public void UserCreatedChatroom(string chatRoomName, List<string> guestList, bool isPublic)
         {
             _chatService.UserCreatedChatroom(chatRoomName, guestList,isPublic);
         }

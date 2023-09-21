@@ -184,6 +184,26 @@ namespace ClientFinal
             if(CurrentChatRoom != null)
             {
                 RefreshMessages(CurrentChatRoom.Name);
+
+                // also refresh the chatroom list
+                List<ChatRoom> newChatrooms = _chatServer.GetChatRoomUpdates(user);
+
+                foreach (ChatRoom newRoom in newChatrooms)
+                {
+                    Console.WriteLine(newRoom.Name);
+                    /*if (!ChatRooms.Contains(newRoom))
+                    {
+                        Console.WriteLine("Found a new chatroom");
+                        ChatRooms.Add(newRoom);
+                    }*/
+                    if (!ChatRooms.Any(room => room.Name.Equals(newRoom.Name)))
+                    {
+                        Console.WriteLine("Found a new chatroom");
+                        ChatRooms.Add(newRoom);
+                    }
+                }
+
+                chatRoomListView.Items.Refresh();
             }
             else 
             {
@@ -201,20 +221,6 @@ namespace ClientFinal
             messageListView.ItemsSource = CurrentMessages;
 
             messageListView.Items.Refresh();
-
-            // also refresh the chatroom list
-            List<ChatRoom> newChatrooms = _chatServer.GetChatRoomUpdates(user);
-            foreach (ChatRoom newRoom in newChatrooms)
-            {
-                if (!ChatRooms.Any(room => room.Name.Equals(newRoom.Name)))
-                {
-                    // unqiue
-                    Console.WriteLine("Found a new chatroom");
-                    ChatRooms.Add(newRoom);
-                }
-            }
-
-            chatRoomListView.Items.Refresh();
         }
 
 
@@ -229,7 +235,7 @@ namespace ClientFinal
             }
             else
             {
-                _chatServer.UserCreatedChatroom("Private Chat with " + participant, new List<string>() { participant }, false);
+                _chatServer.UserCreatedChatroom("Private Chat with " + participant, new List<string>() { participant, user.GetUsername() }, false);
                 Console.WriteLine("we are trying to create a private chatroom with " + participant);
             }
         }

@@ -126,7 +126,7 @@ namespace DataModels
                     Name = roomName,
                     IsPublic = isPublic
                 };
-                newChatRoom.AddParticipants(participants);
+                newChatRoom.AddGuestList(participants);
                 chatRooms.Add(newChatRoom);
 
                 Console.WriteLine($"Chat room '{roomName}' created successfully.");
@@ -145,9 +145,10 @@ namespace DataModels
                 Console.WriteLine("userString: " + userString);
                 foreach (User user in allUsers)
                 {
+                    Console.WriteLine(user.GetUsername() + " | " + userString);
                     if (user.GetUsername().Equals(userString))
                     {
-                        Console.WriteLine("Added a new uuser");
+                        Console.WriteLine("Added a new user");
                         actualGuests.Add(user);
                     }
                 }
@@ -268,10 +269,14 @@ namespace DataModels
             List<ChatRoom> allAllowedRooms = new List<ChatRoom>();
             foreach (ChatRoom room in chatRooms)
             {
-                if ((room.GetIsPublic()) || room.AmIAllowedIn(user))
+                if (room.AmIAllowedIn(user))
                 {
                     allAllowedRooms.Add(room);
                     Console.WriteLine("adding room " + room.GetName());
+                }
+                else
+                {
+                    Console.WriteLine("user " + user + " is not allowed in room " + room.GetName());
                 }
             }
             return allAllowedRooms;
