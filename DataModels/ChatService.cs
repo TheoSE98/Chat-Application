@@ -255,7 +255,7 @@ namespace DataModels
             {
                 if (room.GetName().Equals(chatRoomName))
                 {
-                    Console.WriteLine("Getting updates for charoom " + chatRoomName);
+                    /*Console.WriteLine("Getting updates for charoom " + chatRoomName);*/
                     return room.getMessageUpdates();
                 }
             }
