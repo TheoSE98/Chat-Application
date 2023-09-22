@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,10 +27,11 @@ namespace ClientFinal
         private string username;
         private IChatServer _chatServer;
         private User user { get; set; }
-        private ObservableCollection<ChatRoom> ChatRooms { get; set; }
-        private ObservableCollection<Message> CurrentMessages { get; set; }
+        /*private ObservableCollection<ChatRoom> ChatRooms { get; set; }*/
+        /*private ObservableCollection<Message> CurrentMessages { get; set; }*/
         private ChatRoom CurrentChatRoom { get; set; }
         private MainWindow _mainWindow { get; set; }
+        private Boolean continueThreads { get; set; }
 
         public HomePage(string username, IChatServer chatServer, MainWindow mainWindow)
         {
@@ -42,7 +44,7 @@ namespace ClientFinal
 
             user = new User(usernameTextBox.Text);
 
-            ChatRooms = new ObservableCollection<ChatRoom>(chatServer.GetChatRoomUpdates(user));
+            ObservableCollection<ChatRoom> ChatRooms = new ObservableCollection<ChatRoom>(chatServer.GetChatRoomUpdates(user));
 
             _chatServer = chatServer;
 
@@ -50,6 +52,14 @@ namespace ClientFinal
             chatRoomListView.ItemsSource = ChatRooms;
 
             Console.WriteLine("In constructor, chatserver " + _chatServer.GetRandomInt());
+
+            continueThreads = true;
+
+            Thread loadingMessages = new Thread(RefreshMessagesPerSecond);
+            loadingMessages.Start();
+
+            Thread loadingChatrooms = new Thread(RefreshChatRoomsPerSecond);
+            loadingChatrooms.Start();
         }
 
         private void JoinChatRoom_Click(object sender, RoutedEventArgs e)
@@ -66,9 +76,11 @@ namespace ClientFinal
 
                 _chatServer.JoinChatRoom(user, CurrentChatRoom.GetName());
 
-                RefreshMessages(CurrentChatRoom.Name);
+                RefreshMessages(); 
 
                 MessageBox.Show($"Joined chat room: {CurrentChatRoom.GetName()}");
+
+
             }
             else
             {
@@ -79,9 +91,6 @@ namespace ClientFinal
         //logging user off
         private async void LogOff_Click(object sender, RoutedEventArgs e)
         {
-            //other way of doing this
-            /*_mainWindow._mainFrame.NavigationService.Navigate(new LoginPage(___, ___));*/
-
             bool deactivateUser = await _chatServer.Logout(user);
 
             if(deactivateUser)
@@ -89,6 +98,9 @@ namespace ClientFinal
                 if (_mainWindow._mainFrame.NavigationService.CanGoBack)
                 {
                     //remove user from server
+                    continueThreads = false;
+                    /*loadingMessages.Abort();*/
+                    /*loadingChatRooms.Abort();*/
                     _mainWindow._mainFrame.NavigationService.GoBack();
                 }
                 else
@@ -130,7 +142,7 @@ namespace ClientFinal
 
                         messageTextBox.Clear();
 
-                        RefreshMessages(CurrentChatRoom.Name);
+                        RefreshMessages();
                     }
                     else
                     {
@@ -166,7 +178,6 @@ namespace ClientFinal
 
                     if (openFileDialog.ShowDialog() == true)
                     {
-                        byte[] msgData = null;
                         //Get the path of specified file
                         filePath = openFileDialog.FileName;
                         MessageBox.Show(filePath);
@@ -182,16 +193,7 @@ namespace ClientFinal
 
                         _chatServer.SendMessage(message);
 
-                        RefreshMessages(CurrentChatRoom.Name);
-
-                        /*byte[] messageContent = File.ReadAllBytes(openFileDialog.FileName);*/
-
-                        /*Process fileopener = new Process();
-
-                        fileopener.StartInfo.FileName = "explorer";
-                        fileopener.StartInfo.Arguments = "\"" + message.getContent() + "\"";
-                        fileopener.Start();*/
-
+                        RefreshMessages();
                     }
                 }
                 catch (Exception exception)
@@ -200,9 +202,6 @@ namespace ClientFinal
                 }
 
             }
-
-            /*MessageBox.Show(fileContent, "File Content at path: " + filePath);*/
-
         }
 
         private void CreateChatRoom_Click(object sender, RoutedEventArgs e)
@@ -219,8 +218,7 @@ namespace ClientFinal
                 {
                     MessageBox.Show($"Chat room '{roomName}' created successfully.");
 
-                    var newChatRoom = new ChatRoom { Name = roomName, IsPublic = true };
-                    ChatRooms.Add(newChatRoom);
+                    RefreshChatrooms();
                 }
                 else
                 {
@@ -237,71 +235,98 @@ namespace ClientFinal
         {
             if(CurrentChatRoom != null)
             {
-                RefreshMessages(CurrentChatRoom.Name);
+                RefreshMessages();
             }
             else 
             {
                 MessageBox.Show("Please select a chat room to receive messages");
             }
-
         }
 
-        private void RefreshMessages(string chatRoomName)
+        private async void RefreshMessagesPerSecond()
+        {
+            while(continueThreads)
+            {
+                if (!Object.ReferenceEquals(CurrentChatRoom, null))
+                {
+                    /*Console.WriteLine("Current Chat room passed");*/
+                    Task<ObservableCollection<Message>> getChatRoomMessages = new Task<ObservableCollection<Message>>(getMessages);
+                    getChatRoomMessages.Start();
+                    /*Console.WriteLine("Started task to get messages");*/
+                    ObservableCollection<Message> currChatRoomMessages = await getChatRoomMessages;
+
+                    /*Console.WriteLine("Got messages: message count is " + currChatRoomMessages.Count);*/
+
+                    App.Current.Dispatcher.Invoke(delegate 
+                    {
+                        messageListView.ItemsSource = currChatRoomMessages;
+                        messageListView.Items.Refresh();
+
+                        /*Console.WriteLine("Updates the messages on GUI");*/
+                    });
+                }
+                Thread.Sleep(1000);
+            }
+        }
+
+        private ObservableCollection<Message> getMessages()
+        {
+            return new ObservableCollection<Message>(_chatServer.GetMessageUpdates(CurrentChatRoom.Name));
+        }
+
+        private void RefreshMessages()
         {
             // is the chatroom needing to be updated itself? or something
-            CurrentMessages = new ObservableCollection<Message>(_chatServer.GetMessageUpdates(CurrentChatRoom.Name));
+            ObservableCollection<Message> CurrentMessages = new ObservableCollection<Message>(_chatServer.GetMessageUpdates(CurrentChatRoom.Name));
             Console.WriteLine("WE have received " + CurrentMessages.Count + " new messages from the server");
 
             //does this write all the messages
 
             messageListView.ItemsSource = CurrentMessages;
             messageListView.Items.Refresh();
+        }
 
-            RefreshChatrooms();
-
-/*            // also refresh the chatroom list
-            List<ChatRoom> newChatrooms = _chatServer.GetChatRoomUpdates(user);
-
-            foreach (ChatRoom newRoom in newChatrooms)
+        private async void RefreshChatRoomsPerSecond()
+        {
+            int numRooms = 0;
+            while (continueThreads)
             {
-                Console.WriteLine(newRoom.Name);
-                *//*if (!ChatRooms.Contains(newRoom))
-                {
-                    Console.WriteLine("Found a new chatroom");
-                    ChatRooms.Add(newRoom);
-                }*//*
-                if (!ChatRooms.Any(room => room.Name.Equals(newRoom.Name)))
-                {
-                    Console.WriteLine("Found a new chatroom");
-                    ChatRooms.Add(newRoom);
-                }
-            }
+                Task<ObservableCollection<ChatRoom>> getChatRoom = new Task<ObservableCollection<ChatRoom>>(getChatRooms);
+                getChatRoom.Start();
+                Console.WriteLine("Started task to get rooms");
+                ObservableCollection<ChatRoom> currChatRooms = await getChatRoom; 
 
-            chatRoomListView.Items.Refresh();
-*/        }
+                Console.WriteLine(user.GetUsername() + ": Check room count");
+                if(numRooms < currChatRooms.Count)
+                {
+                    Console.WriteLine(user.GetUsername() + ": rooms need to be added");
+                    numRooms = currChatRooms.Count;
+                    Console.WriteLine(user.GetUsername() + ": count updated");
+
+                    this.Dispatcher.Invoke((Action)(() =>
+                    {
+                        Console.WriteLine(user.GetUsername() + ": refresh views");
+                        chatRoomListView.ItemsSource = currChatRooms;
+                        chatRoomListView.Items.Refresh();
+                    }));
+                }
+
+                Thread.Sleep(1000);
+            }
+        }
+
+        private ObservableCollection<ChatRoom> getChatRooms()
+        {
+            return new ObservableCollection<ChatRoom>(_chatServer.GetChatRoomUpdates(user));
+        }
+
 
         private void RefreshChatrooms()
         {
-            // also refresh the chatroom list
-            List<ChatRoom> newChatrooms = _chatServer.GetChatRoomUpdates(user);
+            ObservableCollection<ChatRoom> currChatRooms = new ObservableCollection<ChatRoom>(_chatServer.GetChatRoomUpdates(user));
 
-            foreach (ChatRoom newRoom in newChatrooms)
-            {
-                Console.WriteLine(newRoom.Name);
-                /*if (!ChatRooms.Contains(newRoom))
-                {
-                    Console.WriteLine("Found a new chatroom");
-                    ChatRooms.Add(newRoom);
-                }*/
-                if (!ChatRooms.Any(room => room.Name.Equals(newRoom.Name)))
-                {
-                    Console.WriteLine("Found a new chatroom");
-                    ChatRooms.Add(newRoom);
-                }
-            }
-
+            chatRoomListView.ItemsSource = currChatRooms;
             chatRoomListView.Items.Refresh();
-
         }
 
 
@@ -317,6 +342,7 @@ namespace ClientFinal
             else
             {
                 _chatServer.UserCreatedChatroom("Private Chat with " + participant + " and " +  user.GetUsername(), new List<string>() { participant, user.GetUsername() }, false);
+
                 Console.WriteLine("we are trying to create a private chatroom with " + participant + " and " + user.GetUsername());
                 MessageBox.Show("Created Private Chat Room with " + participant + " and " + user.GetUsername() + ".");
             }

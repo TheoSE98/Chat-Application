@@ -55,7 +55,7 @@ namespace DataModels
         public List<Message> getMessageUpdates()
         {
 
-            Console.WriteLine("Users in the chatroom are: ");
+            /*Console.WriteLine("Users in the chatroom are: ");
             foreach (User user in participants)
             {
                 Console.WriteLine(user);
@@ -65,7 +65,7 @@ namespace DataModels
             foreach (Message message in messages)
             {
                 Console.WriteLine(message.Content.ToString());
-            }
+            }*/
             return messages;
         }
 
