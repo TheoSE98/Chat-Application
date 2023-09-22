@@ -60,6 +60,9 @@ namespace ClientFinal
 
             Thread loadingChatrooms = new Thread(RefreshChatRoomsPerSecond);
             loadingChatrooms.Start();
+
+            Thread loadingChatRoomParticipants = new Thread(RefreshChatRoomMembersPerSecond);
+            loadingChatRoomParticipants.Start();
         }
 
         private void JoinChatRoom_Click(object sender, RoutedEventArgs e)
@@ -76,15 +79,38 @@ namespace ClientFinal
 
                 _chatServer.JoinChatRoom(user, CurrentChatRoom.GetName());
 
-                RefreshMessages(); 
+                RefreshMessages();
+
+                currentRoomNameTextBox.Text = CurrentChatRoom.GetName();
 
                 MessageBox.Show($"Joined chat room: {CurrentChatRoom.GetName()}");
-
-
             }
             else
             {
                 MessageBox.Show("Please select a chat room to join.");
+            }
+        }
+
+        private void LeaveChatRoom_Click(object sender, RoutedEventArgs e)
+        {
+            if (!Object.ReferenceEquals(CurrentChatRoom, null))
+            {
+                Console.WriteLine("1");
+                //this isnt calling
+                _chatServer.LeaveChatRoom(user, CurrentChatRoom.GetName());
+                Console.WriteLine("2");
+                currentRoomNameTextBox.Text = "";
+                CurrentChatRoom = null;
+
+                RefreshMessages();
+                RefreshChatRooms();
+                RefreshChatRoomsMembers();
+
+                //set current room to null
+                //refresh messages
+                //refresh chat room members
+                //set current chat room text to null done
+                //remove user? done
             }
         }
 
@@ -218,7 +244,7 @@ namespace ClientFinal
                 {
                     MessageBox.Show($"Chat room '{roomName}' created successfully.");
 
-                    RefreshChatrooms();
+                    RefreshChatRooms();
                 }
                 else
                 {
@@ -249,20 +275,15 @@ namespace ClientFinal
             {
                 if (!Object.ReferenceEquals(CurrentChatRoom, null))
                 {
-                    /*Console.WriteLine("Current Chat room passed");*/
                     Task<ObservableCollection<Message>> getChatRoomMessages = new Task<ObservableCollection<Message>>(getMessages);
                     getChatRoomMessages.Start();
-                    /*Console.WriteLine("Started task to get messages");*/
-                    ObservableCollection<Message> currChatRoomMessages = await getChatRoomMessages;
 
-                    /*Console.WriteLine("Got messages: message count is " + currChatRoomMessages.Count);*/
+                    ObservableCollection<Message> currChatRoomMessages = await getChatRoomMessages;
 
                     App.Current.Dispatcher.Invoke(delegate 
                     {
                         messageListView.ItemsSource = currChatRoomMessages;
                         messageListView.Items.Refresh();
-
-                        /*Console.WriteLine("Updates the messages on GUI");*/
                     });
                 }
                 Thread.Sleep(1000);
@@ -277,7 +298,15 @@ namespace ClientFinal
         private void RefreshMessages()
         {
             // is the chatroom needing to be updated itself? or something
-            ObservableCollection<Message> CurrentMessages = new ObservableCollection<Message>(_chatServer.GetMessageUpdates(CurrentChatRoom.Name));
+            ObservableCollection<Message> CurrentMessages;
+            if (Object.ReferenceEquals(CurrentChatRoom, null))
+            {
+                CurrentMessages = new ObservableCollection<Message>();
+            }
+            else
+            {
+                CurrentMessages = new ObservableCollection<Message>(_chatServer.GetMessageUpdates(CurrentChatRoom.Name));
+            }
             Console.WriteLine("WE have received " + CurrentMessages.Count + " new messages from the server");
 
             //does this write all the messages
@@ -293,19 +322,15 @@ namespace ClientFinal
             {
                 Task<ObservableCollection<ChatRoom>> getChatRoom = new Task<ObservableCollection<ChatRoom>>(getChatRooms);
                 getChatRoom.Start();
-                Console.WriteLine("Started task to get rooms");
+
                 ObservableCollection<ChatRoom> currChatRooms = await getChatRoom; 
 
-                Console.WriteLine(user.GetUsername() + ": Check room count");
                 if(numRooms < currChatRooms.Count)
                 {
-                    Console.WriteLine(user.GetUsername() + ": rooms need to be added");
                     numRooms = currChatRooms.Count;
-                    Console.WriteLine(user.GetUsername() + ": count updated");
 
                     this.Dispatcher.Invoke((Action)(() =>
                     {
-                        Console.WriteLine(user.GetUsername() + ": refresh views");
                         chatRoomListView.ItemsSource = currChatRooms;
                         chatRoomListView.Items.Refresh();
                     }));
@@ -320,13 +345,82 @@ namespace ClientFinal
             return new ObservableCollection<ChatRoom>(_chatServer.GetChatRoomUpdates(user));
         }
 
-
-        private void RefreshChatrooms()
+        private void RefreshChatRooms()
         {
             ObservableCollection<ChatRoom> currChatRooms = new ObservableCollection<ChatRoom>(_chatServer.GetChatRoomUpdates(user));
 
             chatRoomListView.ItemsSource = currChatRooms;
             chatRoomListView.Items.Refresh();
+        }
+
+        private async void RefreshChatRoomMembersPerSecond()
+        {
+            int numMembers = 0;
+            while (continueThreads)
+            {
+                if (!Object.ReferenceEquals(CurrentChatRoom, null))
+                {
+                    Task<ObservableCollection<User>> taskGetMembers = new Task<ObservableCollection<User>>(getChatRoomMembers);
+                    taskGetMembers.Start();
+                    Console.WriteLine("Started task to get members");
+                    ObservableCollection<User> currChatRoomMembers = await taskGetMembers;
+
+                    Console.WriteLine(user.GetUsername() + ": Check client count");
+
+                    if (numMembers < currChatRoomMembers.Count)
+                    {
+                        Console.WriteLine(user.GetUsername() + ": clients need to be added");
+                        numMembers = currChatRoomMembers.Count;
+                        Console.WriteLine(user.GetUsername() + ": count updated to - " + numMembers);
+
+                        this.Dispatcher.Invoke((Action)(() =>
+                        {
+                            Console.WriteLine(user.GetUsername() + ": refresh clients");
+                            clientListView.ItemsSource = currChatRoomMembers;
+                            clientListView.Items.Refresh();
+                        }));
+                    }
+                }
+                else
+                {
+                    numMembers = 0;
+                }
+
+                Thread.Sleep(1000);
+            }
+        }
+        
+        private ObservableCollection<User> getChatRoomMembers()
+        {
+            return new ObservableCollection<User>(_chatServer.GetChatRoomUsers(CurrentChatRoom.Name));
+        }
+
+        private void RefreshChatRoomsMembers()
+        {
+/*            Task<ObservableCollection<ChatRoom>> getChatRoom = new Task<ObservableCollection<ChatRoom>>(getChatRooms);
+            getChatRoom.Start();
+
+            ObservableCollection<ChatRoom> currChatRooms = await getChatRoom;
+
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                chatRoomListView.ItemsSource = currChatRooms;
+                chatRoomListView.Items.Refresh();
+            }));*/
+
+            ObservableCollection<User> getChatRoomMembers;
+
+            if (Object.ReferenceEquals(CurrentChatRoom, null))
+            {
+                getChatRoomMembers = new ObservableCollection<User>();
+            }
+            else
+            {
+                getChatRoomMembers = new ObservableCollection<User>(_chatServer.GetChatRoomUsers(CurrentChatRoom.Name));
+            }
+
+            clientListView.ItemsSource = getChatRoomMembers;
+            clientListView.Items.Refresh();
         }
 
 
@@ -347,7 +441,7 @@ namespace ClientFinal
                 MessageBox.Show("Created Private Chat Room with " + participant + " and " + user.GetUsername() + ".");
             }
 
-            RefreshChatrooms();
+            RefreshChatRooms();
         }
 
         private void OpenContentLink(object sender, RoutedEventArgs e)

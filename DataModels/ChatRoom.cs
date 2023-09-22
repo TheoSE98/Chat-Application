@@ -151,18 +151,22 @@ namespace DataModels
         {
             if (user != null)
             {
+                Console.WriteLine("1.2");
                 if (participants.Contains(user))
                 {
+                    Console.WriteLine("1.3");
                     participants.Remove(user);
                     Console.WriteLine("Removed user successfully");
                 }
                 else
                 {
+                    Console.WriteLine("1.4");
                     Console.WriteLine("User not in chatroom");
                 }
             }
             else
             {
+                Console.WriteLine("1.5");
                 Console.WriteLine("User is null");
             }
         }

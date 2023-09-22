@@ -5,14 +5,15 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ClientFinal"
       mc:Ignorable="d" 
-      d:DesignHeight="574" d:DesignWidth="935"
+      d:DesignHeight="574" d:DesignWidth="1000"
      
       Title="HomePage">
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="170" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="170" />
         </Grid.ColumnDefinitions>
 
         <!-- Chat Rooms Column (Left Side) -->
@@ -24,13 +25,13 @@
             <ListView Name="chatRoomListView" ItemsSource="{Binding ChatRooms}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Chat Room" Width="195" DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Header="Chat Room" Width="170" DisplayMemberBinding="{Binding Name}" />
                     </GridView>
                 </ListView.View>
             </ListView>
         </DockPanel>
 
-        <!-- Messages Column (Right Side) -->
+        <!-- Messages Column (Middle) -->
         <StackPanel Grid.Column="1">
             <StackPanel>
                 <TextBox Name="newChatRoomTextBox" Height="25" TextAlignment="Center" Text="Enter Room Name" BorderBrush="Black"  />
@@ -46,7 +47,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Message" Width="500">
+                        <GridViewColumn Header="Message" Width="430">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Content}" MouseLeftButtonUp="OpenContentLink"/>
@@ -58,12 +59,33 @@
                 </ListView.View>
             </ListView>
             <StackPanel Orientation="Horizontal">
-                <TextBox Name="messageTextBox" Height="79" Width="485" VerticalContentAlignment="Center"  />
+                <TextBox Name="messageTextBox" Height="79" Width="420" VerticalContentAlignment="Center"  />
                 <Button FontWeight="Bold" Width="80" Content="Send &#xa;Message" Click="SendMessage_Click" Foreground="#FFE81313"/>
                 <Button FontWeight="Bold" Width="80" Content="Send File" Click="SendFile_Click" Foreground="#FFE81313"/>
                 <Button FontWeight="Bold" Width="80" Content="Receive" Foreground="#FF3DA228" Click="Receive_Click" />
             </StackPanel>
         </StackPanel>
+
+        <!-- Client List Column (Right Side) -->
+        <DockPanel Grid.Column="2">
+            <TextBox x:Name="chatRoomTitle" Text="Current Room:" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Height="30" DockPanel.Dock="Top" BorderBrush="Black" />
+            <TextBox x:Name="currentRoomNameTextBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Height="30" DockPanel.Dock="Top" BorderBrush="Black" />
+            <Button FontWeight="Bold" Height="30" DockPanel.Dock="Top" Content="Leave Room" Click="LeaveChatRoom_Click"/>
+            <ListView Name="clientListView" ItemsSource="{Binding ChatMembers}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Chat Members" Width="170">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding username}" MouseLeftButtonUp="CreatePrivateChatRoom"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
+
     </Grid>
 
 </Page>

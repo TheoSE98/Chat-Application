@@ -207,9 +207,12 @@ namespace DataModels
         {
             foreach (ChatRoom room in chatRooms)
             {
+                Console.WriteLine("1.1.1");
                 if (room.GetName().Equals(chatRoomName))
                 {
+                    Console.WriteLine("1.1");
                     room.removeUser(user);
+                    Console.WriteLine("1.6");
                     break;
                 }
             }
