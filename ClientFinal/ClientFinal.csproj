@@ -118,6 +118,10 @@
       <Project>{dcdfdf0a-03a5-40ba-a5bf-cda16e1a34c5}</Project>
       <Name>DataModels</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ServerInterface\ServerInterface.csproj">
+      <Project>{d57106f2-5d49-4dd5-a5d7-2a6cdaee076d}</Project>
+      <Name>ServerInterface</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

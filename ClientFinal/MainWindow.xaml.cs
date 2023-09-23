@@ -1,4 +1,4 @@
-﻿using ChatServer;
+﻿using ServerInterface;
 using System.ServiceModel;
 using System.Windows;
 

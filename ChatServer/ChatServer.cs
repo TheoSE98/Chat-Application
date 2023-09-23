@@ -1,10 +1,7 @@
-﻿using ChatServer;
-using DataModels;
-using System;
+﻿using DataModels;
+using ServerInterface;
 using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MyChatServer

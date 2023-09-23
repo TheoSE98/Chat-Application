@@ -1,12 +1,10 @@
-﻿using System;
+﻿using DataModels;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
 using System.Threading.Tasks;
-using DataModels;
 
-namespace ChatServer
+namespace ServerInterface
 {
     [ServiceContract]
     public interface IChatServer
