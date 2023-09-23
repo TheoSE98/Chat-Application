@@ -1,4 +1,5 @@
-﻿using DataModels;
+﻿using ChatServer;
+using DataModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,23 +14,23 @@ namespace MyChatServer
     {
         private ChatService _chatService;
 
-        public ChatServer() 
+        public ChatServer()
         {
             _chatService = new ChatService();
         }
 
         public bool CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic)
         {
-             return _chatService.CreateChatroom(chatRoomName, guestList, isPublic);
+            return _chatService.CreateChatroom(chatRoomName, guestList, isPublic);
         }
 
         public void UserCreatedChatroom(string chatRoomName, List<string> guestList, bool isPublic)
         {
-            _chatService.UserCreatedChatroom(chatRoomName, guestList,isPublic);
+            _chatService.UserCreatedChatroom(chatRoomName, guestList, isPublic);
         }
 
         public List<ChatRoom> GenerateDefaultChatRooms(string username)
-        { 
+        {
             return _chatService.GenerateDefaultChatRooms();
         }
 
