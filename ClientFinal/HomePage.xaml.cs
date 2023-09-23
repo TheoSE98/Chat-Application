@@ -28,7 +28,6 @@ namespace ClientFinal
 
             _mainWindow = mainWindow;
 
-            //this.username = username;
             usernameTextBox.Text = username;
 
             user = new User(usernameTextBox.Text);
