@@ -5,8 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ClientFinal"
       mc:Ignorable="d" 
-      d:DesignHeight="574" d:DesignWidth="1000"
-     
+      d:DesignHeight="574" d:DesignWidth="1015"
       Title="HomePage">
 
     <Grid>
@@ -25,9 +24,20 @@
             <ListView Name="chatRoomListView" ItemsSource="{Binding ChatRooms}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Chat Room" Width="170" DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Header="Chat Rooms" Width="164" DisplayMemberBinding="{Binding Name}" />
                     </GridView>
                 </ListView.View>
+                <!-- Disable vertical scrollbar (only if we want to) -->
+                <ListView.Template>
+                    <ControlTemplate TargetType="ListView">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                Background="{TemplateBinding Background}" 
+                                Padding="{TemplateBinding Padding}">
+                            <ItemsPresenter />
+                        </Border>
+                    </ControlTemplate>
+                </ListView.Template>
             </ListView>
         </DockPanel>
 
@@ -54,15 +64,15 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Time" Width="140" DisplayMemberBinding="{Binding Timestamp}" />
+                        <GridViewColumn Header="Time" Width="145" DisplayMemberBinding="{Binding Timestamp}" />
                     </GridView>
                 </ListView.View>
             </ListView>
             <StackPanel Orientation="Horizontal">
                 <TextBox Name="messageTextBox" Height="79" Width="420" VerticalContentAlignment="Center"  />
-                <Button FontWeight="Bold" Width="80" Content="Send &#xa;Message" Click="SendMessage_Click" Foreground="#FFE81313"/>
-                <Button FontWeight="Bold" Width="80" Content="Send File" Click="SendFile_Click" Foreground="#FFE81313"/>
-                <Button FontWeight="Bold" Width="80" Content="Receive" Foreground="#FF3DA228" Click="Receive_Click" />
+                <Button FontWeight="Bold" Width="80" Content="Send" Click="SendMessage_Click" Foreground="Black"/>
+                <Button FontWeight="Bold" Width="80" Content="Upload File" Click="SendFile_Click" Foreground="Black"/>
+                <Button FontWeight="Bold" Width="80" Content="Refresh" Foreground="Black" Click="Receive_Click" />
             </StackPanel>
         </StackPanel>
 

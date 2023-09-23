@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C40761F9-FA2E-47BE-B4E5-4EB0C0C7E7ED}</ProjectGuid>
+    <ProjectGuid>{602BAAF3-295B-4857-B9AA-6481C77B27AA}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>ChatServer</RootNamespace>
     <AssemblyName>ChatServer</AssemblyName>
@@ -54,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataModels\DataModels.csproj">
-      <Project>{dcdfdf0a-03a5-40ba-a5bf-cda16e1a34c5}</Project>
+      <Project>{DCDFDF0A-03A5-40BA-A5BF-CDA16E1A34C5}</Project>
       <Name>DataModels</Name>
     </ProjectReference>
   </ItemGroup>

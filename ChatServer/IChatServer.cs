@@ -13,15 +13,22 @@ namespace ChatServer
     {
         //User Management 
         [OperationContract]
-        void Login(string username);
+        Task<bool> Login(string username);
+        [OperationContract]
+        Task<bool> Logout(User pUser);
+
+        [OperationContract]
+        List<ChatRoom> GenerateDefaultChatRooms(string username);
 
         //Chat Room Management
         [OperationContract]
-        void CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic);
+        bool CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic);
         [OperationContract]
-        void JoinChatRoom(string username, string chatRoomName);
+        void UserCreatedChatroom(string chatRoomName, List<String> guestList, bool isPublic);
         [OperationContract]
-        void LeaveChatRoom(string username, string chatRoomName);
+        void JoinChatRoom(User user, string chatRoomName);
+        [OperationContract]
+        bool LeaveChatRoom(User user, string chatRoomName);
 
         //Message Distributed
         [OperationContract]
@@ -29,10 +36,12 @@ namespace ChatServer
 
         //Get updates
         [OperationContract]
-        IEnumerable<Message> GetMessageUpdates(string username, int lastMessageId);
+        List<Message> GetMessageUpdates(string chatroomName);
         [OperationContract]
-        IEnumerable<ChatRoom> GetChatRoomUpdates(string username);
+        List<ChatRoom> GetChatRoomUpdates(User user);
         [OperationContract]
         IEnumerable<User> GetChatRoomUsers(string chatRoomName);
+        [OperationContract]
+        List<ChatRoom> GetChatRooms(); // TODO: should we pass in the username to verify identity?
     }
 }

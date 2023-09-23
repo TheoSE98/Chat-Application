@@ -1,4 +1,5 @@
-﻿using DataModels;
+﻿using ChatServer;
+using DataModels;
 using Microsoft.Win32;
 using MyChatServer;
 using System;
@@ -29,8 +30,6 @@ namespace ClientFinal
         private string username;
         private IChatServer _chatServer;
         private User user { get; set; }
-        /*private ObservableCollection<ChatRoom> ChatRooms { get; set; }*/
-        /*private ObservableCollection<Message> CurrentMessages { get; set; }*/
         private ChatRoom CurrentChatRoom { get; set; }
         private MainWindow _mainWindow { get; set; }
         private Boolean continueThreads { get; set; }
@@ -50,7 +49,6 @@ namespace ClientFinal
 
             _chatServer = chatServer;
 
-            //Bind the chat rooms to the ListView -> this is how it updates THEO 
             chatRoomListView.ItemsSource = ChatRooms;
 
             continueThreads = true;
@@ -67,11 +65,8 @@ namespace ClientFinal
 
         private void JoinChatRoom_Click(object sender, RoutedEventArgs e)
         {
-            //Check if an item is selected in the ListView
             if (chatRoomListView.SelectedItem != null)
             {
-                //Get the selected chat room
-                //ChatRoom selectedChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
                 CurrentChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
 
                 _chatServer.JoinChatRoom(user, CurrentChatRoom.GetName());
@@ -91,14 +86,9 @@ namespace ClientFinal
             if (!Object.ReferenceEquals(CurrentChatRoom, null))
             {
                 String leavingRoomName = CurrentChatRoom.GetName();
-
-                Console.WriteLine("1");
-                //this isnt calling
+               
                 bool test = _chatServer.LeaveChatRoom(user, CurrentChatRoom.GetName());
 
-                Console.WriteLine("******************: " + test);
-
-                Console.WriteLine("2");
                 currentRoomNameTextBox.Text = "";
                 CurrentChatRoom = null;
 
@@ -107,16 +97,8 @@ namespace ClientFinal
                 RefreshChatRoomsMembers();
 
                 MessageBox.Show($"Left chat room: {leavingRoomName}");
-
-                //set current room to null
-                //refresh messages
-                //refresh chat room members
-                //set current chat room text to null done
-                //remove user? done
             }
         }
-
-        //logging user off
         private async void LogOff_Click(object sender, RoutedEventArgs e)
         {
             bool deactivateUser = await _chatServer.Logout(user);
@@ -125,10 +107,8 @@ namespace ClientFinal
             {
                 if (_mainWindow._mainFrame.NavigationService.CanGoBack)
                 {
-                    //remove user from server
                     continueThreads = false;
-                    /*loadingMessages.Abort();*/
-                    /*loadingChatRooms.Abort();*/
+
                     _mainWindow._mainFrame.NavigationService.GoBack();
                 }
                 else
@@ -145,11 +125,7 @@ namespace ClientFinal
         private void SendMessage_Click(object sender, RoutedEventArgs e)
         {
             if (chatRoomListView.SelectedItem != null)
-            {
-                // Get the selected chat room
-                //ChatRoom selectedChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
-
-                // Check if the user has selected a chat room
+            {             
                 if (CurrentChatRoom != null)
                 {
                     string messageContent = messageTextBox.Text;
@@ -206,7 +182,6 @@ namespace ClientFinal
 
                     if (openFileDialog.ShowDialog() == true)
                     {
-                        //Get the path of specified file
                         filePath = openFileDialog.FileName;
                         MessageBox.Show(filePath);
 
@@ -228,7 +203,6 @@ namespace ClientFinal
                 {
                     MessageBox.Show("Error: " + exception.Message);
                 }
-
             }
         }
 
@@ -236,10 +210,8 @@ namespace ClientFinal
         {
             string roomName = newChatRoomTextBox.Text;
 
-            // Check if the room name is not empty
             if (!string.IsNullOrEmpty(roomName))
             {
-                // Call the server method to create the chat room
                 bool roomCreated =  _chatServer.CreateChatroom(roomName, new List<User>(), isPublic: true);
 
                 if (roomCreated)
@@ -261,14 +233,14 @@ namespace ClientFinal
 
         private void Receive_Click(object sender, RoutedEventArgs e)
         {
-            if(CurrentChatRoom != null)
-            {
+            //if(CurrentChatRoom != null)
+            //{
                 RefreshMessages();
-            }
-            else 
-            {
-                MessageBox.Show("Please select a chat room to receive messages");
-            }
+            //}
+            //else 
+            //{
+                //MessageBox.Show("Please select a chat room to receive messages");
+           // }
         }
 
         private async void RefreshMessagesPerSecond()
@@ -307,8 +279,8 @@ namespace ClientFinal
 
         private void RefreshMessages()
         {
-            // is the chatroom needing to be updated itself? or something
             ObservableCollection<Message> CurrentMessages;
+
             if (Object.ReferenceEquals(CurrentChatRoom, null))
             {
                 CurrentMessages = new ObservableCollection<Message>();
@@ -318,8 +290,6 @@ namespace ClientFinal
                 CurrentMessages = new ObservableCollection<Message>(_chatServer.GetMessageUpdates(CurrentChatRoom.Name));
             }
             Console.WriteLine("WE have received " + CurrentMessages.Count + " new messages from the server");
-
-            //does this write all the messages
 
             messageListView.ItemsSource = CurrentMessages;
             messageListView.Items.Refresh();
@@ -383,8 +353,6 @@ namespace ClientFinal
                         Console.WriteLine("Started task to get members");
                         ObservableCollection<User> currChatRoomMembers = await taskGetMembers;
 
-                        Console.WriteLine(user.GetUsername() + ": Check client count");
-
                         if (numMembers != currChatRoomMembers.Count)
                         {
                             Console.WriteLine(user.GetUsername() + ": clients need to be added");
@@ -420,17 +388,6 @@ namespace ClientFinal
 
         private void RefreshChatRoomsMembers()
         {
-/*            Task<ObservableCollection<ChatRoom>> getChatRoom = new Task<ObservableCollection<ChatRoom>>(getChatRooms);
-            getChatRoom.Start();
-
-            ObservableCollection<ChatRoom> currChatRooms = await getChatRoom;
-
-            this.Dispatcher.Invoke((Action)(() =>
-            {
-                chatRoomListView.ItemsSource = currChatRooms;
-                chatRoomListView.Items.Refresh();
-            }));*/
-
             ObservableCollection<User> getChatRoomMembers;
 
             if (Object.ReferenceEquals(CurrentChatRoom, null))
@@ -449,8 +406,6 @@ namespace ClientFinal
 
         private void CreatePrivateChatRoom(object sender, MouseButtonEventArgs e)
         {
-            //TODO: make it so you can't start a private chat with yourself
-            // TODO send a string user through to the server
             string participant = (sender as TextBlock).Text;
             if (participant.Equals(user.GetUsername()))
             {

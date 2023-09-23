@@ -1,11 +1,12 @@
-﻿using System;
+﻿using ChatServer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatServer
+namespace MyChatServer
 {
     public class Program
     {
@@ -13,7 +14,13 @@ namespace ChatServer
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("******************************************");
-            Console.WriteLine("* Welcome to the Chat Server            *");
+            Console.WriteLine("*       Welcome to the Chat Server       *");
+            Console.WriteLine("*                                        *");
+            Console.WriteLine("* Project Contributors:                  *");
+            Console.WriteLine("*   - Theo Hancock (19903758)            *");
+            Console.WriteLine("*   - Tobey Martin (Placeholder)         *");
+            Console.WriteLine("*   - Sam Unknown (Placeholder)          *");
+            Console.WriteLine("*                                        *");
             Console.WriteLine("******************************************");
             Console.ResetColor();
 
@@ -48,7 +55,6 @@ namespace ChatServer
             {
                 //Handle any errors when attempting to start the server 
                 Console.WriteLine("An error has occured when attempting to start server: " + e.Message);
-                Console.ReadLine() ;
             }
             finally
             {

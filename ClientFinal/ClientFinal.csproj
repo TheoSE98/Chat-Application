@@ -110,13 +110,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ChatServer\ChatServer.csproj">
+      <Project>{602BAAF3-295B-4857-B9AA-6481C77B27AA}</Project>
+      <Name>ChatServer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataModels\DataModels.csproj">
       <Project>{dcdfdf0a-03a5-40ba-a5bf-cda16e1a34c5}</Project>
       <Name>DataModels</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sever\MyChatServer.csproj">
-      <Project>{AE2C0185-7DF9-4472-A87D-6ED66F475C6E}</Project>
-      <Name>MyChatServer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
