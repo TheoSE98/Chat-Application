@@ -203,16 +203,21 @@ namespace DataModels
             }
         }
 
-        public void LeaveChatRoom(User user, string chatRoomName)
+        public bool LeaveChatRoom(User user, string chatRoomName)
         {
+            Console.WriteLine("1.1.1");
             foreach (ChatRoom room in chatRooms)
             {
+                Console.WriteLine("1.1.1");
                 if (room.GetName().Equals(chatRoomName))
                 {
+                    Console.WriteLine("1.1");
                     room.removeUser(user);
-                    break;
+                    Console.WriteLine("1.6");
+                    return true;
                 }
             }
+            return false;
         }
 
         // Message distribution methods
@@ -272,7 +277,6 @@ namespace DataModels
                 if (room.AmIAllowedIn(user))
                 {
                     allAllowedRooms.Add(room);
-                    Console.WriteLine("adding room " + room.GetName());
                 }
                 else
                 {

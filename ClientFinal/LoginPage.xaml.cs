@@ -24,7 +24,6 @@ namespace ClientFinal
     {
         private IChatServer _chatServer;
         private MainWindow _mainWindow;
-        private List<ChatRoom> _availableChatRooms;
 
 
         public LoginPage(IChatServer chatServer, MainWindow mainWindow)

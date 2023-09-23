@@ -28,7 +28,7 @@ namespace MyChatServer
         [OperationContract]
         void JoinChatRoom(User user, string chatRoomName);
         [OperationContract]
-        void LeaveChatRoom(User user, string chatRoomName);
+        bool LeaveChatRoom(User user, string chatRoomName);
 
         //Message Distributed
         [OperationContract]
@@ -43,7 +43,5 @@ namespace MyChatServer
         IEnumerable<User> GetChatRoomUsers(string chatRoomName);
         [OperationContract]
         List<ChatRoom> GetChatRooms(); // TODO: should we pass in the username to verify identity?
-        [OperationContract]
-        int GetRandomInt();
     }
 }

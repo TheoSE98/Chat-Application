@@ -21,8 +21,6 @@ namespace DataModels
         public bool IsPublic { get; set; }
         [DataMember]
         private List<User> guestList;
-        [DataMember]
-        public int RandomInt { get; set; }
 
         public ChatRoom()
         {
@@ -31,8 +29,6 @@ namespace DataModels
             participants = new List<User>();
             messages = new List<Message>();
             guestList = new List<User>();
-            Random rnd = new Random();
-            RandomInt = rnd.Next(10000);
         }
 
         public string GetName()
@@ -151,18 +147,26 @@ namespace DataModels
         {
             if (user != null)
             {
-                if (participants.Contains(user))
+                Console.WriteLine("1.2");
+
+                var currUser = participants.Find(tempUser => tempUser.GetUsername().Equals(user.GetUsername()));
+
+                //isnt checking properly
+                if (!Object.ReferenceEquals(currUser, null))
                 {
-                    participants.Remove(user);
+                    Console.WriteLine("1.3");
+                    participants.Remove(currUser);
                     Console.WriteLine("Removed user successfully");
                 }
                 else
                 {
+                    Console.WriteLine("1.4");
                     Console.WriteLine("User not in chatroom");
                 }
             }
             else
             {
+                Console.WriteLine("1.5");
                 Console.WriteLine("User is null");
             }
         }

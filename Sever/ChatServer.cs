@@ -11,14 +11,11 @@ namespace MyChatServer
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
     public class ChatServer : IChatServer
     {
-        public int randomInt { get; set; }
         private ChatService _chatService;
 
         public ChatServer() 
         {
             _chatService = new ChatService();
-            Random random = new Random();
-            randomInt = random.Next(10000);
         }
 
         public bool CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic)
@@ -58,9 +55,9 @@ namespace MyChatServer
             _chatService.JoinChatRoom(user, chatRoomName);
         }
 
-        public void LeaveChatRoom(User user, string chatRoomName)
+        public bool LeaveChatRoom(User user, string chatRoomName)
         {
-            _chatService.LeaveChatRoom(user, chatRoomName);
+            return _chatService.LeaveChatRoom(user, chatRoomName);
         }
 
         public async Task<bool> Login(string username)
@@ -89,11 +86,5 @@ namespace MyChatServer
         {
             return _chatService.GetChatRooms();
         }
-
-        public int GetRandomInt()
-        {
-            return randomInt;
-        }
-
     }
 }
