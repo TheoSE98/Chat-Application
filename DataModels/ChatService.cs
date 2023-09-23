@@ -20,7 +20,6 @@ namespace DataModels
             loggedInUsers = new List<User>();
             chatRooms = new List<ChatRoom>();
             GenerateDefaultChatRooms();
-
         }
 
         public async Task<bool> Login(string username)
@@ -51,14 +50,12 @@ namespace DataModels
                 }
                 else
                 {
-                        Console.WriteLine("Inside Login count check:");
+                    Console.WriteLine("Inside Login count check:");
 
-                        currentlyActive = loggedInUsers.Any(user => user.GetUsername() == username);
+                    currentlyActive = loggedInUsers.Any(user => user.GetUsername() == username);
 
-                    //error line 54
                     if (!currentlyActive)
                     {
-                        //add user to currently active
                         User newUser = allUsers.Find(user => user.GetUsername() == username);
 
                         loggedInUsers.Add(newUser);
@@ -101,7 +98,6 @@ namespace DataModels
             return userExit;
         }
 
-        //Chat room management methods
         public bool CreateChatroom(string roomName, List<User> participants, bool isPublic)
         {
             List<string> defaultRoomNames = new List<string>
@@ -169,23 +165,14 @@ namespace DataModels
                     IsPublic = true
                 };
 
-                //User user = new User(username);
-
-                // Add the user to the default chat room
-                //defaultRoom.AddParticipants(new List<User> { user });
-
-                // Add the default chat room to the main list of chat rooms
                 chatRooms.Add(defaultRoom);
 
-                // Add the default chat room to the list of default chat rooms
                 defaultChatRooms.Add(defaultRoom);
             }
 
             return defaultChatRooms;
         }
 
-
-        //Like might need this not sure ?? 
         public List<ChatRoom> GetChatRooms()
         {
             return chatRooms;
@@ -209,36 +196,19 @@ namespace DataModels
 
         public bool LeaveChatRoom(User user, string chatRoomName)
         {
-            Console.WriteLine("1.1.1");
             foreach (ChatRoom room in chatRooms)
             {
-                Console.WriteLine("1.1.1");
                 if (room.GetName().Equals(chatRoomName))
                 {
-                    Console.WriteLine("1.1");
                     room.removeUser(user);
-                    Console.WriteLine("1.6");
                     return true;
                 }
             }
             return false;
         }
 
-        // Message distribution methods
         public void SendMessage(Message message)
-        {
-            //This works really well but we can you LINQ for faster look up 
-
-            /*string chatRoomName = message.getChatRoomName();
-            foreach (ChatRoom room in chatRooms)
-            {
-                if (room.GetName().Equals(chatRoomName))
-                {
-                    room.addMessage(message);
-                    break;
-                }
-            }*/
-            
+        {            
             string chatRoomName = message.getChatRoomName();
             Console.WriteLine("we are looking up " + chatRoomName);
 
@@ -264,12 +234,11 @@ namespace DataModels
             {
                 if (room.GetName().Equals(chatRoomName))
                 {
-                    /*Console.WriteLine("Getting updates for charoom " + chatRoomName);*/
                     return room.getMessageUpdates();
                 }
             }
             Console.WriteLine("ERROR: Couldn't find the chatroom");
-            // TODO need a fault exeption or something here
+
             return null;
         }
 
@@ -299,7 +268,7 @@ namespace DataModels
                     return room.GetParticipants();
                 }
             }
-            // TODO: throw exception
+
             return null;
         }
     }

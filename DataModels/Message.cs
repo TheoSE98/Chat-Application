@@ -28,10 +28,7 @@ namespace DataModels
 
         public Message()
         {
-            //this.sender = sender;
-            //this.content = content;
-            //this.timestamp = time;
-            //this.chatRoomName = chatRoomName;
+
         }
 
         public User getSender()
