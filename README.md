@@ -2,6 +2,8 @@
 
 A simple chat application built using WPF and WCF for client-server communication.
 
+![redme](https://github.com/TheoSE98/Chat-Application/assets/91612757/bc9feb1d-b974-406e-b9b0-b76b0eadd369)
+
 ![image](https://github.com/TheoSE98/Chat-Application/assets/91612757/876c5f9b-dbe7-4b1b-b743-ed58cf8b5663)
 
 
@@ -12,9 +14,6 @@ A simple chat application built using WPF and WCF for client-server communicatio
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage)
-- [Code Examples](#code-examples)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Overview
 
@@ -42,3 +41,10 @@ This project is a chat application that allows users to join chat rooms, send an
 
 ```bash
 git clone https://github.com/your-username/chat-application.git
+```
+## Usage
+Launch the server application.
+Launch one or more client applications.
+Log in with your username.
+Create or join a chat room.
+Start chatting with other users.
