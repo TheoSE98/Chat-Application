@@ -1,38 +1,26 @@
 ﻿using ChatServer;
 using DataModels;
 using Microsoft.Win32;
-using MyChatServer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.ServiceModel;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace ClientFinal
 {
     public partial class HomePage : Page
     {
-        private string username;
         private IChatServer _chatServer;
         private User user { get; set; }
         private ChatRoom CurrentChatRoom { get; set; }
         private MainWindow _mainWindow { get; set; }
-        private Boolean continueThreads { get; set; }
+        private bool continueThreads { get; set; }
 
         public HomePage(string username, IChatServer chatServer, MainWindow mainWindow)
         {
@@ -40,7 +28,7 @@ namespace ClientFinal
 
             _mainWindow = mainWindow;
 
-            this.username = username;
+            //this.username = username;
             usernameTextBox.Text = username;
 
             user = new User(usernameTextBox.Text);
@@ -83,9 +71,9 @@ namespace ClientFinal
 
         private void LeaveChatRoom_Click(object sender, RoutedEventArgs e)
         {
-            if (!Object.ReferenceEquals(CurrentChatRoom, null))
+            if (!ReferenceEquals(CurrentChatRoom, null))
             {
-                String leavingRoomName = CurrentChatRoom.GetName();
+                string leavingRoomName = CurrentChatRoom.GetName();
                
                 bool test = _chatServer.LeaveChatRoom(user, CurrentChatRoom.GetName());
 
@@ -249,7 +237,7 @@ namespace ClientFinal
             {
                 try
                 {
-                    if (!Object.ReferenceEquals(CurrentChatRoom, null))
+                    if (!ReferenceEquals(CurrentChatRoom, null))
                     {
                         Task<ObservableCollection<Message>> getChatRoomMessages = new Task<ObservableCollection<Message>>(getMessages);
                         getChatRoomMessages.Start();
@@ -281,7 +269,7 @@ namespace ClientFinal
         {
             ObservableCollection<Message> CurrentMessages;
 
-            if (Object.ReferenceEquals(CurrentChatRoom, null))
+            if (ReferenceEquals(CurrentChatRoom, null))
             {
                 CurrentMessages = new ObservableCollection<Message>();
             }
@@ -346,7 +334,7 @@ namespace ClientFinal
             {
                 try
                 {
-                    if (!Object.ReferenceEquals(CurrentChatRoom, null))
+                    if (!ReferenceEquals(CurrentChatRoom, null))
                     {
                         Task<ObservableCollection<User>> taskGetMembers = new Task<ObservableCollection<User>>(getChatRoomMembers);
                         taskGetMembers.Start();
@@ -390,7 +378,7 @@ namespace ClientFinal
         {
             ObservableCollection<User> getChatRoomMembers;
 
-            if (Object.ReferenceEquals(CurrentChatRoom, null))
+            if (ReferenceEquals(CurrentChatRoom, null))
             {
                 getChatRoomMembers = new ObservableCollection<User>();
             }
@@ -424,7 +412,7 @@ namespace ClientFinal
 
         private void OpenContentLink(object sender, RoutedEventArgs e)
         {
-            String messageContent = (sender as TextBlock).Text;
+            string messageContent = (sender as TextBlock).Text;
             MessageBox.Show(messageContent);
 
             List<Message> ChatRoomMessages = new List<Message>(_chatServer.GetMessageUpdates(CurrentChatRoom.Name));

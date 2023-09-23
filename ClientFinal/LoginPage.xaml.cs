@@ -17,22 +17,16 @@ using DataModels;
 
 namespace ClientFinal
 {
-    /// <summary>
-    /// Interaction logic for LoginPage.xaml
-    /// </summary>
     public partial class LoginPage : Page
     {
         private IChatServer _chatServer;
         private MainWindow _mainWindow;
 
-
         public LoginPage(IChatServer chatServer, MainWindow mainWindow)
         {
             InitializeComponent();
-            //ChatService = new ChatService();
             _chatServer = chatServer;
-            _mainWindow = mainWindow;
-            //_availableChatRooms = new List<ChatRoom>();
+            _mainWindow = mainWindow;    
         }
 
 
@@ -51,15 +45,10 @@ namespace ClientFinal
 
                 if (isUnique)
                 {
-                    // removed this line to make it create it on startup
-                    //_availableChatRooms = _chatServer.GenerateDefaultChatRooms(username); // -> This will call server 
-        
-                    // Navigate to the home page and pass the username
                     _mainWindow._mainFrame.NavigationService.Navigate(new HomePage(username, _chatServer, _mainWindow));
                 }
                 else
                 {
-                    //
                     MessageBox.Show("Username is not unique. Please choose a different username.");
                 }
             }
