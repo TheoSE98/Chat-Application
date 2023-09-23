@@ -197,8 +197,12 @@ namespace DataModels
             {
                 if (room.GetName().Equals(chatRoomName))
                 {
-                    room.addUser(user);
-                    break;
+                    List<User> currentUsers = room.GetParticipants();
+                    if (!currentUsers.Any(anyUser => anyUser.GetUsername().Equals(user.GetUsername())))
+                    {
+                        room.addUser(user);
+                        break;
+                    }
                 }
             }
         }

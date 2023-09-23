@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.ServiceModel;
 using System.Text;
 using System.Threading;
@@ -357,15 +358,7 @@ namespace ClientFinal
 
         private ObservableCollection<ChatRoom> getChatRooms()
         {
-/*            try
-            {*/
-                return new ObservableCollection<ChatRoom>(_chatServer.GetChatRoomUpdates(user));
-/*            }
-            catch (CommunicationObjectFaultedException e)
-            {
-                Console.WriteLine("Caught Error");
-                return null;
-            }*/
+            return new ObservableCollection<ChatRoom>(_chatServer.GetChatRoomUpdates(user));
         }
 
         private void RefreshChatRooms()
