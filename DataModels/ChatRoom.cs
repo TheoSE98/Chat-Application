@@ -24,8 +24,6 @@ namespace DataModels
 
         public ChatRoom()
         {
-            //this.Name = name;
-            //this.IsPublic = isPublic;
             participants = new List<User>();
             messages = new List<Message>();
             guestList = new List<User>();
@@ -47,21 +45,8 @@ namespace DataModels
             this.messages.Add(message);
         }
 
-        // TODO update the interface or figure out a better method
         public List<Message> getMessageUpdates()
         {
-
-            /*Console.WriteLine("Users in the chatroom are: ");
-            foreach (User user in participants)
-            {
-                Console.WriteLine(user);
-            }
-
-            Console.WriteLine("Messages in the chatroom are:");
-            foreach (Message message in messages)
-            {
-                Console.WriteLine(message.Content.ToString());
-            }*/
             return messages;
         }
 
@@ -104,9 +89,6 @@ namespace DataModels
             }
         }
         
-        // TODO: should these functions move to ChatService?
-        // TODO: should this be writing to console? maybe in chat service probably maybe throws fault exception
-        // we might need a logger class
         public void addUser(User user)
         {
             if (user != null)
@@ -147,26 +129,20 @@ namespace DataModels
         {
             if (user != null)
             {
-                Console.WriteLine("1.2");
-
                 var currUser = participants.Find(tempUser => tempUser.GetUsername().Equals(user.GetUsername()));
 
-                //isnt checking properly
                 if (!Object.ReferenceEquals(currUser, null))
                 {
-                    Console.WriteLine("1.3");
                     participants.Remove(currUser);
                     Console.WriteLine("Removed user successfully");
                 }
                 else
                 {
-                    Console.WriteLine("1.4");
                     Console.WriteLine("User not in chatroom");
                 }
             }
             else
             {
-                Console.WriteLine("1.5");
                 Console.WriteLine("User is null");
             }
         }
@@ -174,7 +150,6 @@ namespace DataModels
         public void AddParticipants(List<User> users)
         {
             participants.AddRange(users);
-            //DEBUGGING
             Console.WriteLine($"Participants added to chat room '{Name}': {string.Join(", ", users.Select(user => user.GetUsername()))}");
         }
         public void AddGuestList(List<User> users)
@@ -185,7 +160,6 @@ namespace DataModels
         public void RemoveAllParticipants()
         {
             participants.Clear();
-            //DEBUGGING 
             Console.WriteLine($"All participants removed from chat room '{Name}'.");
         }
     }

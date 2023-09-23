@@ -29,10 +29,8 @@ namespace MyChatServer
         }
 
         public List<ChatRoom> GenerateDefaultChatRooms(string username)
-        {
-            // Call the corresponding method in the ChatServer
-            //return _chatService.GenerateDefaultChatRooms(username); //From here we call the ChatService 
-            return _chatService.GenerateDefaultChatRooms(); //From here we call the ChatService
+        { 
+            return _chatService.GenerateDefaultChatRooms();
         }
 
         public List<ChatRoom> GetChatRoomUpdates(User user)
@@ -65,16 +63,9 @@ namespace MyChatServer
             return await _chatService.Login(username);
         }
 
-        //why this need to be async?
         public async Task<bool> Logout(User user)
         {
             return await _chatService.Logout(user);
-        }
-
-        public void RemoveChatRoom(string chatRoomName)
-        {
-            //_chatService.RemoveChatRoom(chatRoomName);
-            throw new NotImplementedException();
         }
 
         public void SendMessage(Message message)
