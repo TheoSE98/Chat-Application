@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -51,8 +52,6 @@ namespace ClientFinal
             //Bind the chat rooms to the ListView -> this is how it updates THEO 
             chatRoomListView.ItemsSource = ChatRooms;
 
-            Console.WriteLine("In constructor, chatserver " + _chatServer.GetRandomInt());
-
             continueThreads = true;
 
             Thread loadingMessages = new Thread(RefreshMessagesPerSecond);
@@ -74,16 +73,11 @@ namespace ClientFinal
                 //ChatRoom selectedChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
                 CurrentChatRoom = (ChatRoom)chatRoomListView.SelectedItem;
 
-                Console.WriteLine(CurrentChatRoom.RandomInt);
-                Console.WriteLine("Joining using chatserver " + _chatServer.GetRandomInt());
-
                 _chatServer.JoinChatRoom(user, CurrentChatRoom.GetName());
 
                 RefreshMessages();
 
                 currentRoomNameTextBox.Text = CurrentChatRoom.GetName();
-
-                MessageBox.Show($"Joined chat room: {CurrentChatRoom.GetName()}");
             }
             else
             {
@@ -95,9 +89,14 @@ namespace ClientFinal
         {
             if (!Object.ReferenceEquals(CurrentChatRoom, null))
             {
+                String leavingRoomName = CurrentChatRoom.GetName();
+
                 Console.WriteLine("1");
                 //this isnt calling
-                _chatServer.LeaveChatRoom(user, CurrentChatRoom.GetName());
+                bool test = _chatServer.LeaveChatRoom(user, CurrentChatRoom.GetName());
+
+                Console.WriteLine("******************: " + test);
+
                 Console.WriteLine("2");
                 currentRoomNameTextBox.Text = "";
                 CurrentChatRoom = null;
@@ -105,6 +104,8 @@ namespace ClientFinal
                 RefreshMessages();
                 RefreshChatRooms();
                 RefreshChatRoomsMembers();
+
+                MessageBox.Show($"Left chat room: {leavingRoomName}");
 
                 //set current room to null
                 //refresh messages
@@ -273,20 +274,28 @@ namespace ClientFinal
         {
             while(continueThreads)
             {
-                if (!Object.ReferenceEquals(CurrentChatRoom, null))
+                try
                 {
-                    Task<ObservableCollection<Message>> getChatRoomMessages = new Task<ObservableCollection<Message>>(getMessages);
-                    getChatRoomMessages.Start();
-
-                    ObservableCollection<Message> currChatRoomMessages = await getChatRoomMessages;
-
-                    App.Current.Dispatcher.Invoke(delegate 
+                    if (!Object.ReferenceEquals(CurrentChatRoom, null))
                     {
-                        messageListView.ItemsSource = currChatRoomMessages;
-                        messageListView.Items.Refresh();
-                    });
+                        Task<ObservableCollection<Message>> getChatRoomMessages = new Task<ObservableCollection<Message>>(getMessages);
+                        getChatRoomMessages.Start();
+
+                        ObservableCollection<Message> currChatRoomMessages = await getChatRoomMessages;
+
+
+                        this.Dispatcher.Invoke((Action)(() =>
+                        {
+                            messageListView.ItemsSource = currChatRoomMessages;
+                            messageListView.Items.Refresh();
+                        }));
+                    }
                 }
-                Thread.Sleep(1000);
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error caught when updating GUI in RefreshMessagesPerSecond(). Exception - " + e.Message);
+                }
+                await Task.Delay(1000);
             }
         }
 
@@ -320,29 +329,43 @@ namespace ClientFinal
             int numRooms = 0;
             while (continueThreads)
             {
-                Task<ObservableCollection<ChatRoom>> getChatRoom = new Task<ObservableCollection<ChatRoom>>(getChatRooms);
-                getChatRoom.Start();
-
-                ObservableCollection<ChatRoom> currChatRooms = await getChatRoom; 
-
-                if(numRooms < currChatRooms.Count)
+                try
                 {
-                    numRooms = currChatRooms.Count;
+                    Task<ObservableCollection<ChatRoom>> getChatRoom = new Task<ObservableCollection<ChatRoom>>(getChatRooms);
+                    getChatRoom.Start();
 
-                    this.Dispatcher.Invoke((Action)(() =>
+                    ObservableCollection<ChatRoom> currChatRooms = await getChatRoom;
+
+                    if (numRooms < currChatRooms.Count)
                     {
-                        chatRoomListView.ItemsSource = currChatRooms;
-                        chatRoomListView.Items.Refresh();
-                    }));
-                }
+                        numRooms = currChatRooms.Count;
 
-                Thread.Sleep(1000);
+                        this.Dispatcher.Invoke((Action)(() =>
+                        {
+                            chatRoomListView.ItemsSource = currChatRooms;
+                            chatRoomListView.Items.Refresh();
+                        }));
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error caught when updating GUI in RefreshChatRoomsPerSecond(). Exception - " + e.Message);
+                }
+                await Task.Delay(1000);
             }
         }
 
         private ObservableCollection<ChatRoom> getChatRooms()
         {
-            return new ObservableCollection<ChatRoom>(_chatServer.GetChatRoomUpdates(user));
+/*            try
+            {*/
+                return new ObservableCollection<ChatRoom>(_chatServer.GetChatRoomUpdates(user));
+/*            }
+            catch (CommunicationObjectFaultedException e)
+            {
+                Console.WriteLine("Caught Error");
+                return null;
+            }*/
         }
 
         private void RefreshChatRooms()
@@ -358,35 +381,42 @@ namespace ClientFinal
             int numMembers = 0;
             while (continueThreads)
             {
-                if (!Object.ReferenceEquals(CurrentChatRoom, null))
+                try
                 {
-                    Task<ObservableCollection<User>> taskGetMembers = new Task<ObservableCollection<User>>(getChatRoomMembers);
-                    taskGetMembers.Start();
-                    Console.WriteLine("Started task to get members");
-                    ObservableCollection<User> currChatRoomMembers = await taskGetMembers;
-
-                    Console.WriteLine(user.GetUsername() + ": Check client count");
-
-                    if (numMembers < currChatRoomMembers.Count)
+                    if (!Object.ReferenceEquals(CurrentChatRoom, null))
                     {
-                        Console.WriteLine(user.GetUsername() + ": clients need to be added");
-                        numMembers = currChatRoomMembers.Count;
-                        Console.WriteLine(user.GetUsername() + ": count updated to - " + numMembers);
+                        Task<ObservableCollection<User>> taskGetMembers = new Task<ObservableCollection<User>>(getChatRoomMembers);
+                        taskGetMembers.Start();
+                        Console.WriteLine("Started task to get members");
+                        ObservableCollection<User> currChatRoomMembers = await taskGetMembers;
 
-                        this.Dispatcher.Invoke((Action)(() =>
+                        Console.WriteLine(user.GetUsername() + ": Check client count");
+
+                        if (numMembers != currChatRoomMembers.Count)
                         {
-                            Console.WriteLine(user.GetUsername() + ": refresh clients");
-                            clientListView.ItemsSource = currChatRoomMembers;
-                            clientListView.Items.Refresh();
-                        }));
+                            Console.WriteLine(user.GetUsername() + ": clients need to be added");
+                            numMembers = currChatRoomMembers.Count;
+                            Console.WriteLine(user.GetUsername() + ": count updated to - " + numMembers);
+
+                            this.Dispatcher.Invoke((Action)(() =>
+                            {
+                                Console.WriteLine(user.GetUsername() + ": refresh clients");
+                                clientListView.ItemsSource = currChatRoomMembers;
+                                clientListView.Items.Refresh();
+                            }));
+                        }
+                    }
+                    else
+                    {
+                        numMembers = 0;
                     }
                 }
-                else
+                catch (Exception e)
                 {
-                    numMembers = 0;
+                    Console.WriteLine("Error caught when updating GUI in RefreshChatRoomMembersPerSecond(). Exception - " + e.Message);
                 }
 
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
             }
         }
         
