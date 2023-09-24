@@ -15,7 +15,7 @@ namespace MyChatServer
             Console.WriteLine("* Project Contributors:                  *");
             Console.WriteLine("*   - Theo Hancock (19903758)            *");
             Console.WriteLine("*   - Tobey Martin (20568164)            *");
-            Console.WriteLine("*   - Sam Duncan (Placeholder)           *");
+            Console.WriteLine("*   - Samuel Duncan (20550844)           *");
             Console.WriteLine("*                                        *");
             Console.WriteLine("******************************************");
             Console.ResetColor();
