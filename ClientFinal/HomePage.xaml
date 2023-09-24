@@ -27,17 +27,6 @@
                         <GridViewColumn Header="Chat Rooms" Width="164" DisplayMemberBinding="{Binding Name}" />
                     </GridView>
                 </ListView.View>
-                <!-- Disable vertical scrollbar (only if we want to) -->
-                <ListView.Template>
-                    <ControlTemplate TargetType="ListView">
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" 
-                                BorderThickness="{TemplateBinding BorderThickness}" 
-                                Background="{TemplateBinding Background}" 
-                                Padding="{TemplateBinding Padding}">
-                            <ItemsPresenter />
-                        </Border>
-                    </ControlTemplate>
-                </ListView.Template>
             </ListView>
         </DockPanel>
 
