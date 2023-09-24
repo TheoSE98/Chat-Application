@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClientFinal"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
-    
+        Title="MainWindow" Height="574" Width="1015" Loaded="Window_Loaded">
+
     <Window.Resources>
         <Style x:Key="ButtonStyle" TargetType="Button">
             <Setter Property="Width" Value="120"/>
@@ -18,7 +18,7 @@
     </Window.Resources>
     
     <DockPanel>
-        <Frame x:Name="_mainFrame" Navigated="_mainFrame_Navigated"></Frame>
+        <Frame x:Name="_mainFrame" NavigationUIVisibility="Hidden"></Frame>
     </DockPanel>
 
 </Window>

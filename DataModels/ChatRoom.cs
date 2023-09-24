@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DataModels
 {
@@ -12,16 +11,17 @@ namespace DataModels
     {
         [DataMember]
         public string Name { get; set; }
+        [DataMember]
         private List<User> participants;
+        [DataMember]
         private List<Message> messages;
         [DataMember]
         public bool IsPublic { get; set; }
+        [DataMember]
         private List<User> guestList;
 
         public ChatRoom()
         {
-            //this.Name = name;
-            //this.IsPublic = isPublic;
             participants = new List<User>();
             messages = new List<Message>();
             guestList = new List<User>();
@@ -43,24 +43,8 @@ namespace DataModels
             this.messages.Add(message);
         }
 
-        // TODO this code is a bit weird, may have to rethink our approach, will have to test it out in practice
-        public IEnumerable<Message> getMessageUpdates(Message lastReceivedmessage)
+        public List<Message> getMessageUpdates()
         {
-            List<Message> messages = new List<Message>();
-            bool foundMessage = false;
-
-            foreach (Message message in this.messages)
-            { 
-                if (lastReceivedmessage == message)
-                {
-                    foundMessage = true;
-                }
-                if (foundMessage)
-                {
-                    messages.Add(message);
-                }
-            }
-
             return messages;
         }
 
@@ -87,17 +71,22 @@ namespace DataModels
             }
             else
             {
-                if (guestList.Contains(user))
+                foreach (User guest in guestList)
                 {
+                    Console.WriteLine("guests: " + guest.GetUsername());
+                }
+                Console.WriteLine("user: " + user.GetUsername());
+                // THIS LINE IS PROBLEMATIC
+                if (guestList.Any(guest => guest.GetUsername().Equals(user.GetUsername())))
+                {
+                    Console.WriteLine("You're allowed in!");
                     return true;
                 }
+                Console.WriteLine("You're not allowed in");
                 return false;
             }
         }
         
-        // TODO: should these functions move to ChatService?
-        // TODO: should this be writing to console? maybe in chat service probably maybe throws fault exception
-        // we might need a logger class
         public void addUser(User user)
         {
             if (user != null)
@@ -108,7 +97,7 @@ namespace DataModels
                     if (!participants.Contains(user))
                     {
                         participants.Add(user);
-                        Console.WriteLine("Added user sucessfully");
+                        Console.WriteLine("Added user " + user.GetUsername());
                     }
                     else
                     {
@@ -138,9 +127,11 @@ namespace DataModels
         {
             if (user != null)
             {
-                if (participants.Contains(user))
+                var currUser = participants.Find(tempUser => tempUser.GetUsername().Equals(user.GetUsername()));
+
+                if (!Object.ReferenceEquals(currUser, null))
                 {
-                    participants.Remove(user);
+                    participants.Remove(currUser);
                     Console.WriteLine("Removed user successfully");
                 }
                 else
@@ -157,13 +148,16 @@ namespace DataModels
         public void AddParticipants(List<User> users)
         {
             participants.AddRange(users);
-            //DEBUGGING 
             Console.WriteLine($"Participants added to chat room '{Name}': {string.Join(", ", users.Select(user => user.GetUsername()))}");
+        }
+        public void AddGuestList(List<User> users)
+        {
+            guestList.AddRange(users);
+            Console.WriteLine($"Guests added to chat room guest list'{Name}': {string.Join(", ", users.Select(user => user.GetUsername()))}");
         }
         public void RemoveAllParticipants()
         {
             participants.Clear();
-            //DEBUGGING 
             Console.WriteLine($"All participants removed from chat room '{Name}'.");
         }
     }

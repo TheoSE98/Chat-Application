@@ -1,12 +1,10 @@
-﻿using System;
+﻿using DataModels;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
 using System.Threading.Tasks;
-using DataModels;
 
-namespace MyChatServer
+namespace ServerInterface
 {
     [ServiceContract]
     public interface IChatServer
@@ -14,6 +12,8 @@ namespace MyChatServer
         //User Management 
         [OperationContract]
         Task<bool> Login(string username);
+        [OperationContract]
+        Task<bool> Logout(User pUser);
 
         [OperationContract]
         List<ChatRoom> GenerateDefaultChatRooms(string username);
@@ -22,9 +22,11 @@ namespace MyChatServer
         [OperationContract]
         bool CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic);
         [OperationContract]
-        void JoinChatRoom(string username, string chatRoomName);
+        void UserCreatedChatroom(string chatRoomName, List<String> guestList, bool isPublic);
         [OperationContract]
-        void LeaveChatRoom(User user, string chatRoomName);
+        void JoinChatRoom(User user, string chatRoomName);
+        [OperationContract]
+        bool LeaveChatRoom(User user, string chatRoomName);
 
         //Message Distributed
         [OperationContract]
@@ -32,10 +34,12 @@ namespace MyChatServer
 
         //Get updates
         [OperationContract]
-        IEnumerable<Message> GetMessageUpdates(string chatroomName, Message lastMessage);
+        List<Message> GetMessageUpdates(string chatroomName);
         [OperationContract]
-        IEnumerable<ChatRoom> GetChatRoomUpdates(User user);
+        List<ChatRoom> GetChatRoomUpdates(User user);
         [OperationContract]
         IEnumerable<User> GetChatRoomUsers(string chatRoomName);
+        [OperationContract]
+        List<ChatRoom> GetChatRooms(); // TODO: should we pass in the username to verify identity?
     }
 }

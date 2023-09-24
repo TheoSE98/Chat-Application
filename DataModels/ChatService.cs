@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataModels
 {
     public class ChatService
     {
-        private List<User> users; 
+        private List<User> allUsers;
+        private List<User> loggedInUsers;
         private List<ChatRoom> chatRooms;
         private DateTime loginTime;
 
         public ChatService() 
         {
-            users = new List<User>();
+            allUsers = new List<User>();
+            loggedInUsers = new List<User>();
             chatRooms = new List<ChatRoom>();
+            GenerateDefaultChatRooms();
         }
 
         public async Task<bool> Login(string username)
@@ -25,6 +27,7 @@ namespace DataModels
             loginTime = DateTime.Now;
 
             bool isUnique = false;
+            bool currentlyActive = false;
 
             if (string.IsNullOrEmpty(username))
             {
@@ -32,27 +35,67 @@ namespace DataModels
             }
             else
             {
-                isUnique = !users.Any(user => user.GetUsername() == username);
+                isUnique = !allUsers.Any(user => user.GetUsername() == username);
 
                 if (isUnique)
                 {
                     var newUser = new User(username);
 
-                    users.Add(newUser);
+                    allUsers.Add(newUser);
+                    loggedInUsers.Add(newUser);
 
-                    Console.WriteLine($"User '{username}' logged in at {loginTime}.");
-
+                    Console.WriteLine($"User '{username}' has been created and logged in at {loginTime}.");
                 }
                 else
                 {
-                    Console.WriteLine($"Login failed: Username '{username}' is not unique. Login attempt at {loginTime}.");
+                    Console.WriteLine("Inside Login count check:");
+
+                    currentlyActive = loggedInUsers.Any(user => user.GetUsername() == username);
+
+                    if (!currentlyActive)
+                    {
+                        User newUser = allUsers.Find(user => user.GetUsername() == username);
+
+                        loggedInUsers.Add(newUser);
+
+                        Console.WriteLine($"User '{username}' logged into their existing account at {loginTime}.");
+
+                        isUnique = !isUnique;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Login failed: Username '{username}' is not unique. Login attempt at {loginTime}.");
+                    }
                 }
             }
 
             return isUnique;
         }
 
-        //Chat room management methods
+        public async Task<bool> Logout(User pUser)
+        {
+            await Task.Delay(100);
+
+            bool userExit = false;
+
+            var currUser = allUsers.Find(user => user.GetUsername() == pUser.GetUsername());
+
+            if (currUser != null)
+            {
+                loggedInUsers.Remove(currUser);
+
+                Console.WriteLine($"User '{pUser.GetUsername()}' has been removed from the active user list.");
+
+                userExit = true;
+            }
+            else
+            {
+                Console.WriteLine($"User '{pUser.GetUsername()}' cannot be removed from the active user list.");
+            }
+
+            return userExit;
+        }
+
         public bool CreateChatroom(string roomName, List<User> participants, bool isPublic)
         {
             List<string> defaultRoomNames = new List<string>
@@ -77,7 +120,7 @@ namespace DataModels
                     Name = roomName,
                     IsPublic = isPublic
                 };
-                newChatRoom.AddParticipants(participants);
+                newChatRoom.AddGuestList(participants);
                 chatRooms.Add(newChatRoom);
 
                 Console.WriteLine($"Chat room '{roomName}' created successfully.");
@@ -86,7 +129,27 @@ namespace DataModels
             return !roomExists;
         }
 
-        public List<ChatRoom> GenerateDefaultChatRooms(string username)
+        public void UserCreatedChatroom(string roomName, List<string> guestList, bool isPublic)
+        {
+            List<User> actualGuests = new List<User>();
+            // look up the user objects
+            foreach (string userString in guestList)
+            {
+                Console.WriteLine("userString: " + userString);
+                foreach (User user in allUsers)
+                {
+                    Console.WriteLine(user.GetUsername() + " | " + userString);
+                    if (user.GetUsername().Equals(userString))
+                    {
+                        Console.WriteLine("Added a new user");
+                        actualGuests.Add(user);
+                    }
+                }
+            }
+            CreateChatroom(roomName, actualGuests, isPublic);
+        }
+
+        public List<ChatRoom> GenerateDefaultChatRooms()
         {
 
             List<ChatRoom> defaultChatRooms = new List<ChatRoom>();
@@ -99,104 +162,94 @@ namespace DataModels
                     IsPublic = true
                 };
 
-                User user = new User(username);
-
-                // Add the user to the default chat room
-                defaultRoom.AddParticipants(new List<User> { user });
-
-                // Add the default chat room to the main list of chat rooms
                 chatRooms.Add(defaultRoom);
 
-                // Add the default chat room to the list of default chat rooms
                 defaultChatRooms.Add(defaultRoom);
             }
 
             return defaultChatRooms;
         }
 
-        // It doesnt say we need it but kinda makes sense to have it (Drops all users aswell from the room)
-        // I might be missing some logic so feel free to refactor it....
-        public bool RemoveChatRoom(string roomName)
-        {
-            var chatRoomToRemove = chatRooms.FirstOrDefault(room => room.GetName() == roomName);
-
-            if (chatRoomToRemove != null)
-            {
-            
-                chatRooms.Remove(chatRoomToRemove);
-
-                // Remove all participants from the chat room -> Hopefully my thinking is ok here 
-                chatRoomToRemove.RemoveAllParticipants();
-
-                Console.WriteLine($"Chat room '{roomName}' removed successfully.");
-            }
-            else
-            {
-                Console.WriteLine($"Chat room '{roomName}' not found. Removal failed.");
-            }
-
-            return chatRoomToRemove != null;
-        }
-
-        //Like might need this not sure ?? 
         public List<ChatRoom> GetChatRooms()
         {
             return chatRooms;
         }
 
-        public void JoinChatRoom(User user, ChatRoom room)
+        public void JoinChatRoom(User user, string chatRoomName)
         {
-            room.addUser(user);
+            foreach (ChatRoom room in chatRooms)
+            {
+                if (room.GetName().Equals(chatRoomName))
+                {
+                    List<User> currentUsers = room.GetParticipants();
+                    if (!currentUsers.Any(anyUser => anyUser.GetUsername().Equals(user.GetUsername())))
+                    {
+                        room.addUser(user);
+                        break;
+                    }
+                }
+            }
         }
 
-        public void LeaveChatRoom(User user, string chatRoomName)
+        public bool LeaveChatRoom(User user, string chatRoomName)
         {
             foreach (ChatRoom room in chatRooms)
             {
                 if (room.GetName().Equals(chatRoomName))
                 {
                     room.removeUser(user);
-                    break;
+                    return true;
                 }
             }
+            return false;
         }
 
-        // Message distribution methods
         public void SendMessage(Message message)
-        {
+        {            
             string chatRoomName = message.getChatRoomName();
-            foreach (ChatRoom room in chatRooms)
+            Console.WriteLine("we are looking up " + chatRoomName);
+
+            ChatRoom targetChatRoom = chatRooms.FirstOrDefault(room => room.GetName().Equals(chatRoomName));
+
+            if (targetChatRoom != null)
             {
-                if (room.GetName().Equals(chatRoomName))
-                {
-                    room.addMessage(message);
-                    break;
-                }
+                targetChatRoom.addMessage(message);
+                Console.WriteLine("Added message: " + message.getContent().ToString());
+            }
+            else
+            {
+                // Ideally throw some form of FaultException 
+                Console.WriteLine($"Chat room '{chatRoomName}' not found. Message not sent.");
             }
         }
 
         // Get updates methods
-        public IEnumerable<Message> GetMessageUpdates(string chatRoomName, Message lastMessage)
+        public List<Message> GetMessageUpdates(string chatRoomName)
         {
             foreach (ChatRoom room in chatRooms)
             {
                 if (room.GetName().Equals(chatRoomName))
                 {
-                    return room.getMessageUpdates(lastMessage);
+                    return room.getMessageUpdates();
                 }
             }
-            // TODO need a fault exeption or something here
+            Console.WriteLine("ERROR: Couldn't find the chatroom");
+
             return null;
         }
 
-        public IEnumerable<ChatRoom> GetChatRoomUpdates(User user)
+        public List<ChatRoom> GetChatRoomUpdates(User user)
         {
             List<ChatRoom> allAllowedRooms = new List<ChatRoom>();
             foreach (ChatRoom room in chatRooms)
             {
-                if ((room.GetIsPublic()) || room.AmIAllowedIn(user))
+                if (room.AmIAllowedIn(user))
                 {
                     allAllowedRooms.Add(room);
+                }
+                else
+                {
+                    Console.WriteLine("user " + user + " is not allowed in room " + room.GetName());
                 }
             }
             return allAllowedRooms;
@@ -211,7 +264,7 @@ namespace DataModels
                     return room.GetParticipants();
                 }
             }
-            // TODO: throw exception
+
             return null;
         }
     }

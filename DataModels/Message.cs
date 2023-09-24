@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataModels
 {
@@ -12,39 +7,48 @@ namespace DataModels
     public class Message
     {
         [DataMember]
-        private User sender;
+        public User Sender { get; set; }
+
         [DataMember]
-        private object content;
+        public object Content { get; set; }
+
         [DataMember]
-        private DateTime timestamp;
+        public string Type { get; set; }
+
         [DataMember]
-        private string chatRoomName;
-        public Message(User sender, object content, DateTime time, string chatRoomName)
+        public DateTime Timestamp { get; set; }
+
+        [DataMember]
+        public string ChatRoomName { get; set; }
+
+        public Message()
         {
-            this.sender = sender;
-            this.content = content;
-            this.timestamp = time;
-            this.chatRoomName = chatRoomName;
+
         }
 
         public User getSender()
         {
-            return sender;
+            return Sender;
         }
 
         public object getContent()
         {
-            return content;
+            return Content;
+        }
+
+        public string getType()
+        {
+            return Type;
         }
 
         public DateTime getTimestamp()
         {
-            return timestamp;
+            return Timestamp;
         }
 
         public string getChatRoomName()
         {
-            return chatRoomName;
+            return ChatRoomName;
         }
     }
 }

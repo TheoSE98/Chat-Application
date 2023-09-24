@@ -11,9 +11,9 @@ namespace DataModels
     public class User
     {
         [DataMember]
-        private string username;
+        public string username { get; set; }
         [DataMember]
-        private List<ChatRoom> chatRooms; 
+        public List<ChatRoom> chatRooms; 
 
         public User(string username)
         {
@@ -30,5 +30,11 @@ namespace DataModels
         {
             return chatRooms;
         }
+
+        public override string ToString()
+        {
+            return username;
+        }
+
     }
 }

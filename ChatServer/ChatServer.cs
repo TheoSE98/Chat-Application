@@ -1,14 +1,12 @@
 ﻿using DataModels;
-using System;
+using ServerInterface;
 using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatServer
+namespace MyChatServer
 {
-    [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
     public class ChatServer : IChatServer
     {
         private ChatService _chatService;
@@ -18,44 +16,64 @@ namespace ChatServer
             _chatService = new ChatService();
         }
 
-        public void CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic)
+        public bool CreateChatroom(string chatRoomName, List<User> guestList, bool isPublic)
         {
-            throw new NotImplementedException();
+            return _chatService.CreateChatroom(chatRoomName, guestList, isPublic);
         }
 
-        public IEnumerable<ChatRoom> GetChatRoomUpdates(string username)
+        public void UserCreatedChatroom(string chatRoomName, List<string> guestList, bool isPublic)
         {
-            throw new NotImplementedException();
+            _chatService.UserCreatedChatroom(chatRoomName, guestList, isPublic);
+        }
+
+        public List<ChatRoom> GenerateDefaultChatRooms(string username)
+        {
+            return _chatService.GenerateDefaultChatRooms();
+        }
+
+        public List<ChatRoom> GetChatRoomUpdates(User user)
+        {
+            return _chatService.GetChatRoomUpdates(user);
         }
 
         public IEnumerable<User> GetChatRoomUsers(string chatRoomName)
         {
-            throw new NotImplementedException();
+            return _chatService.GetChatRoomUsers(chatRoomName);
         }
 
-        public IEnumerable<Message> GetMessageUpdates(string username, int lastMessageId)
+        public List<Message> GetMessageUpdates(string chatRoomName)
         {
-            throw new NotImplementedException();
+            return _chatService.GetMessageUpdates(chatRoomName);
         }
 
-        public void JoinChatRoom(string username, string chatRoomName)
+        public void JoinChatRoom(User user, string chatRoomName)
         {
-            throw new NotImplementedException();
+            _chatService.JoinChatRoom(user, chatRoomName);
         }
 
-        public void LeaveChatRoom(string username, string chatRoomName)
+        public bool LeaveChatRoom(User user, string chatRoomName)
         {
-            throw new NotImplementedException();
+            return _chatService.LeaveChatRoom(user, chatRoomName);
         }
 
-        public void Login(string username)
+        public async Task<bool> Login(string username)
         {
-            throw new NotImplementedException();
+            return await _chatService.Login(username);
+        }
+
+        public async Task<bool> Logout(User user)
+        {
+            return await _chatService.Logout(user);
         }
 
         public void SendMessage(Message message)
         {
-            throw new NotImplementedException();
+            _chatService.SendMessage(message);
+        }
+
+        public List<ChatRoom> GetChatRooms()
+        {
+            return _chatService.GetChatRooms();
         }
     }
 }
