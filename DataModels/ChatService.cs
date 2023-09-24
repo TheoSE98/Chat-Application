@@ -131,7 +131,6 @@ namespace DataModels
 
         public void UserCreatedChatroom(string roomName, List<string> guestList, bool isPublic)
         {
-            Console.WriteLine("Inside user created chatroom method");
             List<User> actualGuests = new List<User>();
             // look up the user objects
             foreach (string userString in guestList)
@@ -210,7 +209,6 @@ namespace DataModels
             string chatRoomName = message.getChatRoomName();
             Console.WriteLine("we are looking up " + chatRoomName);
 
-            // Use a dictionary for faster lookup if you have many chat rooms
             ChatRoom targetChatRoom = chatRooms.FirstOrDefault(room => room.GetName().Equals(chatRoomName));
 
             if (targetChatRoom != null)

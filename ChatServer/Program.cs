@@ -1,10 +1,6 @@
 ﻿using ServerInterface;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyChatServer
 {
@@ -18,8 +14,8 @@ namespace MyChatServer
             Console.WriteLine("*                                        *");
             Console.WriteLine("* Project Contributors:                  *");
             Console.WriteLine("*   - Theo Hancock (19903758)            *");
-            Console.WriteLine("*   - Tobey Martin (Placeholder)         *");
-            Console.WriteLine("*   - Sam Unknown (Placeholder)          *");
+            Console.WriteLine("*   - Tobey Martin (20568164)            *");
+            Console.WriteLine("*   - Sam Duncan (Placeholder)           *");
             Console.WriteLine("*                                        *");
             Console.WriteLine("******************************************");
             Console.ResetColor();
